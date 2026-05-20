@@ -13,9 +13,11 @@ import SEO, { localBusinessSchema } from "@/components/SEO";
 function usePageEffects() {
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
+    const root = ref.current;
+    if (!root) return;
+
     const handleScroll = () => {
-      if (!ref.current) return;
-      const els = ref.current.querySelectorAll<HTMLElement>("[data-parallax]");
+      const els = root.querySelectorAll<HTMLElement>("[data-parallax]");
       els.forEach((el) => {
         const speed = parseFloat(el.dataset.parallax || "0.3");
         const rect = el.getBoundingClientRect();
@@ -25,30 +27,31 @@ function usePageEffects() {
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
 
-    const fadeEls = ref.current?.querySelectorAll<HTMLElement>(".fade-up");
-    if (fadeEls && fadeEls.length > 0) {
-      const checkVisibility = () => {
-        fadeEls.forEach((el) => {
-          const rect = el.getBoundingClientRect();
-          if (rect.top < window.innerHeight - 30) {
-            el.classList.add("visible");
-          }
-        });
-      };
-      checkVisibility();
-      window.addEventListener("scroll", checkVisibility, { passive: true });
-      const fallback = setTimeout(() => {
-        fadeEls.forEach((el) => el.classList.add("visible"));
-      }, 1000);
-      return () => {
-        clearTimeout(fallback);
-        window.removeEventListener("scroll", handleScroll);
-        window.removeEventListener("scroll", checkVisibility);
-      };
+    // Reveal each element as it scrolls into view (one-shot).
+    const revealEls = root.querySelectorAll<HTMLElement>(
+      ".fade-up, .fade-left, .fade-right, .fade-scale"
+    );
+    let observer: IntersectionObserver | null = null;
+    if ("IntersectionObserver" in window) {
+      observer = new IntersectionObserver(
+        (entries, obs) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              obs.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
+      );
+      revealEls.forEach((el) => observer!.observe(el));
+    } else {
+      revealEls.forEach((el) => el.classList.add("visible"));
     }
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      observer?.disconnect();
     };
   }, []);
   return ref;
@@ -687,7 +690,7 @@ function GuardiansSection() {
 
       <div className="relative z-10 max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
         {/* Header */}
-        <div className="text-center mb-10 sm:mb-14">
+        <div className="fade-up text-center mb-10 sm:mb-14">
           {/* Guardians C logo via SVG */}
           <div className="w-20 h-20 sm:w-24 sm:h-24 mx-auto mb-6 rounded-full bg-red-600 flex items-center justify-center shadow-2xl shadow-red-900/40">
             <span className="font-heading text-4xl sm:text-5xl text-white font-bold">C</span>
@@ -703,7 +706,7 @@ function GuardiansSection() {
         {/* Two-column: Player photo + Schedule info */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center mb-10 sm:mb-14">
           {/* Player photo */}
-          <div className="flex justify-center">
+          <div className="fade-left flex justify-center">
             <div className="relative w-64 h-80 sm:w-80 sm:h-[26rem] rounded-lg overflow-hidden border-2 border-red-600/30 shadow-2xl shadow-black/50">
               <img
                 src={IMAGES.guardiansPlayer}
@@ -715,7 +718,7 @@ function GuardiansSection() {
           </div>
 
           {/* Dynamic Game Status Banner */}
-          <div className="text-center lg:text-left">
+          <div className="fade-right text-center lg:text-left" style={{ transitionDelay: "120ms" }}>
             {(() => {
               const status = getGuardiansGameStatus();
               if (!status) {
@@ -815,7 +818,7 @@ function GuardiansSection() {
         </div>
 
         {/* Schedule Accordion */}
-        <div className="max-w-3xl mx-auto">
+        <div className="fade-up max-w-3xl mx-auto">
           <GuardiansScheduleAccordion />
         </div>
       </div>
@@ -838,7 +841,7 @@ function BrownsBackerBar() {
 
       <div className="relative z-10 max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
         {/* Header with Backers logo */}
-        <div className="text-center mb-10 sm:mb-14">
+        <div className="fade-up text-center mb-10 sm:mb-14">
           <img
             src={IMAGES.brownsBackers}
             alt="Cleveland Browns Backers Worldwide"
@@ -853,7 +856,7 @@ function BrownsBackerBar() {
         </div>
 
         {/* Player images row */}
-        <div className="flex justify-center gap-4 sm:gap-8 mb-10 sm:mb-14">
+        <div className="fade-up flex justify-center gap-4 sm:gap-8 mb-10 sm:mb-14" style={{ transitionDelay: "100ms" }}>
           <div className="w-32 h-44 sm:w-48 sm:h-64 rounded-lg overflow-hidden border-2 border-[#E8601C]/30 shadow-xl shadow-black/40 -rotate-2 hover:rotate-0 transition-transform duration-500">
             <img
               src={IMAGES.brownsPlayer3}
@@ -873,12 +876,12 @@ function BrownsBackerBar() {
         {/* <!-- UPDATE NEEDED: Replace countdown target date with official 2026 preseason Week 1 date/time when NFL schedule is released. Also replace 2025 schedule results below with 2026 schedule. --> */}
 
         {/* Countdown Timer */}
-        <div className="mb-10 sm:mb-14">
+        <div className="fade-up mb-10 sm:mb-14">
           <CountdownTimer />
         </div>
 
         {/* Season Accordion */}
-        <div className="max-w-3xl mx-auto">
+        <div className="fade-up max-w-3xl mx-auto">
           <SeasonAccordion />
         </div>
       </div>
@@ -912,13 +915,13 @@ export default function Home() {
         </video>
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-[#1a1a1a]" />
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
-          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-[6rem] font-bold text-white leading-[1.05] mb-6 max-w-5xl tracking-tight">
+          <h1 className="fade-up text-5xl sm:text-6xl md:text-7xl lg:text-[6rem] font-bold text-white leading-[1.05] mb-6 max-w-5xl tracking-tight">
             Wadsworth's<br />Favorite Pub.
           </h1>
-          <p className="text-xl sm:text-2xl text-[#F5F0EB]/90 mb-10 font-light tracking-wide max-w-2xl">
+          <p className="fade-up text-xl sm:text-2xl text-[#F5F0EB]/90 mb-10 font-light tracking-wide max-w-2xl" style={{ transitionDelay: "120ms" }}>
             Cold Beer. Hot Food. The Best Patio in Town.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4">
+          <div className="fade-up flex flex-col sm:flex-row gap-4" style={{ transitionDelay: "240ms" }}>
             <Link href="/menu" className="btn-premium btn-premium-pulse text-base py-4 px-10">
               View Menu
             </Link>
@@ -946,7 +949,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMwMDAiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTM2IDM0djItSDI0di0yaDEyek0zNiAyNHYySDI0di0yaDEyeiIvPjwvZz48L2c+PC9zdmc+')] opacity-30" />
         
         <div className="relative z-10 max-w-[1400px] mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-3">
+          <div className="fade-up grid grid-cols-1 sm:grid-cols-3">
             {/* Hours */}
             <div className="info-card-bold">
               <div className="info-card-icon-wrap">
@@ -1061,7 +1064,7 @@ export default function Home() {
       {/* ===== FOOD FEATURE ===== */}
       <section className="bg-[#1a1a1a] relative overflow-hidden">
         <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[60vh]">
-          <div className="relative h-[50vh] lg:h-auto overflow-hidden">
+          <div className="fade-scale relative h-[50vh] lg:h-auto overflow-hidden">
             <FoodShowcase />
           </div>
           <div className="flex items-center px-6 sm:px-12 lg:px-16 py-10 sm:py-16 lg:py-24">
@@ -1109,7 +1112,7 @@ export default function Home() {
       </section>
 
       {/* ===== PHOTO STRIP ===== */}
-      <section className="bg-[#1a1a1a] py-4 overflow-hidden">
+      <section className="fade-up bg-[#1a1a1a] py-4 overflow-hidden">
         <div className="photo-strip-track">
           {[...PHOTO_STRIP, ...PHOTO_STRIP].map((img, i) => (
             <div key={i} className="flex-shrink-0 h-[280px] sm:h-[350px] w-[400px] sm:w-[500px] mx-2 img-zoom">

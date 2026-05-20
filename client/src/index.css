@@ -323,20 +323,43 @@
     animation: kenburns 20s ease-in-out infinite alternate;
   }
 
-  /* ===== FADE UP ANIMATION ===== */
-  .fade-up {
+  /* ===== SCROLL REVEAL ANIMATIONS ===== */
+  .fade-up,
+  .fade-left,
+  .fade-right,
+  .fade-scale {
     opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.35s ease-out, transform 0.35s ease-out;
+    transition:
+      opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
-  .fade-up.visible {
+  .fade-up {
+    transform: translateY(32px);
+  }
+  .fade-left {
+    transform: translateX(-44px);
+  }
+  .fade-right {
+    transform: translateX(44px);
+  }
+  .fade-scale {
+    transform: scale(0.92);
+  }
+
+  .fade-up.visible,
+  .fade-left.visible,
+  .fade-right.visible,
+  .fade-scale.visible {
     opacity: 1;
-    transform: translateY(0);
+    transform: none;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .fade-up {
+    .fade-up,
+    .fade-left,
+    .fade-right,
+    .fade-scale {
       opacity: 1;
       transform: none;
       transition: none;
