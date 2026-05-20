@@ -41,8 +41,8 @@ export default function Events() {
         path="/events"
         ogImage="https://d2xsxph8kpxj0f.cloudfront.net/310519663307809653/h2sUkzseCcZWErJdcht2p3/491686385_1179562424068372_2438442177184449531_n_a3a3b568.jpg"
         jsonLd={breadcrumbSchema([
-          { name: "Home", url: "https://spunkmeyers.netlify.app/" },
-          { name: "Events", url: "https://spunkmeyers.netlify.app/events" }
+          { name: "Home", url: "https://spunkmeyers.pub/" },
+          { name: "Events", url: "https://spunkmeyers.pub/events" }
         ])}
       />
 

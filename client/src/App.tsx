@@ -10,6 +10,9 @@ import Experience from "./pages/Experience";
 import Events from "./pages/Events";
 import Contact from "./pages/Contact";
 import Careers from "./pages/Careers";
+import Privacy from "./pages/Privacy";
+import Terms from "./pages/Terms";
+import Accessibility from "./pages/Accessibility";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { useEffect } from "react";
@@ -32,6 +35,9 @@ function Router() {
       <Route path="/events" component={Events} />
       <Route path="/contact" component={Contact} />
       <Route path="/careers" component={Careers} />
+      <Route path="/privacy" component={Privacy} />
+      <Route path="/terms" component={Terms} />
+      <Route path="/accessibility" component={Accessibility} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>

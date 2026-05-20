@@ -11,12 +11,13 @@ interface SEOProps {
   ogImage?: string;
   ogType?: string;
   jsonLd?: Record<string, unknown>;
+  noindex?: boolean;
 }
 
-const SITE_URL = "https://spunkmeyers.netlify.app";
+const SITE_URL = "https://spunkmeyers.pub";
 const DEFAULT_OG_IMAGE = "https://d2xsxph8kpxj0f.cloudfront.net/310519663307809653/h2sUkzseCcZWErJdcht2p3/SPUNKS-1920w_9cbccce4.webp";
 
-export default function SEO({ title, description, path, ogImage, ogType = "website", jsonLd }: SEOProps) {
+export default function SEO({ title, description, path, ogImage, ogType = "website", jsonLd, noindex }: SEOProps) {
   const fullUrl = `${SITE_URL}${path}`;
   const image = ogImage || DEFAULT_OG_IMAGE;
 
@@ -25,6 +26,7 @@ export default function SEO({ title, description, path, ogImage, ogType = "websi
       {/* Primary Meta Tags */}
       <title>{title}</title>
       <meta name="description" content={description} />
+      {noindex && <meta name="robots" content="noindex, follow" />}
       <link rel="canonical" href={fullUrl} />
 
       {/* Open Graph / Facebook */}
@@ -63,11 +65,11 @@ export default function SEO({ title, description, path, ogImage, ogType = "websi
 export const localBusinessSchema = {
   "@context": "https://schema.org",
   "@type": "BarOrPub",
-  "@id": "https://spunkmeyers.netlify.app/#business",
+  "@id": "https://spunkmeyers.pub/#business",
   name: "Spunkmeyers Pub & Grill",
   alternateName: "Spunkmeyers",
   description: "Wadsworth's favorite pub featuring 18 beers on tap, smash burgers, wings, the Buck Naked outdoor bar, and Ohio sports on every screen. Official Browns Backer Bar.",
-  url: "https://spunkmeyers.netlify.app",
+  url: "https://spunkmeyers.pub",
   telephone: "+1-330-334-5080",
   email: "",
   image: [
@@ -138,7 +140,7 @@ export const localBusinessSchema = {
   priceRange: "$$",
   servesCuisine: ["American", "Pub Food", "Bar Food"],
   acceptsReservations: false,
-  menu: "https://spunkmeyers.netlify.app/menu",
+  menu: "https://spunkmeyers.pub/menu",
   paymentAccepted: "Cash, Credit Card, Debit Card",
   currenciesAccepted: "USD",
   areaServed: {
@@ -174,11 +176,11 @@ export const localBusinessSchema = {
 export const menuSchema = {
   "@context": "https://schema.org",
   "@type": "Menu",
-  "@id": "https://spunkmeyers.netlify.app/menu#menu",
+  "@id": "https://spunkmeyers.pub/menu#menu",
   name: "Spunkmeyers Pub & Grill Menu",
   description: "Full food and drink menu featuring smash burgers, wings, loaded fries, pierogies, wraps, salads, and 18 beers on tap.",
-  url: "https://spunkmeyers.netlify.app/menu",
-  mainEntityOfPage: "https://spunkmeyers.netlify.app/menu",
+  url: "https://spunkmeyers.pub/menu",
+  mainEntityOfPage: "https://spunkmeyers.pub/menu",
   inLanguage: "en-US",
   hasMenuSection: [
     {

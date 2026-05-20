@@ -41,8 +41,8 @@ export default function Careers() {
         path="/careers"
         ogImage="https://d2xsxph8kpxj0f.cloudfront.net/310519663307809653/h2sUkzseCcZWErJdcht2p3/unnamed(8)_ddd8bb98.webp"
         jsonLd={breadcrumbSchema([
-          { name: "Home", url: "https://spunkmeyers.netlify.app/" },
-          { name: "Careers", url: "https://spunkmeyers.netlify.app/careers" }
+          { name: "Home", url: "https://spunkmeyers.pub/" },
+          { name: "Careers", url: "https://spunkmeyers.pub/careers" }
         ])}
       />
 

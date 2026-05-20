@@ -19,8 +19,8 @@ export default function Contact() {
         path="/contact"
         ogImage="https://d2xsxph8kpxj0f.cloudfront.net/310519663307809653/h2sUkzseCcZWErJdcht2p3/505866671_1225941609430453_2401601335831511267_n_b7359eac.jpg"
         jsonLd={breadcrumbSchema([
-          { name: "Home", url: "https://spunkmeyers.netlify.app/" },
-          { name: "Contact", url: "https://spunkmeyers.netlify.app/contact" }
+          { name: "Home", url: "https://spunkmeyers.pub/" },
+          { name: "Contact", url: "https://spunkmeyers.pub/contact" }
         ])}
       />
       {/* Hero */}

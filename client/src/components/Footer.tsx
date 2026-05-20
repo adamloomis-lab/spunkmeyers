@@ -114,7 +114,14 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="border-t border-white/5 mt-12 pt-8 flex flex-col items-center gap-2">
+        <div className="border-t border-white/5 mt-12 pt-8 flex flex-col items-center gap-3">
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-sm">
+            <Link href="/privacy" className="text-[#999] hover:text-[#E8601C] transition-colors">Privacy Policy</Link>
+            <span className="text-[#444]">&middot;</span>
+            <Link href="/terms" className="text-[#999] hover:text-[#E8601C] transition-colors">Terms of Use</Link>
+            <span className="text-[#444]">&middot;</span>
+            <Link href="/accessibility" className="text-[#999] hover:text-[#E8601C] transition-colors">Accessibility</Link>
+          </div>
           <p className="text-[#666] text-sm">
             &copy; {new Date().getFullYear()} Spunkmeyers Pub & Grill. All rights reserved.
           </p>

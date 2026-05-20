@@ -1,8 +1,15 @@
 import { Link } from "wouter";
+import SEO from "@/components/SEO";
 
 export default function NotFound() {
   return (
     <div className="min-h-screen bg-[#1a1a1a] flex items-center justify-center px-4">
+      <SEO
+        title="Page Not Found | Spunkmeyers Pub & Grill"
+        description="The page you're looking for can't be found."
+        path="/404"
+        noindex
+      />
       <div className="text-center max-w-md">
         <h1 className="text-8xl font-bold text-[#E8601C] mb-4 font-heading">
           404

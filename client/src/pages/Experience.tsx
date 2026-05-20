@@ -79,8 +79,8 @@ export default function Experience() {
         path="/experience"
         ogImage="https://d2xsxph8kpxj0f.cloudfront.net/310519663307809653/h2sUkzseCcZWErJdcht2p3/488745002_1173083834716231_4189979829948856344_n_e8e7f678.jpg"
         jsonLd={breadcrumbSchema([
-          { name: "Home", url: "https://spunkmeyers.netlify.app/" },
-          { name: "Experience", url: "https://spunkmeyers.netlify.app/experience" }
+          { name: "Home", url: "https://spunkmeyers.pub/" },
+          { name: "Experience", url: "https://spunkmeyers.pub/experience" }
         ])}
       />
       {/* Hero */}
