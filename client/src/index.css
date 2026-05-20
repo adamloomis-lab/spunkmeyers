@@ -502,26 +502,39 @@
 
   /* ===== MENU TABS ===== */
   .menu-tab {
-    padding: 8px 20px;
+    padding: 7px 16px;
     font-family: 'Oswald', sans-serif;
     font-weight: 600;
-    font-size: 14px;
+    font-size: 13.5px;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: #999;
-    border-bottom: 2px solid transparent;
+    letter-spacing: 0.06em;
+    color: #bbb;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 9999px;
     transition: all 200ms ease;
     white-space: nowrap;
     cursor: pointer;
   }
 
   .menu-tab:hover {
-    color: #F5F0EB;
+    color: #f5f0eb;
+    border-color: rgba(232, 96, 28, 0.5);
   }
 
   .menu-tab.active {
-    color: #E8601C;
-    border-bottom-color: #E8601C;
+    color: #fff;
+    background: #e8601c;
+    border-color: #e8601c;
+  }
+
+  /* Hide scrollbar on the mobile category strip */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 
   /* ===== HOURS HIGHLIGHT ===== */

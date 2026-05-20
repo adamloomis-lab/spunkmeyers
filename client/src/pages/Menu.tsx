@@ -223,6 +223,7 @@ export default function Menu() {
   const [activeTab, setActiveTab] = useState("wings");
   const tabsRef = useRef<HTMLDivElement>(null);
   const sectionRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  const tabBtnRefs = useRef<Record<string, HTMLButtonElement | null>>({});
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -243,6 +244,16 @@ export default function Menu() {
 
     return () => observer.disconnect();
   }, []);
+
+  // Keep the active category centered in the mobile scroll strip (no-op when it wraps on desktop).
+  useEffect(() => {
+    const container = tabsRef.current;
+    const btn = tabBtnRefs.current[activeTab];
+    if (!container || !btn) return;
+    if (container.scrollWidth <= container.clientWidth) return;
+    const target = btn.offsetLeft - container.clientWidth / 2 + btn.clientWidth / 2;
+    container.scrollTo({ left: Math.max(0, target), behavior: "smooth" });
+  }, [activeTab]);
 
   const scrollToSection = (id: string) => {
     setActiveTab(id);
@@ -276,22 +287,26 @@ export default function Menu() {
         </div>
       </section>
 
-      {/* Sticky Tabs */}
+      {/* Sticky category nav: wraps so every category is visible on desktop; swipeable strip on mobile */}
       <div className="sticky top-20 z-30 bg-[#111111]/95 backdrop-blur-md border-b border-white/5">
-        <div
-          ref={tabsRef}
-          className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 flex gap-1 overflow-x-auto py-3 scrollbar-hide"
-          style={{ scrollbarWidth: "none" }}
-        >
-          {menuData.map((cat) => (
-            <button
-              key={cat.id}
-              onClick={() => scrollToSection(cat.id)}
-              className={`menu-tab ${activeTab === cat.id ? "active" : ""}`}
-            >
-              {cat.label}
-            </button>
-          ))}
+        <div className="relative max-w-[1400px] mx-auto">
+          <div
+            ref={tabsRef}
+            className="px-4 sm:px-6 lg:px-8 py-3 flex flex-nowrap gap-2 overflow-x-auto scrollbar-hide lg:flex-wrap lg:justify-center lg:overflow-visible"
+          >
+            {menuData.map((cat) => (
+              <button
+                key={cat.id}
+                ref={(el) => { tabBtnRefs.current[cat.id] = el; }}
+                onClick={() => scrollToSection(cat.id)}
+                className={`menu-tab ${activeTab === cat.id ? "active" : ""}`}
+              >
+                {cat.label}
+              </button>
+            ))}
+          </div>
+          {/* Right-edge fade to hint there's more to swipe (mobile only) */}
+          <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-10 bg-gradient-to-l from-[#111111] to-transparent lg:hidden" />
         </div>
       </div>
 
