@@ -133,11 +133,15 @@ function ContactForm() {
     const formData = new FormData(form);
     setUserName((formData.get("name") as string) || "there");
 
+    const body = new URLSearchParams();
+    body.append("form-name", "contact");
+    formData.forEach((value, key) => body.append(key, value as string));
+
     try {
-      const res = await fetch("https://formspree.io/f/xpwzgkby", {
+      const res = await fetch("/", {
         method: "POST",
-        body: formData,
-        headers: { Accept: "application/json" },
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: body.toString(),
       });
       if (res.ok) {
         setSubmitted(true);
@@ -168,7 +172,18 @@ function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
+    <form
+      name="contact"
+      method="POST"
+      data-netlify="true"
+      netlify-honeypot="bot-field"
+      onSubmit={handleSubmit}
+      className="space-y-5"
+    >
+      <input type="hidden" name="form-name" value="contact" />
+      <p hidden>
+        <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+      </p>
       <div>
         <label className="block text-[#F5F0EB] text-sm font-medium mb-2">Name</label>
         <input type="text" name="name" required className="form-input" placeholder="Your name" />

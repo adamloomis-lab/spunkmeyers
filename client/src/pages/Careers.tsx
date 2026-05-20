@@ -184,11 +184,15 @@ function ApplicationForm() {
     const firstName = ((formData.get("fullName") as string) || "there").split(" ")[0];
     setUserName(firstName);
 
+    const body = new URLSearchParams();
+    body.append("form-name", "careers");
+    formData.forEach((value, key) => body.append(key, value as string));
+
     try {
-      const res = await fetch("https://formspree.io/f/xpwzgkby", {
+      const res = await fetch("/", {
         method: "POST",
-        body: formData,
-        headers: { Accept: "application/json" },
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: body.toString(),
       });
       if (res.ok) {
         setSubmitted(true);
@@ -233,7 +237,18 @@ function ApplicationForm() {
       </div>
 
       {/* Form body */}
-      <form onSubmit={handleSubmit} className="bg-[#181818] border border-white/5 border-t-0 p-6 sm:p-10 space-y-6">
+      <form
+        name="careers"
+        method="POST"
+        data-netlify="true"
+        netlify-honeypot="bot-field"
+        onSubmit={handleSubmit}
+        className="bg-[#181818] border border-white/5 border-t-0 p-6 sm:p-10 space-y-6"
+      >
+        <input type="hidden" name="form-name" value="careers" />
+        <p hidden>
+          <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+        </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
           <div>
             <label className="block text-[#F5F0EB] text-sm font-medium mb-2">Full Name *</label>
