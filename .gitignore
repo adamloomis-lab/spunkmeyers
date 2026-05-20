@@ -117,3 +117,6 @@ client/public/__manus__/version.json
 
 # Local editor/preview config
 .claude/
+
+# Local Netlify folder
+.netlify
