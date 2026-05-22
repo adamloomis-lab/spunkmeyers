@@ -1047,6 +1047,41 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ===== PATIO PALOOZA ===== */}
+      <section className="bg-[#111111] py-12 sm:py-20 border-y border-[#E8601C]/15">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+            <div className="fade-scale rounded-xl overflow-hidden border border-[#E8601C]/30 shadow-2xl shadow-black/40">
+              <img
+                src="/patio-palooza.jpg"
+                alt="Patio Palooza every Friday night at Spunkmeyers, featuring DJ B Watts"
+                className="w-full h-auto block"
+                loading="lazy"
+              />
+            </div>
+            <div className="fade-right text-center lg:text-left" style={{ transitionDelay: "120ms" }}>
+              <span className="inline-flex items-center gap-2 bg-[#E8601C]/15 border border-[#E8601C]/40 text-[#E8601C] font-heading text-xs uppercase tracking-[0.2em] px-4 py-1.5 rounded-full mb-5">
+                <span className="w-2 h-2 rounded-full bg-[#E8601C] animate-pulse" />
+                New &middot; Every Friday Night
+              </span>
+              <h2 className="text-4xl sm:text-5xl font-bold text-white mb-5 leading-[1.05] tracking-tight">
+                Patio Palooza
+              </h2>
+              <p className="text-lg text-[#F5F0EB]/80 mb-4 leading-relaxed">
+                The patio comes alive every Friday night. Live DJ sets, cold drinks, and the best
+                crowd in Wadsworth out under the lights on the Buck Naked Bar patio.
+              </p>
+              <p className="text-[#E8601C] font-heading text-sm uppercase tracking-wider mb-8">
+                Featuring DJ B Watts &amp; Chris from Last Call Entertainment
+              </p>
+              <Link href="/events" className="btn-premium">
+                See What's Happening
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ===== MARQUEE TICKER ===== */}
       <section className="bg-[#111111] py-5 overflow-hidden border-y border-[#E8601C]/20">
         <div className="marquee-track">

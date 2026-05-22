@@ -67,6 +67,35 @@ export default function Events() {
       <section className="py-12 sm:py-24">
         <div className="max-w-[1100px] mx-auto px-4 sm:px-6 lg:px-8">
 
+          {/* Featured: Patio Palooza */}
+          <div className="fade-up mb-12 sm:mb-20">
+            <div className="text-center mb-6">
+              <span className="inline-flex items-center gap-2 bg-[#E8601C]/15 border border-[#E8601C]/40 text-[#E8601C] font-heading text-xs uppercase tracking-[0.2em] px-4 py-1.5 rounded-full">
+                <span className="w-2 h-2 rounded-full bg-[#E8601C] animate-pulse" />
+                New &middot; Every Friday Night
+              </span>
+            </div>
+            <div className="relative rounded-xl overflow-hidden border border-[#E8601C]/30 shadow-2xl shadow-[#E8601C]/10">
+              <img
+                src="/patio-palooza.jpg"
+                alt="Patio Palooza every Friday night at Spunkmeyers Pub & Grill, featuring DJ B Watts on the patio"
+                className="w-full h-auto block"
+              />
+            </div>
+            <div className="mt-7 text-center max-w-2xl mx-auto">
+              <h2 className="font-heading text-3xl sm:text-4xl text-[#F5F0EB] tracking-tight mb-3">
+                Patio Palooza
+              </h2>
+              <p className="text-[#999] text-base sm:text-lg leading-relaxed mb-4">
+                Our patio turns into the best Friday night in Wadsworth. Live DJ sets, cold drinks,
+                and good vibes all night long on the Buck Naked Bar patio.
+              </p>
+              <p className="text-[#E8601C] font-heading text-sm uppercase tracking-wider">
+                Featuring DJ B Watts &amp; Chris from Last Call Entertainment
+              </p>
+            </div>
+          </div>
+
           {/* Recurring Events - Premium Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mb-12 sm:mb-20">
             {/* Bingo Nights */}
