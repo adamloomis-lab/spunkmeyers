@@ -9,6 +9,7 @@ import { IMAGES, VIDEO, LINKS, BUSINESS, SPORTS_IMAGES, FOOD_IMAGES, PHOTO_STRIP
 import { Link } from "wouter";
 import { Beer, Flame, Sun, Calendar, ChevronLeft, ChevronRight, Star, ChevronDown } from "lucide-react";
 import SEO, { localBusinessSchema } from "@/components/SEO";
+import BigScreens from "@/components/BigScreens";
 
 function usePageEffects() {
   const ref = useRef<HTMLDivElement>(null);
@@ -1161,6 +1162,9 @@ export default function Home() {
           ))}
         </div>
       </section>
+
+      {/* ===== ON THE BIG SCREENS (live schedule) ===== */}
+      <BigScreens />
 
       {/* ===== BROWNS BACKER BAR ===== */}
       <BrownsBackerBar />
