@@ -1,0 +1,13 @@
+# Spunkmeyers Pub & Grill
+
+> Spunkmeyers Pub & Grill is a restaurant & bar serving its local area. This file gives AI assistants a clear, accurate overview of the business and its most important pages.
+
+## What we do
+- Restaurant & bar.
+
+## Key pages
+- Home: https://spunkmeyers.pub/
+- Contact: https://spunkmeyers.pub/contact
+
+## Contact
+Spunkmeyers Pub & Grill. https://spunkmeyers.pub
