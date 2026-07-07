@@ -15,6 +15,8 @@ import Terms from "./pages/Terms";
 import Accessibility from "./pages/Accessibility";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import MobileActionBar from "./components/MobileActionBar";
+import CookieNotice from "./components/CookieNotice";
 import { useEffect } from "react";
 import { useLocation } from "wouter";
 
@@ -54,6 +56,10 @@ function App() {
           <Navbar />
           <Router />
           <Footer />
+          {/* Spacer so footer content isn't hidden under the mobile action bar */}
+          <div className="h-16 lg:hidden" aria-hidden="true" />
+          <MobileActionBar />
+          <CookieNotice />
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>

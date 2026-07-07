@@ -116,6 +116,32 @@
     letter-spacing: 0.02em;
     font-weight: 700;
   }
+
+  /* ===== KEYBOARD-VISIBLE FOCUS RINGS (WCAG 2.1 AA) ===== */
+  /* Kill default browser outlines only for mouse users; keyboard users still see them. */
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+  :focus-visible {
+    outline: 2px solid #E8601C;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  /* A bit more offset on prominent interactive controls so the ring reads clearly. */
+  a:focus-visible,
+  button:focus-visible,
+  [role="button"]:focus-visible,
+  summary:focus-visible {
+    outline-offset: 3px;
+  }
+  /* Form fields already have their own bordered look; use a soft glow instead. */
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    outline: 2px solid #E8601C;
+    outline-offset: 0;
+    box-shadow: 0 0 0 3px rgba(232, 96, 28, 0.25);
+  }
 }
 
 @layer components {

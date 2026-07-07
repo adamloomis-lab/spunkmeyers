@@ -23,6 +23,14 @@ const TEAM_ACCENT: Record<string, string> = {
   buckeyes: "#BB0000",
 };
 
+const TEAM_FILTERS: { key: string; label: string }[] = [
+  { key: "all", label: "All" },
+  { key: "browns", label: "Browns" },
+  { key: "guardians", label: "Guardians" },
+  { key: "cavaliers", label: "Cavs" },
+  { key: "buckeyes", label: "Buckeyes" },
+];
+
 function formatGame(iso: string, tbd?: boolean) {
   const d = new Date(iso);
   const day = d.toLocaleDateString("en-US", {
@@ -40,6 +48,7 @@ function formatGame(iso: string, tbd?: boolean) {
 export default function BigScreens() {
   const [data, setData] = useState<GamesData | null>(null);
   const [status, setStatus] = useState<"loading" | "ok" | "error">("loading");
+  const [teamFilter, setTeamFilter] = useState<string>("all");
 
   useEffect(() => {
     let active = true;
@@ -57,9 +66,20 @@ export default function BigScreens() {
     };
   }, []);
 
-  const thisWeek = data?.thisWeek ?? [];
-  const comingUp = (data?.nextByTeam ?? []).filter((g) => !thisWeek.some((w) => w.key === g.key));
+  const rawThisWeek = data?.thisWeek ?? [];
+  const rawNextByTeam = data?.nextByTeam ?? [];
+  const thisWeek =
+    teamFilter === "all" ? rawThisWeek : rawThisWeek.filter((g) => g.key === teamFilter);
+  const comingUp =
+    teamFilter === "all"
+      ? rawNextByTeam.filter((g) => !rawThisWeek.some((w) => w.key === g.key))
+      : rawNextByTeam.filter((g) => g.key === teamFilter && !thisWeek.some((w) => w.date === g.date));
   const hasGames = thisWeek.length > 0 || comingUp.length > 0;
+
+  // Which team keys have at least one upcoming game (used to disable empty filters).
+  const availableKeys = new Set<string>();
+  rawThisWeek.forEach((g) => availableKeys.add(g.key));
+  rawNextByTeam.forEach((g) => availableKeys.add(g.key));
 
   return (
     <section className="bg-[#0f0f0f] py-12 sm:py-20 border-y border-[#E8601C]/15">
@@ -73,6 +93,39 @@ export default function BigScreens() {
             Every Cleveland game and the Buckeyes, on our screens. Updated automatically &mdash; come watch with us.
           </p>
         </div>
+
+        {/* Team filter pills */}
+        {status === "ok" && (rawThisWeek.length > 0 || rawNextByTeam.length > 0) && (
+          <div
+            className="flex flex-wrap justify-center gap-2 mb-6 sm:mb-8"
+            role="group"
+            aria-label="Filter games by team"
+          >
+            {TEAM_FILTERS.map((f) => {
+              const active = teamFilter === f.key;
+              const disabled = f.key !== "all" && !availableKeys.has(f.key);
+              const accent = TEAM_ACCENT[f.key] || "#E8601C";
+              return (
+                <button
+                  key={f.key}
+                  onClick={() => !disabled && setTeamFilter(f.key)}
+                  disabled={disabled}
+                  aria-pressed={active}
+                  className={`font-heading text-xs sm:text-sm uppercase tracking-[0.08em] px-4 py-2 rounded-full border transition-colors ${
+                    active
+                      ? "text-white border-transparent"
+                      : disabled
+                        ? "text-white/25 border-white/8 cursor-not-allowed"
+                        : "text-[#bbb] border-white/12 bg-white/[0.04] hover:text-white hover:border-[#E8601C]/60"
+                  }`}
+                  style={active ? { background: accent, borderColor: accent } : undefined}
+                >
+                  {f.label}
+                </button>
+              );
+            })}
+          </div>
+        )}
 
         {/* Loading skeleton */}
         {status === "loading" && (
