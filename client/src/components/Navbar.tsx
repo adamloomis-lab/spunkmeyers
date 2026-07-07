@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
-import { IMAGES, LINKS } from "@/lib/constants";
-import { Menu, X, MapPin, ShoppingBag } from "lucide-react";
+import { BUSINESS, IMAGES, LINKS } from "@/lib/constants";
+import { Menu, X, Phone } from "lucide-react";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -22,6 +22,13 @@ export default function Navbar() {
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
+  }, [mobileOpen]);
+
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setMobileOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
   }, [mobileOpen]);
 
   const navLinks = [
@@ -102,70 +109,78 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Mobile Menu Overlay */}
+      {/* Mobile Menu: dimmed overlay + full-height slide-in panel */}
       <div
-        className={`fixed inset-0 z-40 bg-[#111111]/98 backdrop-blur-lg transition-all duration-300 lg:hidden ${
+        className={`fixed inset-0 z-40 bg-black/60 transition-opacity duration-300 lg:hidden ${
           mobileOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         }`}
+        onClick={() => setMobileOpen(false)}
+        aria-hidden="true"
+      />
+      <div
+        className={`fixed top-0 right-0 bottom-0 z-40 w-full max-w-sm bg-[#111111] border-l border-white/10 shadow-2xl shadow-black/60 transition-transform duration-400 ease-[cubic-bezier(0.22,1,0.36,1)] lg:hidden flex flex-col ${
+          mobileOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Site menu"
       >
-        <div className="flex flex-col items-center justify-center h-full gap-8 pt-20">
-          {navLinks.map((link) =>
-            link.external ? (
+        <div className="flex-1 flex flex-col justify-center px-8 gap-1 pt-20">
+          {navLinks.map((link, i) => {
+            const itemClass = `mobile-nav-link font-heading text-3xl font-bold uppercase tracking-wide py-2.5 block ${
+              !link.external && location === link.href
+                ? "text-[#E8601C]"
+                : "text-[#F5F0EB] hover:text-[#E8601C]"
+            } ${mobileOpen ? "open" : ""}`;
+            const style = { transitionDelay: mobileOpen ? `${120 + i * 55}ms` : "0ms" };
+            return link.external ? (
               <a
                 key={link.label}
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-heading text-2xl font-bold uppercase tracking-widest text-[#F5F0EB] hover:text-[#E8601C] transition-colors"
+                className={itemClass}
+                style={style}
               >
                 {link.label}
               </a>
             ) : (
-              <Link
-                key={link.label}
-                href={link.href}
-                className={`font-heading text-2xl font-bold uppercase tracking-widest transition-colors ${
-                  location === link.href ? "text-[#E8601C]" : "text-[#F5F0EB] hover:text-[#E8601C]"
-                }`}
-              >
+              <Link key={link.label} href={link.href} className={itemClass} style={style}>
                 {link.label}
               </Link>
-            )
-          )}
+            );
+          })}
           <a
             href={LINKS.doordash}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-premium text-lg py-4 px-10 mt-4"
+            className={`mobile-nav-link btn-premium text-base py-4 px-8 mt-6 self-start ${mobileOpen ? "open" : ""}`}
+            style={{ transitionDelay: mobileOpen ? `${120 + navLinks.length * 55}ms` : "0ms" }}
           >
             Order Online
           </a>
+        </div>
+
+        {/* Panel footer: quick contact */}
+        <div
+          className={`mobile-nav-link px-8 pb-8 pt-6 border-t border-white/10 ${mobileOpen ? "open" : ""}`}
+          style={{ transitionDelay: mobileOpen ? `${180 + navLinks.length * 55}ms` : "0ms" }}
+        >
+          <a href={BUSINESS.phoneLink} className="flex items-center gap-2 text-[#E8601C] font-heading text-lg mb-2">
+            <Phone className="w-4 h-4" />
+            {BUSINESS.phone}
+          </a>
+          <p className="text-[#888] text-sm">{BUSINESS.address}</p>
+          <div className="flex gap-5 mt-4">
+            <a href={LINKS.facebook} target="_blank" rel="noopener noreferrer" className="text-[#999] hover:text-[#E8601C] text-sm transition-colors">
+              Facebook
+            </a>
+            <a href={LINKS.instagram} target="_blank" rel="noopener noreferrer" className="text-[#999] hover:text-[#E8601C] text-sm transition-colors">
+              Instagram
+            </a>
+          </div>
         </div>
       </div>
-
-      {/* Mobile-only sticky bottom bar - two compact buttons, not full width */}
-      {scrolled && (
-        <div className="fixed bottom-4 left-4 right-4 z-50 flex gap-3 lg:hidden">
-          <a
-            href={LINKS.directions}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex-1 flex items-center justify-center gap-2 py-3.5 bg-[#222222]/95 backdrop-blur-md border border-white/10 text-[#F5F0EB] font-heading text-sm font-semibold uppercase tracking-wider rounded-md shadow-lg shadow-black/40 transition-all duration-300 active:scale-95"
-          >
-            <MapPin className="w-4 h-4" />
-            Directions
-          </a>
-          <a
-            href={LINKS.doordash}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex-1 flex items-center justify-center gap-2 py-3.5 bg-gradient-to-b from-[#F07A3A] to-[#d4540f] text-white font-heading text-sm font-semibold uppercase tracking-wider rounded-md shadow-lg shadow-black/40 transition-all duration-300 active:scale-95"
-          >
-            <ShoppingBag className="w-4 h-4" />
-            Order Online
-          </a>
-        </div>
-      )}
     </>
   );
 }

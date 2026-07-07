@@ -7,6 +7,7 @@
 import { useState, useEffect, useRef } from "react";
 import { IMAGES } from "@/lib/constants";
 import SEO, { breadcrumbSchema } from "@/components/SEO";
+import FormSuccess from "@/components/FormSuccess";
 
 function useFadeUp() {
   const ref = useRef<HTMLDivElement>(null);
@@ -208,19 +209,14 @@ function ApplicationForm() {
 
   if (submitted) {
     return (
-      <div className="events-cta-section p-10 sm:p-16 text-center">
-        <div className="relative z-10">
-          <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-[#E8601C]/10 border border-[#E8601C]/20 flex items-center justify-center">
-            <svg className="w-8 h-8 text-[#E8601C]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-          </div>
-          <h3 className="font-heading text-2xl text-[#F5F0EB] mb-3">Thanks, {userName}!</h3>
-          <p className="text-[#999] text-lg leading-relaxed">
-            We got your application and appreciate the interest. If there's a fit, someone from the Spunkmeyers team will reach out soon.
-          </p>
-        </div>
-      </div>
+      <FormSuccess
+        heading={`Thanks, ${userName}!`}
+        lines={[
+          "We got your application and appreciate the interest.",
+          "If there's a fit, someone from the Spunkmeyers team will reach out soon.",
+        ]}
+        className="p-10 sm:p-16"
+      />
     );
   }
 

@@ -6,6 +6,7 @@
  */
 import { IMAGES, LINKS } from "@/lib/constants";
 import SEO, { breadcrumbSchema } from "@/components/SEO";
+import ReserveForm from "@/components/ReserveForm";
 import { useEffect, useRef } from "react";
 
 function useFadeUp() {
@@ -188,6 +189,31 @@ export default function Events() {
             </div>
             <div className="overflow-hidden aspect-square img-zoom">
               <img src={IMAGES.stPaddys} alt="St. Patrick's Day at Spunkmeyers" className="w-full h-full object-cover" />
+            </div>
+          </div>
+
+          {/* Reserve for the Game */}
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12 mb-12 sm:mb-20 fade-up">
+            <div className="lg:col-span-2">
+              <span className="font-heading text-sm text-[#E8601C] uppercase tracking-[0.3em] mb-3 block">
+                Big Group? Big Game?
+              </span>
+              <h2 className="text-3xl sm:text-4xl font-bold text-[#F5F0EB] mb-4 tracking-tight">
+                Reserve for the Game
+              </h2>
+              <p className="text-[#999] text-base leading-relaxed mb-4">
+                Rolling deep for the Browns game, a birthday, or Patio Palooza? Tell us when and
+                how many, and we'll make sure there's a spot with a good view of the screens.
+              </p>
+              <p className="text-[#777] text-sm leading-relaxed">
+                We'll call or text to confirm. Prefer to talk?{" "}
+                <a href="tel:3303345080" className="text-[#E8601C] hover:text-[#F07A3A]">
+                  (330) 334-5080
+                </a>
+              </p>
+            </div>
+            <div className="lg:col-span-3 bg-[#181818] border border-white/5 p-6 sm:p-8">
+              <ReserveForm />
             </div>
           </div>
 

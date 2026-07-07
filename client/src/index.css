@@ -563,6 +563,97 @@
     scrollbar-width: none;
   }
 
+  /* ===== MOBILE NAV: staggered link reveal ===== */
+  .mobile-nav-link {
+    opacity: 0;
+    transform: translateX(24px);
+    transition: opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1), transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), color 200ms ease;
+  }
+  .mobile-nav-link.open {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* ===== DESKTOP FLOATING CTA PILL ===== */
+  .floating-cta {
+    position: fixed;
+    right: 28px;
+    bottom: 28px;
+    z-index: 40;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 26px;
+    border-radius: 9999px;
+    background: linear-gradient(180deg, #f07a3a, #d4540f);
+    color: #fff;
+    font-family: 'Oswald', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    box-shadow: 0 8px 30px rgba(232, 96, 28, 0.35), 0 4px 12px rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    transform: translateY(16px) scale(0.95);
+    pointer-events: none;
+    transition: opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1), transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 250ms ease;
+  }
+  .floating-cta.show {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+  }
+  .floating-cta:hover {
+    box-shadow: 0 12px 40px rgba(232, 96, 28, 0.5), 0 6px 16px rgba(0, 0, 0, 0.45);
+  }
+
+  /* ===== FORM SUCCESS: animated check + staggered message ===== */
+  @keyframes success-pop {
+    0% { transform: scale(0.4); opacity: 0; }
+    70% { transform: scale(1.12); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  @keyframes success-draw {
+    from { stroke-dashoffset: 48; }
+    to { stroke-dashoffset: 0; }
+  }
+  .success-icon {
+    animation: success-pop 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .success-icon path {
+    stroke-dasharray: 48;
+    animation: success-draw 0.6s ease-out 0.25s both;
+  }
+  .success-line {
+    opacity: 0;
+    transform: translateY(12px);
+    animation: fade-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  @keyframes fade-rise {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-nav-link,
+    .floating-cta {
+      transition: none;
+      opacity: 1;
+      transform: none;
+    }
+    .floating-cta:not(.show) {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .success-icon,
+    .success-icon path,
+    .success-line {
+      animation: none;
+      opacity: 1;
+      transform: none;
+      stroke-dashoffset: 0;
+    }
+  }
+
   /* ===== HOURS HIGHLIGHT ===== */
   .hours-row {
     transition: all 200ms ease;
