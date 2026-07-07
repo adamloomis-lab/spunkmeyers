@@ -185,6 +185,11 @@ export const menuSchema = {
   hasMenuSection: [
     {
       "@type": "MenuSection",
+      name: "Summer Menu",
+      description: "Limited-time summer shareables, salads, sandwiches, and entrees"
+    },
+    {
+      "@type": "MenuSection",
       name: "Starters",
       description: "Appetizers and shareables"
     },

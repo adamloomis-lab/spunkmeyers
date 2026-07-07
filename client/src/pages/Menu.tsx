@@ -24,6 +24,35 @@ interface MenuCategory {
 
 const menuData: MenuCategory[] = [
   {
+    id: "summer-shareables",
+    label: "Summer Shareables",
+    note: "Our limited-time Summer Menu. Here while the sunshine lasts.",
+    items: [
+      { name: "Double Dip Hummus", price: "", desc: "Our creamy house-made original hummus and our zesty feta hummus, served with warm toasted pita chips and crisp celery for dipping." },
+      { name: "Buffalo Shrimp Sliders", price: "", desc: "Three panko-breaded Buffalo shrimp sliders topped with sweet bacon jam, fire-roasted tomato salsa, and pickled red onions on warm pretzel slider rolls." },
+      { name: "Crispy Zucchini Planks", price: "", desc: "Thick-cut zucchini planks hand-breaded and fried to a golden crisp. Served with house-made ranch and marinara for dipping." },
+      { name: "Loaded Pulled Pork Nachos", price: "", desc: "Crispy tortilla chips piled high with slow-smoked pulled pork, warm queso, pickled red onions, and fresh street corn salsa, finished with a drizzle of smoky BBQ sauce." },
+    ],
+  },
+  {
+    id: "summer-salads-sandwiches",
+    label: "Summer Salads & Sandwiches",
+    items: [
+      { name: "Blueberry Feta Salad", price: "", desc: "Fresh spinach topped with juicy blueberries, crumbled feta cheese, candied pecans, sliced red onions, and finished with our house blueberry lemon vinaigrette." },
+      { name: "Carolina Pulled Pork Sandwich", price: "", desc: "Slow-smoked pulled pork piled high on a toasted brioche bun and topped with fresh creamy coleslaw. Served with our crispy skinny fries." },
+      { name: "Nacho Smashed Burger", price: "", desc: "Two seasoned smashed beef patties topped with cheddar cheese, crispy jalapeño poppers, pickled red onions, and our fresh street corn salsa, served on a toasted brioche bun with crispy skinny fries." },
+    ],
+  },
+  {
+    id: "summer-entrees",
+    label: "Summer Entrées",
+    items: [
+      { name: "Island Salmon", price: "", desc: "Premium Faroe Island salmon marinated in authentic Jamaican jerk seasoning, grilled and served over cilantro lime rice with roasted cauliflower and sweet red peppers, finished with a drizzle of Vidalia onion dressing." },
+      { name: "Blackened Chicken Rice Bowl", price: "", desc: "Blackened grilled chicken served over cilantro lime rice and topped with fresh street corn salsa, sliced avocado, and a drizzle of smoky chipotle crema." },
+      { name: "Blackened Shrimp Rice Bowl", price: "", desc: "Blackened grilled shrimp served over cilantro lime rice and topped with fresh street corn salsa, sliced avocado, and a drizzle of smoky chipotle crema." },
+    ],
+  },
+  {
     id: "wings",
     label: "Wings",
     note: "Served with celery and choice of ranch or blue cheese and one sauce per order. $1 additional sauces per order.",
@@ -267,8 +296,8 @@ export default function Menu() {
   return (
     <div className="min-h-screen bg-[#1a1a1a]">
       <SEO
-        title="Menu | Spunkmeyers Pub & Grill - Smash Burgers, Wings, Loaded Fries"
-        description="Full menu at Spunkmeyers Pub & Grill in Wadsworth, OH. Smash burgers, bone-in wings, loaded fries, pierogies, wraps, salads, and 18 beers on tap. Cooked to order, made fresh daily."
+        title="Menu | Spunkmeyers Pub & Grill - Summer Menu, Smash Burgers, Wings"
+        description="Menu at Spunkmeyers Pub & Grill in Wadsworth, OH. Our limited-time Summer Menu plus smash burgers, bone-in wings, loaded fries, wraps, salads, and 18 beers on tap. Cooked to order, made fresh daily."
         path="/menu"
         ogImage="https://d2xsxph8kpxj0f.cloudfront.net/310519663307809653/h2sUkzseCcZWErJdcht2p3/wings_656d55f5.jpg"
         jsonLd={menuSchema}
