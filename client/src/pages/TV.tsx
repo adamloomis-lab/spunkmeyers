@@ -172,17 +172,6 @@ export default function TV() {
   const cur = weather?.current;
 
   // ---- Ticker content ----
-  const sportsItems = useMemo(() => {
-    const gs = games || [];
-    if (gs.length === 0) return ["Every Big Game on Our Screens", "Official Cleveland Browns Backer Bar"];
-    return gs.map((g) => {
-      const d = new Date(g.date);
-      const day = d.toLocaleDateString("en-US", { timeZone: "America/New_York", weekday: "short", month: "short", day: "numeric" });
-      const time = g.tbd ? "TBD" : d.toLocaleTimeString("en-US", { timeZone: "America/New_York", hour: "numeric", minute: "2-digit" });
-      return `${g.team} ${g.homeAway === "home" ? "vs" : "@"} ${g.opponent} — ${day} ${time}`;
-    });
-  }, [games]);
-
   const eventItems = useMemo(
     () =>
       SLIDES.filter((s): s is Extract<Slide, { type: "event" }> => s.type === "event").map(
@@ -251,9 +240,8 @@ export default function TV() {
         ))}
       </main>
 
-      {/* Broadcast tickers */}
+      {/* Events ticker */}
       <div className="tv-tickers">
-        <TickerRow label="Sports" tone="sports" items={sportsItems} />
         <TickerRow label="Spunks" tone="spunks" items={bottomItems} />
       </div>
 
