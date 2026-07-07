@@ -31,6 +31,10 @@
 
 export type Slide =
   | {
+      type: "welcome";
+      id: string;
+    }
+  | {
       type: "special";
       id: string;
       title: string;
@@ -91,6 +95,9 @@ export const TICKER_MESSAGES: string[] = [
 ];
 
 export const SLIDES: Slide[] = [
+  // ---- Branded open: logo + today's hours ----
+  { type: "welcome", id: "welcome" },
+
   // ---- Signature recurring event (client-confirmed) ----
   {
     type: "event",

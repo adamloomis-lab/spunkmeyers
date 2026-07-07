@@ -276,6 +276,9 @@ function TickerRow({ label, tone, items }: { label: string; tone: "sports" | "sp
 
 function SlideView({ slide, games, weather, active }: { slide: Slide; games: Game[] | null; weather: Weather | null; active: boolean }) {
   switch (slide.type) {
+    case "welcome":
+      return <WelcomeSlide active={active} />;
+
     case "event":
       return (
         <div className="tv-content tv-event">
@@ -325,6 +328,20 @@ function SlideView({ slide, games, weather, active }: { slide: Slide; games: Gam
     case "games":
       return <GamesSlide games={games} active={active} />;
   }
+}
+
+function WelcomeSlide({ active }: { active: boolean }) {
+  const today = getCurrentDayName();
+  const todayHours = BUSINESS.hours.find((h) => h.day === today)?.hours;
+  return (
+    <div className="tv-content tv-welcome">
+      <img src={IMAGES.logo} alt="Spunkmeyers Pub & Grill" className={`tv-welcome-logo ${active ? "tv-rise" : ""}`} />
+      <div className="tv-welcome-hours">
+        <span className="tv-kicker">Open {today}</span>
+        <div className="tv-welcome-time">{todayHours || "See you soon"}</div>
+      </div>
+    </div>
+  );
 }
 
 function WeatherSlide({ weather, active }: { weather: Weather | null; active: boolean }) {
