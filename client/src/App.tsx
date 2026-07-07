@@ -13,6 +13,7 @@ import Careers from "./pages/Careers";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import Accessibility from "./pages/Accessibility";
+import TV from "./pages/TV";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import MobileActionBar from "./components/MobileActionBar";
@@ -48,6 +49,18 @@ function Router() {
 }
 
 function App() {
+  const [location] = useLocation();
+  // The /tv board is a full-screen kiosk — no site chrome.
+  const isKiosk = location === "/tv";
+
+  if (isKiosk) {
+    return (
+      <ErrorBoundary>
+        <TV />
+      </ErrorBoundary>
+    );
+  }
+
   return (
     <ErrorBoundary>
       <ThemeProvider defaultTheme="dark">

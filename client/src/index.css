@@ -890,3 +890,201 @@
     opacity: 1;
   }
 }
+
+/* ============================================================================
+   TV BOARD (/tv) — full-screen in-bar kiosk. Sized for a television viewed
+   across a room: everything scales with viewport units. Not inside @layer so
+   it always wins and is never purged.
+   ============================================================================ */
+.tv-root {
+  position: fixed;
+  inset: 0;
+  background: #0d0d0d;
+  color: #f5f0eb;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Source Sans 3', sans-serif;
+}
+.tv-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2.2vh 3vw;
+  flex-shrink: 0;
+  z-index: 3;
+}
+.tv-logo { height: 8vh; width: auto; }
+.tv-header-right { display: flex; align-items: center; gap: 2vw; }
+.tv-open {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7vw;
+  font-family: 'Oswald', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 1.9vh;
+  color: #cfc9c2;
+}
+.tv-dot {
+  width: 1.1vh; height: 1.1vh; border-radius: 9999px;
+  background: #46d17a; box-shadow: 0 0 10px #46d17a;
+  animation: tv-pulse 2s ease-in-out infinite;
+}
+@keyframes tv-pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+.tv-clock {
+  font-family: 'Oswald', sans-serif;
+  font-size: 2.6vh;
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.tv-stage { position: relative; flex: 1; }
+.tv-slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 6vw;
+  opacity: 0;
+  transform: scale(1.02);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+  pointer-events: none;
+}
+.tv-slide.active { opacity: 1; transform: scale(1); pointer-events: auto; }
+
+.tv-content { width: 100%; max-width: 88vw; text-align: center; }
+.tv-kicker {
+  display: block;
+  font-family: 'Oswald', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.35em;
+  color: #E8601C;
+  font-size: clamp(16px, 2.6vh, 40px);
+  margin-bottom: 2vh;
+}
+.tv-title {
+  font-family: 'Oswald', sans-serif;
+  text-transform: uppercase;
+  font-weight: 700;
+  line-height: 0.98;
+  color: #fff;
+  font-size: clamp(48px, 12vh, 190px);
+  letter-spacing: 0.01em;
+}
+.tv-detail {
+  font-size: clamp(18px, 3.4vh, 52px);
+  color: #d5cfc8;
+  line-height: 1.35;
+  max-width: 60vw;
+  margin: 3vh auto 0;
+}
+.tv-rise { animation: tv-rise 0.8s cubic-bezier(0.22,1,0.36,1) both; }
+@keyframes tv-rise { from { opacity: 0; transform: translateY(4vh); } to { opacity: 1; transform: translateY(0); } }
+
+/* Special */
+.tv-price {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  color: #E8601C;
+  font-size: clamp(40px, 9vh, 150px);
+  line-height: 1;
+  margin-top: 2vh;
+}
+.tv-sample { color: #8a8079; font-style: italic; font-size: clamp(15px, 2.4vh, 32px); }
+
+/* Event with image */
+.tv-event { display: flex; align-items: center; gap: 5vw; text-align: left; }
+.tv-event-img {
+  flex: 0 0 46%;
+  aspect-ratio: 16/9;
+  background-size: cover;
+  background-position: center;
+  border-radius: 1.5vh;
+  border: 2px solid rgba(232,96,28,0.4);
+  box-shadow: 0 3vh 6vh rgba(0,0,0,0.5);
+}
+.tv-event-body { flex: 1; }
+.tv-event .tv-title { font-size: clamp(40px, 10vh, 150px); }
+.tv-event .tv-detail { margin-left: 0; max-width: none; }
+
+/* Promo */
+.tv-footer-url {
+  margin-top: 4vh;
+  font-family: 'Oswald', sans-serif;
+  text-transform: lowercase;
+  letter-spacing: 0.1em;
+  color: #E8601C;
+  font-size: clamp(18px, 3vh, 44px);
+}
+
+/* Ad slot */
+.tv-ad { position: relative; }
+.tv-ad-flag {
+  display: inline-block;
+  font-family: 'Oswald', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  font-size: clamp(12px, 1.9vh, 26px);
+  color: #7a736c;
+  border: 1px solid rgba(255,255,255,0.15);
+  padding: 0.6vh 1.4vw;
+  border-radius: 9999px;
+  margin-bottom: 3vh;
+}
+.tv-ad-img { max-height: 34vh; max-width: 50vw; object-fit: contain; margin: 0 auto 3vh; display: block; }
+.tv-ad-tagline { font-size: clamp(20px, 4vh, 60px); color: #E8601C; font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 2vh; }
+
+/* Games */
+.tv-games-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2vh 2vw;
+  margin-top: 4vh;
+}
+.tv-game {
+  display: flex;
+  align-items: center;
+  gap: 1.4vw;
+  background: #181818;
+  border-left: 6px solid #E8601C;
+  border-radius: 1vh;
+  padding: 2vh 1.6vw;
+  text-align: left;
+}
+.tv-game-logo { width: 6vh; height: 6vh; object-fit: contain; flex-shrink: 0; }
+.tv-game-team { font-family: 'Oswald', sans-serif; text-transform: uppercase; color: #fff; font-size: clamp(20px, 3vh, 44px); line-height: 1; }
+.tv-game-opp { color: #cbc5be; font-size: clamp(15px, 2.3vh, 32px); margin-top: 0.4vh; }
+.tv-game-when { font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 0.04em; font-size: clamp(13px, 2vh, 28px); margin-top: 0.6vh; }
+
+/* Segmented progress */
+.tv-progress { display: flex; gap: 0.6vw; padding: 2.4vh 3vw; flex-shrink: 0; z-index: 3; }
+.tv-seg { position: relative; flex: 1; height: 0.7vh; border-radius: 9999px; background: rgba(255,255,255,0.14); overflow: hidden; }
+.tv-seg.done { background: rgba(232,96,28,0.5); }
+.tv-seg-fill { position: absolute; inset: 0; width: 0; background: #E8601C; }
+.tv-seg.active .tv-seg-fill { animation: tv-fill linear forwards; }
+@keyframes tv-fill { from { width: 0; } to { width: 100%; } }
+
+.tv-paused {
+  position: fixed;
+  bottom: 6vh; left: 50%; transform: translateX(-50%);
+  background: rgba(0,0,0,0.8);
+  color: #fff;
+  font-family: 'Oswald', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 2vh;
+  padding: 1.4vh 3vw;
+  border-radius: 9999px;
+  border: 1px solid rgba(255,255,255,0.2);
+  z-index: 5;
+}
+
+@media (max-width: 900px) {
+  .tv-event { flex-direction: column; text-align: center; }
+  .tv-event-img { flex-basis: auto; width: 80vw; }
+  .tv-event-body { text-align: center; }
+  .tv-games-grid { grid-template-columns: 1fr; }
+}
