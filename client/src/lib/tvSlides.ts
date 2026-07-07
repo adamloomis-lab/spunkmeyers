@@ -52,6 +52,10 @@ export type Slide =
       id: string;
     }
   | {
+      type: "weather";
+      id: string;
+    }
+  | {
       type: "promo";
       id: string;
       kicker: string;
@@ -73,6 +77,19 @@ export type Slide =
 // yet; keep this comfortable for reading across a room.
 export const SLIDE_MS = 9000;
 
+// ---------------------------------------------------------------------------
+// TICKER MESSAGES — the "SPUNKS" scroll along the bottom of the board.
+// Edit these lines freely. The sports ticker (scores/schedule) and the events
+// ticker are generated automatically from the game feed + event slides above.
+// ---------------------------------------------------------------------------
+export const TICKER_MESSAGES: string[] = [
+  "18 Beers on Tap — Always Something New",
+  "Official Cleveland Browns Backer Bar",
+  "The Best Patio in Wadsworth — the Buck Naked Bar",
+  "Order Online on DoorDash",
+  "Follow @spunkmeyerspubandgrill",
+];
+
 export const SLIDES: Slide[] = [
   // ---- Signature recurring event (client-confirmed) ----
   {
@@ -86,6 +103,9 @@ export const SLIDES: Slide[] = [
 
   // ---- Live game board (auto-updates from ESPN) ----
   { type: "games", id: "big-screens" },
+
+  // ---- Live weather + 3-day forecast (auto-updates; hidden if unavailable) ----
+  { type: "weather", id: "weather" },
 
   // ---- SAMPLE specials: replace wording/prices with real Spunks specials ----
   {

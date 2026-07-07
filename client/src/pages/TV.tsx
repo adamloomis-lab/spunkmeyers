@@ -1,12 +1,25 @@
 /*
- * SPUNKMEYERS TV BOARD — in-bar full-screen slideshow (/tv)
- * Point any TV/Fire Stick/Chromecast browser at spunkmeyers.pub/tv and
- * go fullscreen. Auto-rotates specials, events, live games, and sponsor
- * ads from client/src/lib/tvSlides.ts. Loops forever.
+ * SPUNKMEYERS TV BOARD — in-bar full-screen display (/tv)
+ * Point any TV/Fire Stick/Chromecast browser at spunkmeyers.pub/tv, press F
+ * for fullscreen. Rotating slides (specials, events, live games, weather,
+ * sponsor ads) + live weather in the header, an NWS alert banner, and two
+ * broadcast-style tickers (sports + events/messages) along the bottom.
  */
 import { useEffect, useMemo, useState } from "react";
+import {
+  Sun,
+  CloudSun,
+  Cloud,
+  CloudFog,
+  CloudDrizzle,
+  CloudRain,
+  CloudSnow,
+  CloudLightning,
+  Wind,
+  AlertTriangle,
+} from "lucide-react";
 import { IMAGES, LINKS, BUSINESS, getCurrentDayName } from "@/lib/constants";
-import { SLIDES, SLIDE_MS, type Slide } from "@/lib/tvSlides";
+import { SLIDES, SLIDE_MS, TICKER_MESSAGES, type Slide } from "@/lib/tvSlides";
 import SEO from "@/components/SEO";
 
 interface Game {
@@ -19,6 +32,19 @@ interface Game {
   opponentLogo: string;
   tbd?: boolean;
 }
+interface DayFc {
+  date: string;
+  code: number;
+  label: string;
+  hiF: number;
+  loF: number;
+  pop: number | null;
+}
+interface Weather {
+  current: { tempF: number; feelsF: number; windMph: number; code: number; label: string } | null;
+  forecast: DayFc[] | null;
+  alerts: { event: string; severity: string; headline: string; ends: string | null }[];
+}
 
 const TEAM_ACCENT: Record<string, string> = {
   browns: "#FB4F14",
@@ -26,6 +52,26 @@ const TEAM_ACCENT: Record<string, string> = {
   cavaliers: "#FDBB30",
   buckeyes: "#BB0000",
 };
+
+function WeatherIcon({ code, className }: { code: number; className?: string }) {
+  const Icon =
+    code === 0
+      ? Sun
+      : code === 1 || code === 2
+        ? CloudSun
+        : code === 45 || code === 48
+          ? CloudFog
+          : code >= 51 && code <= 57
+            ? CloudDrizzle
+            : (code >= 61 && code <= 67) || (code >= 80 && code <= 82)
+              ? CloudRain
+              : (code >= 71 && code <= 77) || code === 85 || code === 86
+                ? CloudSnow
+                : code >= 95
+                  ? CloudLightning
+                  : Cloud;
+  return <Icon className={className} />;
+}
 
 function todayStr() {
   const d = new Date();
@@ -44,28 +90,39 @@ function useClock() {
 export default function TV() {
   const [games, setGames] = useState<Game[] | null>(null);
   const [gamesFailed, setGamesFailed] = useState(false);
+  const [weather, setWeather] = useState<Weather | null>(null);
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const now = useClock();
 
-  // Fetch the live game board once (used by the "games" slide).
   useEffect(() => {
     let active = true;
     fetch("/.netlify/functions/games")
       .then((r) => (r.ok ? r.json() : Promise.reject(new Error("bad"))))
       .then((d) => {
         if (!active) return;
-        const list: Game[] = (d.thisWeek?.length ? d.thisWeek : d.nextByTeam) || [];
-        setGames(list);
+        setGames((d.thisWeek?.length ? d.thisWeek : d.nextByTeam) || []);
       })
       .catch(() => active && setGamesFailed(true));
+    fetch("/.netlify/functions/weather")
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error("bad"))))
+      .then((d: Weather) => active && setWeather(d))
+      .catch(() => {});
+    // Re-pull weather every 15 minutes so the board stays live all day.
+    const wt = setInterval(() => {
+      fetch("/.netlify/functions/weather")
+        .then((r) => r.json())
+        .then((d: Weather) => setWeather(d))
+        .catch(() => {});
+    }, 15 * 60 * 1000);
     return () => {
       active = false;
+      clearInterval(wt);
     };
   }, []);
 
-  // Build the live slide list: drop expired ads, and drop the games slide if
-  // there's nothing to show so the board never displays a blank screen.
+  const alerts = weather?.alerts || [];
+
   const slides = useMemo(() => {
     const t = todayStr();
     return SLIDES.filter((s) => {
@@ -74,25 +131,23 @@ export default function TV() {
         if (gamesFailed) return false;
         if (games && games.length === 0) return false;
       }
+      if (s.type === "weather" && weather && !weather.current) return false;
       return true;
     });
-  }, [games, gamesFailed]);
+  }, [games, gamesFailed, weather]);
 
   const count = slides.length;
 
-  // Auto-advance.
   useEffect(() => {
     if (paused || count === 0) return;
     const t = setTimeout(() => setIndex((i) => (i + 1) % count), SLIDE_MS);
     return () => clearTimeout(t);
   }, [index, paused, count]);
 
-  // Keep index in range if the slide list shrinks (e.g. games slide drops out).
   useEffect(() => {
     if (index >= count && count > 0) setIndex(0);
   }, [count, index]);
 
-  // Keyboard controls for whoever sets up the TV.
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === " ") {
@@ -114,19 +169,61 @@ export default function TV() {
   const clock = now.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
   const today = getCurrentDayName();
   const todayHours = BUSINESS.hours.find((h) => h.day === today)?.hours;
+  const cur = weather?.current;
+
+  // ---- Ticker content ----
+  const sportsItems = useMemo(() => {
+    const gs = games || [];
+    if (gs.length === 0) return ["Every Big Game on Our Screens", "Official Cleveland Browns Backer Bar"];
+    return gs.map((g) => {
+      const d = new Date(g.date);
+      const day = d.toLocaleDateString("en-US", { timeZone: "America/New_York", weekday: "short", month: "short", day: "numeric" });
+      const time = g.tbd ? "TBD" : d.toLocaleTimeString("en-US", { timeZone: "America/New_York", hour: "numeric", minute: "2-digit" });
+      return `${g.team} ${g.homeAway === "home" ? "vs" : "@"} ${g.opponent} — ${day} ${time}`;
+    });
+  }, [games]);
+
+  const eventItems = useMemo(
+    () =>
+      SLIDES.filter((s): s is Extract<Slide, { type: "event" }> => s.type === "event").map(
+        (s) => `${s.title} — ${s.when}`
+      ),
+    []
+  );
+  const bottomItems = [...eventItems, ...TICKER_MESSAGES];
 
   return (
     <div className="tv-root">
-      <SEO
-        title="Spunkmeyers TV Board"
-        description="In-bar display board for Spunkmeyers Pub & Grill."
-        path="/tv"
-        noindex
-      />
-      {/* Persistent header */}
+      <SEO title="Spunkmeyers TV Board" description="In-bar display board for Spunkmeyers Pub & Grill." path="/tv" noindex />
+
+      {/* Weather alert banner (NWS) */}
+      {alerts.length > 0 && (
+        <div className="tv-alert">
+          <AlertTriangle className="tv-alert-icon" />
+          <div className="tv-alert-scroll">
+            <div className="tv-alert-track">
+              {[0, 1].map((k) => (
+                <span key={k} className="tv-alert-text">
+                  {alerts.map((a) => a.headline).join("   •   ")}
+                  {"   •   "}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Header: logo | live weather | clock */}
       <header className="tv-header">
         <img src={IMAGES.logo} alt="Spunkmeyers Pub & Grill" className="tv-logo" />
         <div className="tv-header-right">
+          {cur && (
+            <span className="tv-wx">
+              <WeatherIcon code={cur.code} className="tv-wx-icon" />
+              <span className="tv-wx-temp">{cur.tempF}&deg;</span>
+              <span className="tv-wx-label">{cur.label}</span>
+            </span>
+          )}
           {todayHours && (
             <span className="tv-open">
               <span className="tv-dot" /> Open Today · {todayHours}
@@ -136,37 +233,65 @@ export default function TV() {
         </div>
       </header>
 
-      {/* Slides */}
-      <main className="tv-stage">
-        {slides.map((slide, i) => (
-          <div key={slide.id} className={`tv-slide ${i === index ? "active" : ""}`} aria-hidden={i !== index}>
-            <SlideView slide={slide} games={games} active={i === index} />
-          </div>
-        ))}
-      </main>
-
-      {/* Segmented progress */}
-      <footer className="tv-progress">
+      {/* Thin slide progress under the header */}
+      <div className="tv-progress">
         {slides.map((_, i) => (
           <span key={i} className={`tv-seg ${i === index ? "active" : ""} ${i < index ? "done" : ""}`}>
             <span className="tv-seg-fill" style={{ animationDuration: `${SLIDE_MS}ms`, animationPlayState: paused ? "paused" : "running" }} />
           </span>
         ))}
-      </footer>
+      </div>
+
+      {/* Slides */}
+      <main className="tv-stage">
+        {slides.map((slide, i) => (
+          <div key={slide.id} className={`tv-slide tv-slide--${slide.type} ${i === index ? "active" : ""}`} aria-hidden={i !== index}>
+            <SlideView slide={slide} games={games} weather={weather} active={i === index} />
+          </div>
+        ))}
+      </main>
+
+      {/* Broadcast tickers */}
+      <div className="tv-tickers">
+        <TickerRow label="Sports" tone="sports" items={sportsItems} />
+        <TickerRow label="Spunks" tone="spunks" items={bottomItems} />
+      </div>
 
       {paused && <div className="tv-paused">Paused — press space to resume</div>}
     </div>
   );
 }
 
-function SlideView({ slide, games, active }: { slide: Slide; games: Game[] | null; active: boolean }) {
+function TickerRow({ label, tone, items }: { label: string; tone: "sports" | "spunks"; items: string[] }) {
+  // Duration scales with content so speed stays readable regardless of length.
+  const dur = Math.max(30, items.join(" ").length * 0.35);
+  return (
+    <div className={`tv-ticker tv-ticker--${tone}`}>
+      <span className="tv-ticker-label">{label}</span>
+      <div className="tv-ticker-viewport">
+        <div className="tv-ticker-track" style={{ animationDuration: `${dur}s` }}>
+          {[0, 1].map((copy) => (
+            <span key={copy} className="tv-ticker-group" aria-hidden={copy === 1}>
+              {items.map((it, i) => (
+                <span key={i} className="tv-ticker-item">
+                  <span className="tv-ticker-dot" />
+                  {it}
+                </span>
+              ))}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SlideView({ slide, games, weather, active }: { slide: Slide; games: Game[] | null; weather: Weather | null; active: boolean }) {
   switch (slide.type) {
     case "event":
       return (
         <div className="tv-content tv-event">
-          {slide.image && (
-            <div className="tv-event-img" style={{ backgroundImage: `url(${slide.image})` }} />
-          )}
+          {slide.image && <div className="tv-event-img" style={{ backgroundImage: `url(${slide.image})` }} />}
           <div className="tv-event-body">
             <span className="tv-kicker">{slide.when}</span>
             <h2 className={`tv-title ${active ? "tv-rise" : ""}`}>{slide.title}</h2>
@@ -206,9 +331,48 @@ function SlideView({ slide, games, active }: { slide: Slide; games: Game[] | nul
         </div>
       );
 
+    case "weather":
+      return <WeatherSlide weather={weather} active={active} />;
+
     case "games":
       return <GamesSlide games={games} active={active} />;
   }
+}
+
+function WeatherSlide({ weather, active }: { weather: Weather | null; active: boolean }) {
+  const cur = weather?.current;
+  const fc = weather?.forecast || [];
+  return (
+    <div className="tv-content tv-weather">
+      <div className="tv-wx-now">
+        <span className="tv-kicker">Wadsworth Right Now</span>
+        <div className="tv-wx-now-row">
+          {cur && <WeatherIcon code={cur.code} className="tv-wx-big-icon" />}
+          <div className={`tv-wx-big-temp ${active ? "tv-rise" : ""}`}>{cur ? `${cur.tempF}°` : "—"}</div>
+        </div>
+        {cur && (
+          <div className="tv-wx-meta">
+            {cur.label} · Feels {cur.feelsF}° · <Wind className="tv-wx-wind" /> {cur.windMph} mph
+          </div>
+        )}
+      </div>
+      <div className="tv-wx-forecast">
+        {fc.map((d, i) => {
+          const dt = new Date(`${d.date}T12:00:00`);
+          const dayLabel = i === 0 ? "Today" : dt.toLocaleDateString("en-US", { weekday: "short" });
+          return (
+            <div key={d.date} className="tv-wx-day">
+              <div className="tv-wx-day-name">{dayLabel}</div>
+              <WeatherIcon code={d.code} className="tv-wx-day-icon" />
+              <div className="tv-wx-day-hi">{d.hiF}°</div>
+              <div className="tv-wx-day-lo">{d.loF}°</div>
+              {d.pop != null && d.pop >= 20 && <div className="tv-wx-day-pop">{d.pop}%</div>}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
 }
 
 function GamesSlide({ games, active }: { games: Game[] | null; active: boolean }) {
@@ -222,9 +386,7 @@ function GamesSlide({ games, active }: { games: Game[] | null; active: boolean }
           const accent = TEAM_ACCENT[g.key] || "#E8601C";
           const d = new Date(g.date);
           const day = d.toLocaleDateString("en-US", { timeZone: "America/New_York", weekday: "short", month: "short", day: "numeric" });
-          const time = g.tbd
-            ? "TBD"
-            : d.toLocaleTimeString("en-US", { timeZone: "America/New_York", hour: "numeric", minute: "2-digit" });
+          const time = g.tbd ? "TBD" : d.toLocaleTimeString("en-US", { timeZone: "America/New_York", hour: "numeric", minute: "2-digit" });
           return (
             <div key={i} className="tv-game" style={{ borderColor: accent }}>
               {g.opponentLogo && <img src={g.opponentLogo} alt="" className="tv-game-logo" />}
@@ -241,7 +403,6 @@ function GamesSlide({ games, active }: { games: Game[] | null; active: boolean }
           );
         })}
       </div>
-      <div className="tv-footer-url">{LINKS.facebook.replace("https://www.", "")}</div>
     </div>
   );
 }

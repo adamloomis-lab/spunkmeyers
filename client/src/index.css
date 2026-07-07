@@ -892,54 +892,93 @@
 }
 
 /* ============================================================================
-   TV BOARD (/tv) — full-screen in-bar kiosk. Sized for a television viewed
-   across a room: everything scales with viewport units. Not inside @layer so
-   it always wins and is never purged.
+   TV BOARD (/tv) — full-screen in-bar display. Broadcast-grade: gradient
+   backgrounds, big glowing prices, live weather, NWS alert banner, and two
+   scrolling tickers. Sized in viewport units for any television. Outside
+   @layer so it always wins and is never purged.
    ============================================================================ */
 .tv-root {
   position: fixed;
   inset: 0;
-  background: #0d0d0d;
   color: #f5f0eb;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   font-family: 'Source Sans 3', sans-serif;
+  background: #0a0a0a;
 }
+/* Ambient animated base glow behind everything */
+.tv-root::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(120% 80% at 15% 0%, rgba(232,96,28,0.18), transparent 55%),
+    radial-gradient(120% 90% at 100% 100%, rgba(232,96,28,0.10), transparent 50%),
+    linear-gradient(160deg, #141414 0%, #0c0c0c 55%, #080808 100%);
+  z-index: 0;
+  animation: tv-bg-drift 26s ease-in-out infinite alternate;
+}
+@keyframes tv-bg-drift {
+  from { transform: scale(1) translateY(0); }
+  to { transform: scale(1.06) translateY(-1.5%); }
+}
+.tv-root > * { position: relative; z-index: 1; }
+
+/* ---- NWS alert banner ---- */
+.tv-alert {
+  display: flex;
+  align-items: center;
+  gap: 1.4vw;
+  background: linear-gradient(90deg, #b91c1c, #dc2626, #b91c1c);
+  color: #fff;
+  padding: 1.1vh 2vw;
+  flex-shrink: 0;
+  box-shadow: 0 4px 20px rgba(220,38,38,0.4);
+}
+.tv-alert-icon { width: 3.4vh; height: 3.4vh; flex-shrink: 0; animation: tv-pulse 1.4s ease-in-out infinite; }
+.tv-alert-scroll { overflow: hidden; flex: 1; }
+.tv-alert-track { display: inline-flex; white-space: nowrap; animation: tv-scroll 26s linear infinite; }
+.tv-alert-text {
+  font-family: 'Oswald', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 2.4vh;
+  padding-right: 2vw;
+}
+
+/* ---- Header ---- */
 .tv-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 2.2vh 3vw;
+  padding: 2vh 3vw 1.4vh;
   flex-shrink: 0;
-  z-index: 3;
 }
-.tv-logo { height: 8vh; width: auto; }
-.tv-header-right { display: flex; align-items: center; gap: 2vw; }
+.tv-logo { height: 8vh; width: auto; filter: drop-shadow(0 4px 14px rgba(0,0,0,0.6)); }
+.tv-header-right { display: flex; align-items: center; gap: 2.4vw; }
+.tv-wx { display: inline-flex; align-items: center; gap: 0.9vw; }
+.tv-wx-icon { width: 4.4vh; height: 4.4vh; color: #E8601C; }
+.tv-wx-temp { font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 3.6vh; color: #fff; line-height: 1; }
+.tv-wx-label { font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 0.08em; font-size: 1.9vh; color: #cfc9c2; }
 .tv-open {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.7vw;
-  font-family: 'Oswald', sans-serif;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  font-size: 1.9vh;
-  color: #cfc9c2;
+  display: inline-flex; align-items: center; gap: 0.7vw;
+  font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 0.12em;
+  font-size: 1.9vh; color: #cfc9c2;
 }
-.tv-dot {
-  width: 1.1vh; height: 1.1vh; border-radius: 9999px;
-  background: #46d17a; box-shadow: 0 0 10px #46d17a;
-  animation: tv-pulse 2s ease-in-out infinite;
-}
-@keyframes tv-pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
-.tv-clock {
-  font-family: 'Oswald', sans-serif;
-  font-size: 2.6vh;
-  color: #fff;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-}
+.tv-dot { width: 1.1vh; height: 1.1vh; border-radius: 9999px; background: #46d17a; box-shadow: 0 0 10px #46d17a; animation: tv-pulse 2s ease-in-out infinite; }
+@keyframes tv-pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
+.tv-clock { font-family: 'Oswald', sans-serif; font-size: 3vh; color: #fff; font-weight: 600; letter-spacing: 0.04em; }
 
+/* ---- Slide progress (thin, under header) ---- */
+.tv-progress { display: flex; gap: 0.5vw; padding: 0 3vw 1.4vh; flex-shrink: 0; }
+.tv-seg { position: relative; flex: 1; height: 0.5vh; border-radius: 9999px; background: rgba(255,255,255,0.12); overflow: hidden; }
+.tv-seg.done { background: rgba(232,96,28,0.45); }
+.tv-seg-fill { position: absolute; inset: 0; width: 0; background: #E8601C; }
+.tv-seg.active .tv-seg-fill { animation: tv-fill linear forwards; }
+@keyframes tv-fill { from { width: 0; } to { width: 100%; } }
+
+/* ---- Slide stage ---- */
 .tv-stage { position: relative; flex: 1; }
 .tv-slide {
   position: absolute;
@@ -947,15 +986,30 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 6vw;
+  padding: 2vh 6vw;
   opacity: 0;
-  transform: scale(1.02);
+  transform: scale(1.03);
   transition: opacity 0.7s ease, transform 0.7s ease;
   pointer-events: none;
 }
 .tv-slide.active { opacity: 1; transform: scale(1); pointer-events: auto; }
 
-.tv-content { width: 100%; max-width: 88vw; text-align: center; }
+/* Per-type gradient washes so each slide feels designed, not templated */
+.tv-slide::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.9;
+}
+.tv-slide--special::before { background: radial-gradient(90% 90% at 50% 40%, rgba(232,96,28,0.28), transparent 60%); }
+.tv-slide--event::before { background: radial-gradient(100% 100% at 20% 50%, rgba(155,60,180,0.22), rgba(30,120,150,0.12) 45%, transparent 70%); }
+.tv-slide--games::before { background: radial-gradient(90% 90% at 50% 30%, rgba(30,90,180,0.20), rgba(200,20,40,0.10) 55%, transparent 75%); }
+.tv-slide--weather::before { background: radial-gradient(100% 100% at 80% 20%, rgba(40,120,200,0.24), transparent 62%); }
+.tv-slide--ad::before { background: radial-gradient(90% 90% at 50% 50%, rgba(255,255,255,0.06), transparent 60%); }
+.tv-slide--promo::before { background: radial-gradient(90% 90% at 50% 60%, rgba(232,96,28,0.18), transparent 62%); }
+
+.tv-content { width: 100%; max-width: 90vw; text-align: center; }
 .tv-kicker {
   display: block;
   font-family: 'Oswald', sans-serif;
@@ -964,38 +1018,40 @@
   color: #E8601C;
   font-size: clamp(16px, 2.6vh, 40px);
   margin-bottom: 2vh;
+  text-shadow: 0 0 24px rgba(232,96,28,0.4);
 }
 .tv-title {
   font-family: 'Oswald', sans-serif;
   text-transform: uppercase;
   font-weight: 700;
-  line-height: 0.98;
+  line-height: 0.96;
   color: #fff;
-  font-size: clamp(48px, 12vh, 190px);
+  font-size: clamp(48px, 11.5vh, 180px);
   letter-spacing: 0.01em;
+  text-shadow: 0 6px 40px rgba(0,0,0,0.6);
 }
-.tv-detail {
-  font-size: clamp(18px, 3.4vh, 52px);
-  color: #d5cfc8;
-  line-height: 1.35;
-  max-width: 60vw;
-  margin: 3vh auto 0;
-}
+.tv-detail { font-size: clamp(18px, 3.2vh, 50px); color: #ddd6ce; line-height: 1.34; max-width: 62vw; margin: 3vh auto 0; }
 .tv-rise { animation: tv-rise 0.8s cubic-bezier(0.22,1,0.36,1) both; }
 @keyframes tv-rise { from { opacity: 0; transform: translateY(4vh); } to { opacity: 1; transform: translateY(0); } }
 
-/* Special */
+/* ---- Special: high-visibility glowing price ---- */
 .tv-price {
+  display: inline-block;
   font-family: 'Oswald', sans-serif;
   font-weight: 700;
-  color: #E8601C;
-  font-size: clamp(40px, 9vh, 150px);
+  color: #fff;
+  font-size: clamp(56px, 13vh, 220px);
   line-height: 1;
-  margin-top: 2vh;
+  margin-top: 2.5vh;
+  padding: 0.4vh 3vw;
+  background: linear-gradient(180deg, #F58A4E, #E8601C 55%, #c44a0d);
+  border-radius: 2vh;
+  box-shadow: 0 0 60px rgba(232,96,28,0.55), inset 0 2px 0 rgba(255,255,255,0.3);
+  text-shadow: 0 3px 12px rgba(0,0,0,0.4);
 }
 .tv-sample { color: #8a8079; font-style: italic; font-size: clamp(15px, 2.4vh, 32px); }
 
-/* Event with image */
+/* ---- Event with image ---- */
 .tv-event { display: flex; align-items: center; gap: 5vw; text-align: left; }
 .tv-event-img {
   flex: 0 0 46%;
@@ -1003,88 +1059,97 @@
   background-size: cover;
   background-position: center;
   border-radius: 1.5vh;
-  border: 2px solid rgba(232,96,28,0.4);
-  box-shadow: 0 3vh 6vh rgba(0,0,0,0.5);
+  border: 2px solid rgba(232,96,28,0.5);
+  box-shadow: 0 3vh 7vh rgba(0,0,0,0.6), 0 0 50px rgba(232,96,28,0.2);
 }
 .tv-event-body { flex: 1; }
 .tv-event .tv-title { font-size: clamp(40px, 10vh, 150px); }
 .tv-event .tv-detail { margin-left: 0; max-width: none; }
 
-/* Promo */
-.tv-footer-url {
-  margin-top: 4vh;
-  font-family: 'Oswald', sans-serif;
-  text-transform: lowercase;
-  letter-spacing: 0.1em;
-  color: #E8601C;
-  font-size: clamp(18px, 3vh, 44px);
-}
+/* ---- Promo ---- */
+.tv-footer-url { margin-top: 4vh; font-family: 'Oswald', sans-serif; text-transform: lowercase; letter-spacing: 0.1em; color: #E8601C; font-size: clamp(18px, 3vh, 44px); }
 
-/* Ad slot */
-.tv-ad { position: relative; }
+/* ---- Ad slot ---- */
 .tv-ad-flag {
-  display: inline-block;
-  font-family: 'Oswald', sans-serif;
-  text-transform: uppercase;
-  letter-spacing: 0.3em;
-  font-size: clamp(12px, 1.9vh, 26px);
-  color: #7a736c;
-  border: 1px solid rgba(255,255,255,0.15);
-  padding: 0.6vh 1.4vw;
-  border-radius: 9999px;
-  margin-bottom: 3vh;
+  display: inline-block; font-family: 'Oswald', sans-serif; text-transform: uppercase;
+  letter-spacing: 0.3em; font-size: clamp(12px, 1.9vh, 26px); color: #9a938c;
+  border: 1px solid rgba(255,255,255,0.18); padding: 0.6vh 1.4vw; border-radius: 9999px; margin-bottom: 3vh;
 }
 .tv-ad-img { max-height: 34vh; max-width: 50vw; object-fit: contain; margin: 0 auto 3vh; display: block; }
 .tv-ad-tagline { font-size: clamp(20px, 4vh, 60px); color: #E8601C; font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 2vh; }
 
-/* Games */
-.tv-games-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2vh 2vw;
-  margin-top: 4vh;
+/* ---- Weather slide ---- */
+.tv-weather { display: flex; align-items: center; justify-content: space-between; gap: 5vw; text-align: left; }
+.tv-wx-now { flex: 1; }
+.tv-wx-now-row { display: flex; align-items: center; gap: 2vw; }
+.tv-wx-big-icon { width: 14vh; height: 14vh; color: #E8601C; filter: drop-shadow(0 0 30px rgba(232,96,28,0.5)); }
+.tv-wx-big-temp { font-family: 'Oswald', sans-serif; font-weight: 700; color: #fff; font-size: clamp(80px, 22vh, 340px); line-height: 0.9; }
+.tv-wx-meta { display: flex; align-items: center; gap: 0.8vw; font-size: clamp(18px, 3.4vh, 50px); color: #ddd6ce; margin-top: 1.5vh; }
+.tv-wx-wind { width: 3.4vh; height: 3.4vh; display: inline-block; vertical-align: middle; }
+.tv-wx-forecast { display: flex; gap: 1.6vw; flex-shrink: 0; }
+.tv-wx-day {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 1.5vh;
+  padding: 2.4vh 2vw;
+  text-align: center;
+  min-width: 12vw;
+  backdrop-filter: blur(4px);
 }
-.tv-game {
-  display: flex;
-  align-items: center;
-  gap: 1.4vw;
-  background: #181818;
-  border-left: 6px solid #E8601C;
-  border-radius: 1vh;
-  padding: 2vh 1.6vw;
-  text-align: left;
-}
-.tv-game-logo { width: 6vh; height: 6vh; object-fit: contain; flex-shrink: 0; }
+.tv-wx-day-name { font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 0.1em; color: #E8601C; font-size: clamp(16px, 2.6vh, 36px); margin-bottom: 1.4vh; }
+.tv-wx-day-icon { width: 7vh; height: 7vh; color: #f5f0eb; margin: 0 auto; }
+.tv-wx-day-hi { font-family: 'Oswald', sans-serif; font-weight: 700; color: #fff; font-size: clamp(28px, 5.5vh, 80px); line-height: 1; margin-top: 1vh; }
+.tv-wx-day-lo { color: #8f8880; font-size: clamp(18px, 3vh, 44px); }
+.tv-wx-day-pop { color: #5fb0e8; font-size: clamp(14px, 2.2vh, 30px); margin-top: 0.6vh; }
+
+/* ---- Games grid ---- */
+.tv-games-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2vh 2vw; margin-top: 4vh; }
+.tv-game { display: flex; align-items: center; gap: 1.4vw; background: rgba(20,20,20,0.72); border-left: 6px solid #E8601C; border-radius: 1vh; padding: 2vh 1.6vw; text-align: left; backdrop-filter: blur(3px); }
+.tv-game-logo { width: 6.4vh; height: 6.4vh; object-fit: contain; flex-shrink: 0; }
 .tv-game-team { font-family: 'Oswald', sans-serif; text-transform: uppercase; color: #fff; font-size: clamp(20px, 3vh, 44px); line-height: 1; }
 .tv-game-opp { color: #cbc5be; font-size: clamp(15px, 2.3vh, 32px); margin-top: 0.4vh; }
 .tv-game-when { font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 0.04em; font-size: clamp(13px, 2vh, 28px); margin-top: 0.6vh; }
 
-/* Segmented progress */
-.tv-progress { display: flex; gap: 0.6vw; padding: 2.4vh 3vw; flex-shrink: 0; z-index: 3; }
-.tv-seg { position: relative; flex: 1; height: 0.7vh; border-radius: 9999px; background: rgba(255,255,255,0.14); overflow: hidden; }
-.tv-seg.done { background: rgba(232,96,28,0.5); }
-.tv-seg-fill { position: absolute; inset: 0; width: 0; background: #E8601C; }
-.tv-seg.active .tv-seg-fill { animation: tv-fill linear forwards; }
-@keyframes tv-fill { from { width: 0; } to { width: 100%; } }
-
-.tv-paused {
-  position: fixed;
-  bottom: 6vh; left: 50%; transform: translateX(-50%);
-  background: rgba(0,0,0,0.8);
-  color: #fff;
+/* ---- Broadcast tickers ---- */
+.tv-tickers { flex-shrink: 0; }
+.tv-ticker { display: flex; align-items: stretch; height: 6.4vh; overflow: hidden; }
+.tv-ticker--sports { background: linear-gradient(90deg, #151515, #1c1c1c); border-top: 1px solid rgba(255,255,255,0.08); }
+.tv-ticker--spunks { background: #0c0c0c; border-top: 1px solid rgba(255,255,255,0.06); }
+.tv-ticker-label {
+  display: flex; align-items: center;
+  flex-shrink: 0;
+  padding: 0 2vw;
   font-family: 'Oswald', sans-serif;
   text-transform: uppercase;
-  letter-spacing: 0.2em;
-  font-size: 2vh;
-  padding: 1.4vh 3vw;
-  border-radius: 9999px;
-  border: 1px solid rgba(255,255,255,0.2);
-  z-index: 5;
+  letter-spacing: 0.18em;
+  font-size: 2.6vh;
+  color: #fff;
+}
+.tv-ticker--sports .tv-ticker-label { background: linear-gradient(180deg, #E50022, #a3001a); }
+.tv-ticker--spunks .tv-ticker-label { background: linear-gradient(180deg, #F07A3A, #d4540f); }
+.tv-ticker-viewport { flex: 1; overflow: hidden; display: flex; align-items: center; }
+.tv-ticker-track { display: inline-flex; white-space: nowrap; animation: tv-scroll linear infinite; }
+.tv-ticker-group { display: inline-flex; }
+.tv-ticker-item { display: inline-flex; align-items: center; font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 0.04em; font-size: 2.7vh; color: #ece7e0; padding: 0 2vw; }
+.tv-ticker-dot { width: 0.9vh; height: 0.9vh; border-radius: 9999px; background: #E8601C; margin-right: 1vw; flex-shrink: 0; }
+.tv-ticker--sports .tv-ticker-dot { background: #E50022; }
+@keyframes tv-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+.tv-paused {
+  position: fixed; bottom: 16vh; left: 50%; transform: translateX(-50%);
+  background: rgba(0,0,0,0.85); color: #fff;
+  font-family: 'Oswald', sans-serif; text-transform: uppercase; letter-spacing: 0.2em;
+  font-size: 2vh; padding: 1.4vh 3vw; border-radius: 9999px; border: 1px solid rgba(255,255,255,0.2); z-index: 5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tv-root::before, .tv-alert-track, .tv-ticker-track, .tv-dot, .tv-alert-icon { animation: none !important; }
 }
 
 @media (max-width: 900px) {
-  .tv-event { flex-direction: column; text-align: center; }
-  .tv-event-img { flex-basis: auto; width: 80vw; }
+  .tv-event, .tv-weather { flex-direction: column; text-align: center; gap: 3vh; }
+  .tv-event-img { flex-basis: auto; width: 82vw; }
   .tv-event-body { text-align: center; }
   .tv-games-grid { grid-template-columns: 1fr; }
+  .tv-wx-forecast { width: 100%; justify-content: center; }
 }
