@@ -25,7 +25,7 @@ export default function Contact() {
         ])}
       />
       {/* Hero */}
-      <section className="relative h-[35vh] sm:h-[50vh] flex items-end overflow-hidden">
+      <section data-narrate="contact-hero" className="relative h-[35vh] sm:h-[50vh] flex items-end overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${IMAGES.storefront})` }}
@@ -43,7 +43,7 @@ export default function Contact() {
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-16">
             {/* Info + Map */}
-            <div>
+            <div data-narrate="contact-map">
               <div className="mb-10">
                 <h2 className="font-heading text-2xl text-[#E8601C] mb-6">Location & Hours</h2>
                 <div className="space-y-4">

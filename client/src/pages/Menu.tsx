@@ -303,7 +303,7 @@ export default function Menu() {
         jsonLd={menuSchema}
       />
       {/* Hero */}
-      <section className="relative h-[35vh] sm:h-[50vh] flex items-end overflow-hidden">
+      <section data-narrate="menu-hero" className="relative h-[35vh] sm:h-[50vh] flex items-end overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${IMAGES.wings})` }}

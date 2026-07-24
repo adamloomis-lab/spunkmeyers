@@ -1168,3 +1168,54 @@
   .tv-games-grid { grid-template-columns: 1fr; }
   .tv-wx-forecast { width: 100%; justify-content: center; }
 }
+
+/* ===================================================================
+   VOICE STACK: chat widget + page narration
+   Plain top-level rules (kept out of @layer to avoid the Tailwind v4
+   utility !important trap). Motion-safe.
+   =================================================================== */
+
+/* Typing indicator dots (chat "thinking" + Listen loading) */
+.typing-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: #888;
+  display: inline-block;
+  animation: typing-bob 1s ease-in-out infinite;
+}
+@keyframes typing-bob {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.45; }
+  30% { transform: translateY(-4px); opacity: 1; }
+}
+
+/* Chat panel + message entrances */
+.chat-pop {
+  transform-origin: bottom right;
+  animation: chat-pop 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes chat-pop {
+  from { opacity: 0; transform: translateY(14px) scale(0.96); }
+}
+.chat-msg {
+  animation: chat-msg 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes chat-msg {
+  from { opacity: 0; transform: translateY(8px); }
+}
+
+/* Page narration: the section being read aloud gets a soft brand glow.
+   Reads as "you are here", not as an alert. */
+.narrate-active {
+  outline: 3px solid rgba(232, 96, 28, 0.55);
+  outline-offset: 4px;
+  border-radius: 4px;
+  transition: outline-color 0.4s ease;
+}
+@media (forced-colors: active) {
+  .narrate-active { outline-color: Highlight; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chat-pop, .chat-msg, .typing-dot { animation: none; }
+}

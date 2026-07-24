@@ -903,7 +903,7 @@ export default function Home() {
         jsonLd={localBusinessSchema}
       />
       {/* ===== HERO - VIDEO BACKGROUND ===== */}
-      <section className="relative h-screen w-full overflow-hidden">
+      <section data-narrate="home-hero" className="relative h-screen w-full overflow-hidden">
         <video
           autoPlay
           muted
@@ -1026,7 +1026,7 @@ export default function Home() {
       </section>
 
       {/* ===== BUCK NAKED BAR ===== */}
-      <section className="relative min-h-[50vh] sm:min-h-[70vh] flex items-center overflow-hidden">
+      <section data-narrate="home-patio" className="relative min-h-[50vh] sm:min-h-[70vh] flex items-center overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center kenburns"
           data-parallax="0.2"
@@ -1049,7 +1049,7 @@ export default function Home() {
       </section>
 
       {/* ===== PATIO PALOOZA ===== */}
-      <section className="bg-[#111111] py-12 sm:py-20 border-y border-[#E8601C]/15">
+      <section data-narrate="home-palooza" className="bg-[#111111] py-12 sm:py-20 border-y border-[#E8601C]/15">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             <div className="fade-scale rounded-xl overflow-hidden border border-[#E8601C]/30 shadow-2xl shadow-black/40">
@@ -1098,7 +1098,7 @@ export default function Home() {
       </section>
 
       {/* ===== FOOD FEATURE ===== */}
-      <section className="bg-[#1a1a1a] relative overflow-hidden">
+      <section data-narrate="home-food" className="bg-[#1a1a1a] relative overflow-hidden">
         <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[60vh]">
           <div className="fade-scale relative h-[50vh] lg:h-auto overflow-hidden">
             <FoodShowcase />

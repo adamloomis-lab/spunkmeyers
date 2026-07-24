@@ -69,7 +69,7 @@ export default function Events() {
         <div className="max-w-[1100px] mx-auto px-4 sm:px-6 lg:px-8">
 
           {/* Featured: Patio Palooza */}
-          <div className="fade-up mb-12 sm:mb-20">
+          <div data-narrate="events-palooza" className="fade-up mb-12 sm:mb-20">
             <div className="text-center mb-6">
               <span className="inline-flex items-center gap-2 bg-[#E8601C]/15 border border-[#E8601C]/40 text-[#E8601C] font-heading text-xs uppercase tracking-[0.2em] px-4 py-1.5 rounded-full">
                 <span className="w-2 h-2 rounded-full bg-[#E8601C] animate-pulse" />
@@ -98,7 +98,7 @@ export default function Events() {
           </div>
 
           {/* Recurring Events - Premium Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mb-12 sm:mb-20">
+          <div data-narrate="events-recurring" className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mb-12 sm:mb-20">
             {/* Bingo Nights */}
             <div className="event-card-premium p-8 sm:p-10 fade-up">
               <div className="event-card-icon">
@@ -193,7 +193,7 @@ export default function Events() {
           </div>
 
           {/* Reserve for the Game */}
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12 mb-12 sm:mb-20 fade-up">
+          <div data-narrate="events-reserve" className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12 mb-12 sm:mb-20 fade-up">
             <div className="lg:col-span-2">
               <span className="font-heading text-sm text-[#E8601C] uppercase tracking-[0.3em] mb-3 block">
                 Big Group? Big Game?

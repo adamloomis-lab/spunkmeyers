@@ -82,7 +82,7 @@ export default function BigScreens() {
   rawNextByTeam.forEach((g) => availableKeys.add(g.key));
 
   return (
-    <section className="bg-[#0f0f0f] py-12 sm:py-20 border-y border-[#E8601C]/15">
+    <section data-narrate="home-sports" className="bg-[#0f0f0f] py-12 sm:py-20 border-y border-[#E8601C]/15">
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-8 sm:mb-12 fade-up">
           <span className="font-heading text-sm text-[#E8601C] uppercase tracking-[0.3em] mb-3 block">

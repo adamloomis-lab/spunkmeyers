@@ -84,7 +84,7 @@ export default function Experience() {
         ])}
       />
       {/* Hero */}
-      <section className="relative h-[35vh] sm:h-[60vh] flex items-end overflow-hidden">
+      <section data-narrate="exp-hero" className="relative h-[35vh] sm:h-[60vh] flex items-end overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${IMAGES.patioColorful})` }}
@@ -101,7 +101,7 @@ export default function Experience() {
       </section>
 
       {/* ===== THE BUCK NAKED BAR ===== */}
-      <section className="bg-[#1a1a1a] py-12 sm:py-24">
+      <section data-narrate="exp-sports" className="bg-[#1a1a1a] py-12 sm:py-24">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center">
             <div className="fade-up">

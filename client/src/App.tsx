@@ -19,6 +19,8 @@ import Footer from "./components/Footer";
 import MobileActionBar from "./components/MobileActionBar";
 import CookieNotice from "./components/CookieNotice";
 import FloatingCta from "./components/FloatingCta";
+import ChatWidget from "./components/ChatWidget";
+import NarrationPlayer from "./components/NarrationPlayer";
 import { useEffect } from "react";
 import { useLocation } from "wouter";
 
@@ -68,12 +70,14 @@ function App() {
           <Toaster />
           <ScrollToTop />
           <Navbar />
+          <NarrationPlayer path={location} />
           <Router />
           <Footer />
           {/* Spacer so footer content isn't hidden under the mobile action bar */}
           <div className="h-16 lg:hidden" aria-hidden="true" />
           <MobileActionBar />
           <FloatingCta />
+          <ChatWidget />
           <CookieNotice />
         </TooltipProvider>
       </ThemeProvider>
