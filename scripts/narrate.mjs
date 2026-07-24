@@ -63,6 +63,16 @@ const expandForSpeech = (t) =>
     .replace(/\bSt\.?\b/g, "Street")
     .replace(/\bOH\b/g, "Ohio")
     .replace(/&/g, " and ")
+    .replace(/\b(1[0-2]|0?[1-9])(?::([0-5]\d))?\s*([ap])\.?\s?m\.?\b/gi, (_, h, min, ap) => {
+      const hour = Number(h);
+      const mer = ap.toLowerCase() === "a" ? "AM" : "PM";
+      if (!min || min === "00") {
+        if (hour === 12) return mer === "AM" ? "midnight" : "noon";
+        return `${hour} ${mer}`;
+      }
+      return `${hour}:${min} ${mer}`;
+    })
+    .replace(/\b(AM|PM|midnight|noon)\s*[-–—]\s*/gi, "$1 to ")
     .replace(/\(?(\d{3})\)?[ .-]?(\d{3})[-.](\d{4})\b/g, (_, a, b, c) =>
       [a, b, c].map((g) => g.split("").join(" ")).join(", "))
     .replace(/\b(\d{5})\b/g, (_, z) => z.split("").join(" "));

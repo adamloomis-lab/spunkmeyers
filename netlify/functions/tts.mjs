@@ -27,6 +27,21 @@ export const expandForSpeech = (t) =>
     .replace(/\bSt\.?\b/g, 'Street')
     .replace(/\bOH\b/g, 'Ohio')
     .replace(/&/g, ' and ')
+    // Clock times: "11am", "11 AM", "11:00am", "4:30 pm" -> a form TTS reads
+    // naturally. 12am -> midnight, 12pm -> noon; on-the-hour drops ":00".
+    // Without this, "11am" reads as "elevenam" and hours sound garbled.
+    .replace(/\b(1[0-2]|0?[1-9])(?::([0-5]\d))?\s*([ap])\.?\s?m\.?\b/gi, (_, h, min, ap) => {
+      const hour = Number(h)
+      const mer = ap.toLowerCase() === 'a' ? 'AM' : 'PM'
+      if (!min || min === '00') {
+        if (hour === 12) return mer === 'AM' ? 'midnight' : 'noon'
+        return `${hour} ${mer}`
+      }
+      return `${hour}:${min} ${mer}`
+    })
+    // A dash right after a time reads as a range: "11 AM - 10 PM" -> "11 AM to
+    // 10 PM". Scoped to time words so it never touches a phone number's hyphen.
+    .replace(/\b(AM|PM|midnight|noon)\s*[-–—]\s*/gi, '$1 to ')
     // Phone numbers and ZIP codes read digit by digit ("3 3 0, 3 3 4, ..."),
     // never as "three hundred thirty". Commas give natural pauses.
     .replace(/\(?(\d{3})\)?[ .-]?(\d{3})[-.](\d{4})\b/g, (_, a, b, c) =>
