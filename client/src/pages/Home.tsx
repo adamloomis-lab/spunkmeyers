@@ -10,6 +10,7 @@ import { Link } from "wouter";
 import { Beer, Flame, Sun, Calendar, ChevronLeft, ChevronRight, Star, ChevronDown } from "lucide-react";
 import SEO, { localBusinessSchema } from "@/components/SEO";
 import BigScreens from "@/components/BigScreens";
+import RadioSpot from "@/components/RadioSpot";
 
 function usePageEffects() {
   const ref = useRef<HTMLDivElement>(null);
@@ -363,10 +364,10 @@ function SeasonAccordion() {
                 key={game.week}
                 className={`flex items-center justify-between py-2.5 px-3 rounded text-sm sm:text-base ${
                   game.result === "W"
-                    ? "bg-green-900/15 border-l-2 border-green-500"
+                    ? "bg-green-900/20 ring-1 ring-inset ring-green-500/20"
                     : game.result === "L"
-                    ? "bg-red-900/10 border-l-2 border-red-500/50"
-                    : "bg-white/5 border-l-2 border-white/10"
+                    ? "bg-red-900/15 ring-1 ring-inset ring-red-500/20"
+                    : "bg-white/[0.04] ring-1 ring-inset ring-white/8"
                 }`}
               >
                 <div className="flex items-center gap-3">
@@ -649,7 +650,7 @@ function GuardiansScheduleAccordion() {
               return (
                 <div
                   key={i}
-                  className="flex items-center justify-between py-2.5 px-3 rounded text-sm sm:text-base bg-white/5 border-l-2 border-red-500/40 hover:bg-white/8 transition-colors"
+                  className="flex items-center justify-between py-2.5 px-3 rounded text-sm sm:text-base bg-white/[0.04] ring-1 ring-inset ring-white/8 hover:bg-white/[0.07] transition-colors"
                 >
                   <div className="flex items-center gap-3">
                     <span className="font-heading text-red-400/80 text-xs w-24 sm:w-28">{dateLabel}</span>
@@ -938,7 +939,7 @@ export default function Home() {
         </div>
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
           <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
-            <div className="w-1.5 h-3 bg-[#E8601C] rounded-full mt-2 animate-bounce" />
+            <div className="w-1.5 h-3 bg-[#E8601C] rounded-full mt-2 scroll-hint" />
           </div>
         </div>
       </section>
@@ -998,6 +999,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* ===== WQMX RADIO SPOT ===== */}
+      <RadioSpot />
 
       {/* ===== WHY SPUNKS - ANIMATED ICONS ===== */}
       <section className="bg-[#1a1a1a] py-12 sm:py-24 relative">
@@ -1105,9 +1109,6 @@ export default function Home() {
           </div>
           <div className="flex items-center px-6 sm:px-12 lg:px-16 py-10 sm:py-16 lg:py-24">
             <div className="fade-up max-w-lg">
-              <span className="font-heading text-sm text-[#E8601C] uppercase tracking-[0.3em] mb-4 block">
-                From Our Kitchen
-              </span>
               <h2 className="text-4xl sm:text-5xl font-bold text-[#F5F0EB] mb-6 leading-[1.05] tracking-tight">
                 Smashed to Order.
               </h2>
@@ -1126,9 +1127,6 @@ export default function Home() {
       <section className="bg-[#111111] py-12 sm:py-24">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8 sm:mb-12 fade-up">
-            <span className="font-heading text-sm text-[#E8601C] uppercase tracking-[0.3em] mb-4 block">
-              What People Say
-            </span>
             <h2 className="text-4xl sm:text-5xl font-bold text-[#F5F0EB] tracking-tight">
               Straight from Our Guests
             </h2>
@@ -1180,9 +1178,6 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-l from-black/70 via-black/40 to-black/20" />
         <div className="relative z-10 max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-24 w-full">
           <div className="max-w-xl ml-auto text-right fade-up">
-            <span className="font-heading text-sm text-[#E8601C] uppercase tracking-[0.3em] mb-4 block">
-              Ohio Sports HQ
-            </span>
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-[1.05] tracking-tight">
               Your Game Day<br />Headquarters.
             </h2>

@@ -85,10 +85,7 @@ export default function BigScreens() {
     <section data-narrate="home-sports" className="bg-[#0f0f0f] py-12 sm:py-20 border-y border-[#E8601C]/15">
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-8 sm:mb-12 fade-up">
-          <span className="font-heading text-sm text-[#E8601C] uppercase tracking-[0.3em] mb-3 block">
-            On The Big Screens
-          </span>
-          <h2 className="text-4xl sm:text-5xl font-bold text-white tracking-tight">This Week&rsquo;s Games</h2>
+          <h2 className="text-4xl sm:text-5xl font-bold text-white tracking-tight">On The Big Screens</h2>
           <p className="text-[#999] mt-3 max-w-xl mx-auto">
             Every Cleveland game and the Buckeyes, on our screens. Updated automatically &mdash; come watch with us.
           </p>

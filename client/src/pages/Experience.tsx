@@ -91,9 +91,6 @@ export default function Experience() {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-[#1a1a1a]" />
         <div className="relative z-10 max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 pb-12 w-full">
-          <span className="font-heading text-sm text-[#E8601C] uppercase tracking-[0.3em] mb-3 block">
-            Step Inside
-          </span>
           <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white tracking-tight">
             The Experience
           </h1>
@@ -105,9 +102,6 @@ export default function Experience() {
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center">
             <div className="fade-up">
-              <span className="font-heading text-sm text-[#E8601C] uppercase tracking-[0.3em] mb-4 block">
-                The Outdoor Bar
-              </span>
               <h2 className="text-4xl sm:text-5xl font-bold text-[#F5F0EB] mb-6 leading-[1.05] tracking-tight">
                 The Buck Naked Bar
               </h2>
@@ -139,9 +133,6 @@ export default function Experience() {
         <div className="relative z-10 max-w-[1400px] mx-auto px-0 sm:px-6 lg:px-8 py-12 sm:py-20">
           {/* Section header */}
           <div className="text-center mb-8 sm:mb-12 px-4 fade-up">
-            <span className="font-heading text-sm text-[#E8601C] uppercase tracking-[0.3em] mb-3 block">
-              Take the Tour
-            </span>
             <h2 className="text-3xl sm:text-5xl font-bold text-[#F5F0EB] mb-4 tracking-tight">
               See It for Yourself
             </h2>
@@ -197,9 +188,6 @@ export default function Experience() {
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent" />
         <div className="relative z-10 max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-24">
           <div className="max-w-xl fade-up">
-            <span className="font-heading text-sm text-[#E8601C] uppercase tracking-[0.3em] mb-4 block">
-              The Main Room
-            </span>
             <h2 className="text-4xl sm:text-5xl font-bold text-white mb-6 leading-[1.05] tracking-tight">
               Inside the Pub
             </h2>
@@ -247,14 +235,11 @@ export default function Experience() {
               <SportsGrid />
             </div>
             <div className="order-1 lg:order-2 fade-up">
-              <span className="font-heading text-sm text-[#E8601C] uppercase tracking-[0.3em] mb-4 block">
-                Official Browns Backer Bar
-              </span>
               <h2 className="text-4xl sm:text-5xl font-bold text-[#F5F0EB] mb-6 leading-[1.05] tracking-tight">
                 Game Day at Spunks
               </h2>
               <p className="text-[#999] text-lg leading-relaxed mb-6">
-                When the Browns kick off, the Guardians take the field, or the Buckeyes run out of the tunnel, there's only one place to be. Multiple screens, cold pitchers, and a packed house.
+                As the official Cleveland Browns Backer Bar, we're your home for the game. When the Browns kick off, the Guardians take the field, or the Buckeyes run out of the tunnel, there's only one place to be. Multiple screens, cold pitchers, and a packed house.
               </p>
               <p className="text-[#E8601C] font-heading text-lg uppercase tracking-wider mb-6">
                 Browns · Guardians · Cavs · Buckeyes
@@ -276,9 +261,6 @@ export default function Experience() {
         <div className="absolute inset-0 bg-[#1a1a1a]/40" />
         <div className="relative z-10 max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="fade-up max-w-2xl mx-auto">
-            <span className="font-heading text-sm text-[#E8601C] uppercase tracking-[0.3em] mb-4 block">
-              Always Something Happening
-            </span>
             <h2 className="text-4xl sm:text-5xl font-bold text-[#F5F0EB] mb-6 tracking-tight">
               Live Events
             </h2>

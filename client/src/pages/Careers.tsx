@@ -60,9 +60,6 @@ export default function Careers() {
         </div>
         {/* Text overlay at the bottom, sitting on the dark fade */}
         <div className="relative -mt-24 sm:-mt-28 z-10 text-center px-4 pb-8 sm:pb-12">
-          <span className="font-heading text-sm text-[#E8601C] uppercase tracking-[0.3em] mb-4 block">
-            We're Hiring
-          </span>
           <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white tracking-tight mb-4 drop-shadow-lg">
             Join the Family
           </h1>

@@ -55,9 +55,6 @@ export default function Events() {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-[#1a1a1a]" />
         <div className="relative z-10 max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 pb-12 w-full">
-          <span className="font-heading text-sm text-[#E8601C] uppercase tracking-[0.3em] mb-3 block">
-            What's Happening
-          </span>
           <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white tracking-tight">
             Events
           </h1>
@@ -195,9 +192,6 @@ export default function Events() {
           {/* Reserve for the Game */}
           <div data-narrate="events-reserve" className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12 mb-12 sm:mb-20 fade-up">
             <div className="lg:col-span-2">
-              <span className="font-heading text-sm text-[#E8601C] uppercase tracking-[0.3em] mb-3 block">
-                Big Group? Big Game?
-              </span>
               <h2 className="text-3xl sm:text-4xl font-bold text-[#F5F0EB] mb-4 tracking-tight">
                 Reserve for the Game
               </h2>

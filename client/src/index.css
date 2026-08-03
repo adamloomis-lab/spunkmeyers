@@ -1219,3 +1219,16 @@
 @media (prefers-reduced-motion: reduce) {
   .chat-pop, .chat-msg, .typing-dot { animation: none; }
 }
+
+/* Hero scroll cue: a smooth glide, not Tailwind's tacky bounce. */
+.scroll-hint {
+  animation: scroll-hint 1.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+@keyframes scroll-hint {
+  0% { transform: translateY(0); opacity: 0.35; }
+  45% { transform: translateY(7px); opacity: 1; }
+  90%, 100% { transform: translateY(0); opacity: 0.35; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scroll-hint { animation: none; }
+}
