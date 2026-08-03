@@ -29,6 +29,23 @@ function highlight(anchor?: string) {
 export default function NarrationPlayer({ path }: { readonly path: string }) {
   const page = narration[path];
   const [openPanel, setOpenPanel] = useState(false);
+  // Minimized: collapses the pill to a small headphones dot. Remembered for
+  // the session so it stays out of the way across pages once dismissed.
+  const [minimized, setMinimized] = useState(() => {
+    try {
+      return sessionStorage.getItem("spunk-narrate-min") === "1";
+    } catch {
+      return false;
+    }
+  });
+  const setMin = (v: boolean) => {
+    setMinimized(v);
+    try {
+      sessionStorage.setItem("spunk-narrate-min", v ? "1" : "0");
+    } catch {
+      /* ignore */
+    }
+  };
   const [idx, setIdx] = useState(0);
   const [playing, setPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -129,18 +146,37 @@ export default function NarrationPlayer({ path }: { readonly path: string }) {
 
   return (
     <div className="fixed right-4 top-[92px] z-30 flex flex-col items-end lg:right-8 lg:top-[104px]">
-      {!openPanel ? (
+      {!openPanel && minimized ? (
         <button
           type="button"
-          onClick={() => {
-            setOpenPanel(true);
-            playSection(0);
-          }}
-          className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-[#1a1a1a]/95 py-2.5 pl-3.5 pr-4 font-heading text-[13px] font-semibold uppercase tracking-wide text-[#F5F0EB] shadow-[0_14px_34px_-14px_rgba(0,0,0,0.7)] backdrop-blur transition-all hover:-translate-y-0.5 hover:border-[#E8601C]/50 hover:text-[#E8601C]"
+          onClick={() => setMin(false)}
+          aria-label="Show the page narration button"
+          className="grid h-11 w-11 place-items-center rounded-full border border-white/10 bg-[#1a1a1a]/95 text-[#E8601C] shadow-[0_14px_34px_-14px_rgba(0,0,0,0.7)] backdrop-blur transition-all hover:-translate-y-0.5 hover:border-[#E8601C]/50"
         >
-          <Headphones size={16} className="text-[#E8601C]" />
-          Listen to this page
+          <Headphones size={17} />
         </button>
+      ) : !openPanel ? (
+        <div className="relative">
+          <button
+            type="button"
+            onClick={() => {
+              setOpenPanel(true);
+              playSection(0);
+            }}
+            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-[#1a1a1a]/95 py-2.5 pl-3.5 pr-4 font-heading text-[13px] font-semibold uppercase tracking-wide text-[#F5F0EB] shadow-[0_14px_34px_-14px_rgba(0,0,0,0.7)] backdrop-blur transition-all hover:-translate-y-0.5 hover:border-[#E8601C]/50 hover:text-[#E8601C]"
+          >
+            <Headphones size={16} className="text-[#E8601C]" />
+            Listen to this page
+          </button>
+          <button
+            type="button"
+            onClick={() => setMin(true)}
+            aria-label="Minimize the page narration button"
+            className="absolute -right-1.5 -top-1.5 grid h-6 w-6 place-items-center rounded-full border border-white/15 bg-[#111111] text-[#888] shadow-md transition-colors hover:bg-[#222] hover:text-[#F5F0EB]"
+          >
+            <X size={12} />
+          </button>
+        </div>
       ) : (
         <section
           aria-label="Page narration player"
