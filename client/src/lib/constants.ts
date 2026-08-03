@@ -35,7 +35,7 @@ export const IMAGES = {
   espressoMartini: "https://d2xsxph8kpxj0f.cloudfront.net/310519663307809653/h2sUkzseCcZWErJdcht2p3/espresso-martini_f99587a2.jpg",
   wings: "https://d2xsxph8kpxj0f.cloudfront.net/310519663307809653/h2sUkzseCcZWErJdcht2p3/wings_656d55f5.jpg",
   // Ohio Sports
-  guardians: "https://d2xsxph8kpxj0f.cloudfront.net/310519663307809653/h2sUkzseCcZWErJdcht2p3/guardians_17037edf.jpg",
+  guardians: "/guardians-field.jpg",
   cavs: "https://d2xsxph8kpxj0f.cloudfront.net/310519663307809653/h2sUkzseCcZWErJdcht2p3/cavs_b070ada7.webp",
   osu: "https://d2xsxph8kpxj0f.cloudfront.net/310519663307809653/h2sUkzseCcZWErJdcht2p3/osu_08323699.webp",
   browns: "https://d2xsxph8kpxj0f.cloudfront.net/310519663307809653/h2sUkzseCcZWErJdcht2p3/browns_e27a91c3.webp",
@@ -45,7 +45,7 @@ export const IMAGES = {
   brownsPlayer95: "https://d2xsxph8kpxj0f.cloudfront.net/310519663307809653/h2sUkzseCcZWErJdcht2p3/browns-player-95_491bcd85.jpeg",
   brownsBackers: "https://d2xsxph8kpxj0f.cloudfront.net/310519663307809653/h2sUkzseCcZWErJdcht2p3/browns-backers_854907a1.webp",
   // Cleveland Guardians assets
-  guardiansField: "https://d2xsxph8kpxj0f.cloudfront.net/310519663307809653/h2sUkzseCcZWErJdcht2p3/Guardians_9ccdcf5c.jpg",
+  guardiansField: "/guardians-field.jpg",
   guardiansPlayer: "https://d2xsxph8kpxj0f.cloudfront.net/310519663307809653/h2sUkzseCcZWErJdcht2p3/imagn-27161804_fa0b8eed.webp",
   // Drink specials
   millerLiteCan: "https://d2xsxph8kpxj0f.cloudfront.net/310519663307809653/h2sUkzseCcZWErJdcht2p3/miller-lite-can_6dcedf2b.webp",

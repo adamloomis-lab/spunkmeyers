@@ -89,6 +89,11 @@
   * {
     @apply border-border outline-ring/50;
   }
+  /* Mobile hard rule: nothing may widen the page. clip (not hidden) so no
+     scroll container is created and position: sticky keeps working. */
+  html {
+    overflow-x: clip;
+  }
   body {
     @apply bg-background text-foreground;
     font-family: 'Source Sans 3', sans-serif;

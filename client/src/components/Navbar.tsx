@@ -43,7 +43,7 @@ export default function Navbar() {
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-[70] transition-all duration-300 ${
           scrolled
             ? "bg-[#111111]/95 backdrop-blur-md shadow-lg shadow-black/30"
             : "bg-transparent"
@@ -111,15 +111,15 @@ export default function Navbar() {
 
       {/* Mobile Menu: dimmed overlay + full-height slide-in panel */}
       <div
-        className={`fixed inset-0 z-40 bg-black/60 transition-opacity duration-300 lg:hidden ${
+        className={`fixed inset-0 z-[60] bg-black/60 transition-opacity duration-300 lg:hidden ${
           mobileOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         }`}
         onClick={() => setMobileOpen(false)}
         aria-hidden="true"
       />
       <div
-        className={`fixed top-0 right-0 bottom-0 z-40 w-full max-w-sm bg-[#111111] border-l border-white/10 shadow-2xl shadow-black/60 transition-transform duration-400 ease-[cubic-bezier(0.22,1,0.36,1)] lg:hidden flex flex-col ${
-          mobileOpen ? "translate-x-0" : "translate-x-full"
+        className={`fixed top-0 right-0 bottom-0 z-[60] w-full max-w-sm bg-[#111111] border-l border-white/10 shadow-2xl shadow-black/60 transition-[transform,visibility] duration-400 ease-[cubic-bezier(0.22,1,0.36,1)] lg:hidden flex flex-col ${
+          mobileOpen ? "translate-x-0 visible" : "translate-x-full invisible"
         }`}
         role="dialog"
         aria-modal="true"

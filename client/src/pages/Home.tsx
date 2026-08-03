@@ -679,32 +679,42 @@ function GuardiansScheduleAccordion() {
 
 function GuardiansSection() {
   return (
-    <section className="relative overflow-hidden">
-      {/* Background: Progressive Field with dark overlay */}
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(${IMAGES.guardiansField})` }}
-      />
-      <div className="absolute inset-0 bg-gradient-to-b from-[#0a1628]/93 via-[#0a1020]/90 to-[#1a1a1a]" />
+    <section className="relative overflow-hidden bg-[#0d1420]">
+      {/* Red accent line at top */}
+      <div className="absolute top-0 left-0 right-0 h-1 z-20 bg-gradient-to-r from-transparent via-red-600 to-transparent" />
 
-      {/* Navy/red accent line at top */}
-      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-red-600 to-transparent" />
+      {/* Progressive Field at dusk: shown, not buried. The photo owns the top
+          of the section and melts into the content below. */}
+      <div className="relative">
+        <div
+          className="h-[46vh] sm:h-[56vh] lg:h-[64vh] bg-cover bg-[center_38%]"
+          style={{ backgroundImage: `url(${IMAGES.guardiansField})` }}
+          role="img"
+          aria-label="Progressive Field at dusk, packed for a Cleveland Guardians game"
+        />
+        {/* Legibility scrims: gentle at the top, solid only where text sits */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0d1420]/35 via-transparent to-[#0d1420]" />
+        <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-[#0d1420] to-transparent" />
 
-      <div className="relative z-10 max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
-        {/* Header */}
-        <div className="fade-up text-center mb-10 sm:mb-14">
-          {/* Guardians C logo via SVG */}
-          <div className="w-20 h-20 sm:w-24 sm:h-24 mx-auto mb-6 rounded-full bg-red-600 flex items-center justify-center shadow-2xl shadow-red-900/40">
-            <span className="font-heading text-4xl sm:text-5xl text-white font-bold">C</span>
+        {/* Header rides the lower edge of the photo */}
+        <div className="absolute inset-x-0 bottom-0 z-10 pb-6 sm:pb-10">
+          <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div className="fade-up">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-5 rounded-full bg-red-600 flex items-center justify-center shadow-[0_18px_40px_-12px_rgba(153,27,27,0.7)]">
+                <span className="font-heading text-3xl sm:text-4xl text-white font-bold">C</span>
+              </div>
+              <h2 className="font-heading text-4xl sm:text-5xl lg:text-6xl text-white uppercase tracking-tight mb-3 [text-shadow:0_2px_24px_rgba(0,0,0,0.6)]">
+                Cleveland Guardians
+              </h2>
+              <p className="text-white/85 text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed [text-shadow:0_1px_12px_rgba(0,0,0,0.7)]">
+                Catch every pitch at Spunkmeyers. Cold beer, hot food, and every Guardians game on our screens.
+              </p>
+            </div>
           </div>
-          <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl text-white uppercase tracking-tight mb-4">
-            Cleveland Guardians
-          </h2>
-          <p className="text-white/70 text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed">
-            Catch every pitch at Spunkmeyers. Cold beer, hot food, and every Guardians game on our screens.
-          </p>
         </div>
+      </div>
 
+      <div className="relative z-10 max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-14 pb-12 sm:pb-20 bg-gradient-to-b from-[#0d1420] to-[#1a1a1a]">
         {/* Two-column: Player photo + Schedule info */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center mb-10 sm:mb-14">
           {/* Player photo */}
