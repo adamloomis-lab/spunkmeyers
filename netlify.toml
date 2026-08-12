@@ -39,7 +39,8 @@
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(self), geolocation=(), payment=()"
-    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://d2xsxph8kpxj0f.cloudfront.net https://a.espncdn.com; media-src 'self' https://d2xsxph8kpxj0f.cloudfront.net; frame-src https://www.google.com; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests"
+    # umami + credit.js arrive via Netlify snippet injection (ALM Hub), not the repo.
+    Content-Security-Policy = "default-src 'self'; script-src 'self' https://umami-production-8669.up.railway.app https://adamloomismarketing.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://d2xsxph8kpxj0f.cloudfront.net https://a.espncdn.com; media-src 'self' https://d2xsxph8kpxj0f.cloudfront.net; frame-src https://www.google.com; connect-src 'self' https://umami-production-8669.up.railway.app; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests"
 
 # Hashed build assets never change; cache them hard.
 [[headers]]
