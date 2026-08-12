@@ -183,15 +183,15 @@ function ContactForm() {
       </p>
       <div>
         <label className="block text-[#F5F0EB] text-sm font-medium mb-2">Name</label>
-        <input type="text" name="name" required className="form-input" placeholder="Your name" />
+        <input type="text" name="name" required autoComplete="name" className="form-input" placeholder="Your name" />
       </div>
       <div>
         <label className="block text-[#F5F0EB] text-sm font-medium mb-2">Email</label>
-        <input type="email" name="email" required className="form-input" placeholder="your@email.com" />
+        <input type="email" name="email" required autoComplete="email" className="form-input" placeholder="your@email.com" />
       </div>
       <div>
         <label className="block text-[#F5F0EB] text-sm font-medium mb-2">Phone</label>
-        <input type="tel" name="phone" className="form-input" placeholder="(330) 555-1234" />
+        <input type="tel" name="phone" autoComplete="tel" className="form-input" placeholder="(330) 555-1234" />
       </div>
       <div>
         <label className="block text-[#F5F0EB] text-sm font-medium mb-2">Message</label>

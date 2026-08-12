@@ -69,11 +69,11 @@ export default function ReserveForm() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         <div>
           <label className="block text-[#F5F0EB] text-sm font-medium mb-2">Name *</label>
-          <input type="text" name="name" required className="form-input" placeholder="Your name" />
+          <input type="text" name="name" required autoComplete="name" className="form-input" placeholder="Your name" />
         </div>
         <div>
           <label className="block text-[#F5F0EB] text-sm font-medium mb-2">Phone *</label>
-          <input type="tel" name="phone" required className="form-input" placeholder="(330) 555-1234" />
+          <input type="tel" name="phone" required autoComplete="tel" className="form-input" placeholder="(330) 555-1234" />
         </div>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">

@@ -245,18 +245,18 @@ function ApplicationForm() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
           <div>
             <label className="block text-[#F5F0EB] text-sm font-medium mb-2">Full Name *</label>
-            <input type="text" name="fullName" required className="form-input" placeholder="Your full name" />
+            <input type="text" name="fullName" required autoComplete="name" className="form-input" placeholder="Your full name" />
           </div>
           <div>
             <label className="block text-[#F5F0EB] text-sm font-medium mb-2">Email Address *</label>
-            <input type="email" name="email" required className="form-input" placeholder="your@email.com" />
+            <input type="email" name="email" required autoComplete="email" className="form-input" placeholder="your@email.com" />
           </div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
           <div>
             <label className="block text-[#F5F0EB] text-sm font-medium mb-2">Phone Number *</label>
-            <input type="tel" name="phone" required className="form-input" placeholder="(330) 555-1234" />
+            <input type="tel" name="phone" required autoComplete="tel" className="form-input" placeholder="(330) 555-1234" />
           </div>
           <div>
             <label className="block text-[#F5F0EB] text-sm font-medium mb-2">Position Applying For</label>
