@@ -77,7 +77,7 @@ export default function Experience() {
         title="The Experience | Spunkmeyers Pub & Grill - Buck Naked Bar, Game Day, Live Events"
         description="Explore Spunkmeyers Pub & Grill in Wadsworth, OH. The Buck Naked outdoor bar, bingo nights, live music, Ohio sports on every screen, and the best patio in town. Official Browns Backer Bar."
         path="/experience"
-        ogImage="https://d2xsxph8kpxj0f.cloudfront.net/310519663307809653/h2sUkzseCcZWErJdcht2p3/488745002_1173083834716231_4189979829948856344_n_e8e7f678.jpg"
+        ogImage="https://spunkmeyers.pub/img/patio-colorful.jpg"
         jsonLd={breadcrumbSchema([
           { name: "Home", url: "https://spunkmeyers.pub/" },
           { name: "Experience", url: "https://spunkmeyers.pub/experience" }

@@ -299,7 +299,7 @@ export default function Menu() {
         title="Menu | Spunkmeyers Pub & Grill - Summer Menu, Smash Burgers, Wings"
         description="Menu at Spunkmeyers Pub & Grill in Wadsworth, OH. Our limited-time Summer Menu plus smash burgers, bone-in wings, loaded fries, wraps, salads, and 18 beers on tap. Cooked to order, made fresh daily."
         path="/menu"
-        ogImage="https://d2xsxph8kpxj0f.cloudfront.net/310519663307809653/h2sUkzseCcZWErJdcht2p3/wings_656d55f5.jpg"
+        ogImage="https://spunkmeyers.pub/img/wings.jpg"
         jsonLd={menuSchema}
       />
       {/* Hero */}

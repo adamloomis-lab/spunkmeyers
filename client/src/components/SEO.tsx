@@ -15,7 +15,7 @@ interface SEOProps {
 }
 
 const SITE_URL = "https://spunkmeyers.pub";
-const DEFAULT_OG_IMAGE = "https://d2xsxph8kpxj0f.cloudfront.net/310519663307809653/h2sUkzseCcZWErJdcht2p3/SPUNKS-1920w_9cbccce4.webp";
+const DEFAULT_OG_IMAGE = "https://spunkmeyers.pub/img/logo.webp";
 
 export default function SEO({ title, description, path, ogImage, ogType = "website", jsonLd, noindex }: SEOProps) {
   const fullUrl = `${SITE_URL}${path}`;
@@ -73,12 +73,12 @@ export const localBusinessSchema = {
   telephone: "+1-330-334-5080",
   email: "",
   image: [
-    "https://d2xsxph8kpxj0f.cloudfront.net/310519663307809653/h2sUkzseCcZWErJdcht2p3/SPUNKS-1920w_9cbccce4.webp",
-    "https://d2xsxph8kpxj0f.cloudfront.net/310519663307809653/h2sUkzseCcZWErJdcht2p3/488745002_1173083834716231_4189979829948856344_n_e8e7f678.jpg",
-    "https://d2xsxph8kpxj0f.cloudfront.net/310519663307809653/h2sUkzseCcZWErJdcht2p3/489455792_1173083864716228_1455366668806752534_n_7eab823c.jpg",
-    "https://d2xsxph8kpxj0f.cloudfront.net/310519663307809653/h2sUkzseCcZWErJdcht2p3/505866671_1225941609430453_2401601335831511267_n_b7359eac.jpg"
+    "https://spunkmeyers.pub/img/logo.webp",
+    "https://spunkmeyers.pub/img/patio-colorful.jpg",
+    "https://spunkmeyers.pub/img/bar-interior.jpg",
+    "https://spunkmeyers.pub/img/storefront.jpg"
   ],
-  logo: "https://d2xsxph8kpxj0f.cloudfront.net/310519663307809653/h2sUkzseCcZWErJdcht2p3/SPUNKS-1920w_9cbccce4.webp",
+  logo: "https://spunkmeyers.pub/img/logo.webp",
   address: {
     "@type": "PostalAddress",
     streetAddress: "993 High St",

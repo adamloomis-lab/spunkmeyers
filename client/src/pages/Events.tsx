@@ -40,7 +40,7 @@ export default function Events() {
         title="Events | Spunkmeyers Pub & Grill - Bingo, Live Music, Game Day in Wadsworth"
         description="Upcoming events at Spunkmeyers Pub & Grill in Wadsworth, OH. Weekly bingo nights, live music, game day watch parties, and seasonal events. Follow us on Facebook for the latest."
         path="/events"
-        ogImage="https://d2xsxph8kpxj0f.cloudfront.net/310519663307809653/h2sUkzseCcZWErJdcht2p3/491686385_1179562424068372_2438442177184449531_n_a3a3b568.jpg"
+        ogImage="https://spunkmeyers.pub/img/bingo-xmas.jpg"
         jsonLd={breadcrumbSchema([
           { name: "Home", url: "https://spunkmeyers.pub/" },
           { name: "Events", url: "https://spunkmeyers.pub/events" }

@@ -792,16 +792,7 @@ function GuardiansSection() {
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-yellow-400/5 to-transparent group-hover:via-yellow-400/10 transition-all duration-700" />
               
               <div className="relative flex items-center gap-5 sm:gap-8 px-5 sm:px-8 py-5">
-                {/* Miller Lite Can - tilted with glow */}
-                <div className="flex-shrink-0 relative">
-                  <div className="absolute inset-0 bg-yellow-400/20 blur-2xl rounded-full scale-150 group-hover:bg-yellow-400/30 transition-all duration-500" />
-                  <img
-                    src={IMAGES.millerLiteCan}
-                    alt="Miller Lite 16oz can"
-                    className="relative w-16 sm:w-20 h-auto drop-shadow-[0_4px_20px_rgba(250,204,21,0.3)] -rotate-6 group-hover:-rotate-3 transition-transform duration-500"
-                  />
-                </div>
-                
+
                 {/* Promo text */}
                 <div className="flex-1 min-w-0">
                   <p className="font-heading text-[10px] sm:text-xs uppercase tracking-[0.25em] text-yellow-400/80 mb-1">Game Day Special</p>
@@ -854,11 +845,6 @@ function BrownsBackerBar() {
       <div className="relative z-10 max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
         {/* Header with Backers logo */}
         <div className="fade-up text-center mb-10 sm:mb-14">
-          <img
-            src={IMAGES.brownsBackers}
-            alt="Cleveland Browns Backers Worldwide"
-            className="w-40 sm:w-52 mx-auto mb-6 drop-shadow-2xl"
-          />
           <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl text-white uppercase tracking-tight mb-4">
             Official Cleveland Browns Backer Bar
           </h2>
@@ -871,16 +857,16 @@ function BrownsBackerBar() {
         <div className="fade-up flex justify-center gap-4 sm:gap-8 mb-10 sm:mb-14" style={{ transitionDelay: "100ms" }}>
           <div className="w-32 h-44 sm:w-48 sm:h-64 rounded-lg overflow-hidden border-2 border-[#E8601C]/30 shadow-xl shadow-black/40 -rotate-2 hover:rotate-0 transition-transform duration-500">
             <img
-              src={IMAGES.brownsPlayer3}
-              alt="Browns player #3"
-              className="w-full h-full object-cover object-top"
+              src={IMAGES.storefrontDawgs}
+              alt="Spunkmeyers storefront with the Dawgs Gotta Eat bone and Browns Backers banner"
+              className="w-full h-full object-cover object-center"
             />
           </div>
           <div className="w-32 h-44 sm:w-48 sm:h-64 rounded-lg overflow-hidden border-2 border-[#E8601C]/30 shadow-xl shadow-black/40 rotate-1 hover:rotate-0 transition-transform duration-500 mt-4">
             <img
-              src={IMAGES.brownsPlayer95}
-              alt="Browns player #95"
-              className="w-full h-full object-cover object-top"
+              src={IMAGES.tailgateBus}
+              alt="Tailgate bus parked under the Spunkmeyers Pub sign on game day"
+              className="w-full h-full object-cover object-center"
             />
           </div>
         </div>
@@ -910,7 +896,7 @@ export default function Home() {
         title="Spunkmeyers Pub & Grill | Wadsworth, OH - Cold Beer, Hot Food, Best Patio"
         description="Wadsworth's favorite pub. 18 beers on tap, smash burgers, wings, the Buck Naked outdoor bar, and every big game on screen. Official Browns Backer Bar. 993 High St, Wadsworth, OH."
         path="/"
-        ogImage="https://d2xsxph8kpxj0f.cloudfront.net/310519663307809653/h2sUkzseCcZWErJdcht2p3/489455792_1173083864716228_1455366668806752534_n_7eab823c.jpg"
+        ogImage="https://spunkmeyers.pub/img/bar-interior.jpg"
         jsonLd={localBusinessSchema}
       />
       {/* ===== HERO - VIDEO BACKGROUND ===== */}

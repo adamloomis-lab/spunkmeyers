@@ -18,7 +18,7 @@ export default function Contact() {
         title="Contact | Spunkmeyers Pub & Grill - Hours, Location, Directions"
         description="Contact Spunkmeyers Pub & Grill at 993 High St, Wadsworth, OH 44281. Call (330) 334-5080. Open daily for lunch and dinner. View hours, get directions, or send us a message."
         path="/contact"
-        ogImage="https://d2xsxph8kpxj0f.cloudfront.net/310519663307809653/h2sUkzseCcZWErJdcht2p3/505866671_1225941609430453_2401601335831511267_n_b7359eac.jpg"
+        ogImage="https://spunkmeyers.pub/img/storefront.jpg"
         jsonLd={breadcrumbSchema([
           { name: "Home", url: "https://spunkmeyers.pub/" },
           { name: "Contact", url: "https://spunkmeyers.pub/contact" }

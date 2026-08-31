@@ -40,7 +40,7 @@ export default function Careers() {
         title="Careers | Spunkmeyers Pub & Grill - Now Hiring in Wadsworth, OH"
         description="Join the Spunkmeyers Pub & Grill team in Wadsworth, OH. Now hiring bartenders, servers, and kitchen staff. Apply online today."
         path="/careers"
-        ogImage="https://d2xsxph8kpxj0f.cloudfront.net/310519663307809653/h2sUkzseCcZWErJdcht2p3/unnamed(8)_ddd8bb98.webp"
+        ogImage="https://spunkmeyers.pub/img/staff-duo.webp"
         jsonLd={breadcrumbSchema([
           { name: "Home", url: "https://spunkmeyers.pub/" },
           { name: "Careers", url: "https://spunkmeyers.pub/careers" }
