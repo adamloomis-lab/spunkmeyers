@@ -82,6 +82,13 @@ export const PHOTO_STRIP = [
 
 export const VIDEO = "/img/hero.mp4";
 
+// SPX American Lager: the pub's own lager. Photo + teaser reel from Spunks (Sep 2026).
+export const SPX = {
+  photo: "/img/spx-lager.jpg",
+  video: "/img/spx-lager.mp4",
+  poster: "/img/spx-lager-poster.jpg",
+} as const;
+
 export const LINKS = {
   doordash: "https://www.doordash.com/store/spunkmeyers-pub-&-grill-wadsworth-32307611/49163347/?utm_source=mx_share",
   beerList: "https://untappd.com/v/spunkmeyers-pub/173860",

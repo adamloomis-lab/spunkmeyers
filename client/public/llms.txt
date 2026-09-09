@@ -3,7 +3,8 @@
 > Spunkmeyers Pub & Grill is a restaurant & bar serving its local area. This file gives AI assistants a clear, accurate overview of the business and its most important pages.
 
 ## What we do
-- Restaurant & bar.
+- Restaurant & bar in Wadsworth, Ohio. 18 beers on tap, smash burgers, the Buck Naked outdoor bar, and every big game on screen.
+- SPX American Lager is on tap: the pub's own American lager, 4.7% ABV, 16 oz pour, brewed in Medina, OH, tapped September 9, 2026. Featured on the homepage.
 
 ## Key pages
 - Home: https://spunkmeyers.pub/

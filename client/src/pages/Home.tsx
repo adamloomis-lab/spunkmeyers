@@ -4,10 +4,10 @@
  * All photos are client-provided originals only
  */
 import { useEffect, useRef, useState, useCallback } from "react";
-import { IMAGES, VIDEO, LINKS, BUSINESS, SPORTS_IMAGES, FOOD_IMAGES, PHOTO_STRIP, getCurrentDayName } from "@/lib/constants";
+import { IMAGES, VIDEO, SPX, LINKS, BUSINESS, SPORTS_IMAGES, FOOD_IMAGES, PHOTO_STRIP, getCurrentDayName } from "@/lib/constants";
 
 import { Link } from "wouter";
-import { Beer, Flame, Sun, Calendar, ChevronLeft, ChevronRight, Star, ChevronDown } from "lucide-react";
+import { Beer, Flame, Sun, Calendar, ChevronLeft, ChevronRight, Star, ChevronDown, Volume2, VolumeX } from "lucide-react";
 import SEO, { localBusinessSchema } from "@/components/SEO";
 import BigScreens from "@/components/BigScreens";
 import RadioSpot from "@/components/RadioSpot";
@@ -118,6 +118,127 @@ function FoodShowcase() {
         ))}
       </div>
     </div>
+  );
+}
+
+/* SPX American Lager: the pub's own lager. Photo of the pour at the bar plus
+   the teaser reel Spunks cut for it. Reel autoplays muted; the button unmutes.
+   Facts come from the launch poster on the wall at Spunks (4.7% ABV, 16 oz,
+   brewed in Medina OH, tapped Sept 9 2026, launch night $10 glass / $5 refills). */
+const SPX_LAUNCH_END = new Date("2026-09-09T23:59:59-04:00").getTime();
+
+function SpxLager() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [muted, setMuted] = useState(true);
+  const launchNight = Date.now() <= SPX_LAUNCH_END;
+
+  const toggleSound = () => {
+    const v = videoRef.current;
+    if (!v) return;
+    v.muted = !v.muted;
+    setMuted(v.muted);
+    if (v.paused) v.play().catch(() => {});
+  };
+
+  return (
+    <section aria-labelledby="spx-heading" className="relative bg-[#111111] overflow-hidden border-b border-[#E8601C]/15">
+      <div
+        aria-hidden="true"
+        className="absolute -top-32 left-1/2 -translate-x-1/2 w-[80vw] h-[80vw] max-w-[900px] max-h-[900px] rounded-full bg-[#E8601C]/10 blur-3xl pointer-events-none"
+      />
+
+      <div className="relative z-10 max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20 lg:py-24">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+          {/* Copy */}
+          <div className="lg:col-span-5 text-center lg:text-left fade-up">
+            <h2
+              id="spx-heading"
+              className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-[1.05] tracking-tight mb-5"
+            >
+              SPX<br />American Lager.
+            </h2>
+            <p className="text-lg sm:text-xl text-[#F5F0EB]/80 leading-relaxed mb-6">
+              Spunks' own American lager, brewed in Medina and {launchNight ? "tapped" : "on tap since"} September 9.
+              Your new favorite beer. Pull up a stool and ask for an SPX.
+            </p>
+            <dl className="flex flex-wrap justify-center lg:justify-start gap-x-8 gap-y-3 mb-6">
+              {[
+                { label: "ABV", value: "4.7%" },
+                { label: "Pour", value: "16 oz" },
+                { label: "Brewed in", value: "Medina, OH" },
+              ].map((f) => (
+                <div key={f.label} className="text-center lg:text-left">
+                  <dt className="font-heading text-xs uppercase tracking-[0.2em] text-[#999]">{f.label}</dt>
+                  <dd className="font-heading text-2xl sm:text-3xl text-white">{f.value}</dd>
+                </div>
+              ))}
+            </dl>
+            {launchNight && (
+              <p className="inline-block border border-[#E8601C]/40 bg-[#E8601C]/10 text-[#F5F0EB] px-4 py-3 mb-8 text-base sm:text-lg leading-snug">
+                Launch night, Wednesday, September 9: <span className="text-[#E8601C] font-heading uppercase tracking-wide">$10 keeps the glass, $5 refills all night.</span>
+              </p>
+            )}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+              <a
+                href={LINKS.beerList}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-premium"
+              >
+                See the Tap List
+              </a>
+              <a href={LINKS.directions} target="_blank" rel="noopener noreferrer" className="btn-ghost">
+                Get Directions
+              </a>
+            </div>
+          </div>
+
+          {/* Photo + reel, both portrait so they read as a pair */}
+          <div className="lg:col-span-7">
+            <div className="grid grid-cols-2 gap-3 sm:gap-5 max-w-[640px] mx-auto lg:max-w-none">
+              <figure className="fade-scale relative aspect-[9/16] rounded-xl overflow-hidden border border-[#E8601C]/30 shadow-2xl shadow-black/50 lg:-rotate-1 hover:rotate-0 transition-transform duration-500">
+                <img
+                  src={SPX.photo}
+                  alt="A pint of SPX American Lager on the bar at Spunkmeyers, foam over the rim, TVs glowing behind it"
+                  className="absolute inset-0 w-full h-full object-cover"
+                  width={1050}
+                  height={1400}
+                />
+                <div className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-black/60 to-transparent" />
+              </figure>
+
+              <div
+                className="fade-scale relative aspect-[9/16] rounded-xl overflow-hidden border border-[#E8601C]/30 shadow-2xl shadow-black/50 bg-black lg:rotate-1 hover:rotate-0 transition-transform duration-500 lg:mt-8"
+                style={{ transitionDelay: "120ms" }}
+              >
+                <video
+                  ref={videoRef}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                  poster={SPX.poster}
+                  className="absolute inset-0 w-full h-full object-cover"
+                  aria-label="SPX American Lager teaser: are you ready for your new favorite beer"
+                >
+                  <source src={SPX.video} type="video/mp4" />
+                </video>
+                <button
+                  type="button"
+                  onClick={toggleSound}
+                  aria-pressed={!muted}
+                  aria-label={muted ? "Turn sound on" : "Turn sound off"}
+                  className="absolute bottom-3 right-3 z-10 w-11 h-11 rounded-full bg-black/60 backdrop-blur border border-white/20 text-white flex items-center justify-center hover:bg-[#E8601C] hover:border-[#E8601C] transition-colors duration-300"
+                >
+                  {muted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -939,6 +1060,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* ===== SPX AMERICAN LAGER ===== */}
+      <SpxLager />
 
       {/* ===== QUICK INFO STRIP ===== */}
       <section className="relative overflow-hidden">

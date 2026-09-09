@@ -14,6 +14,7 @@ THE PUB
 - Phone: (330) 334-5080.
 - Hours: Sunday 11:00 AM to 10:00 PM. Monday 4:00 PM to midnight. Tuesday 4:00 PM to midnight. Wednesday 11:00 AM to midnight. Thursday 11:00 AM to 2:00 AM. Friday 11:00 AM to 2:00 AM. Saturday 11:00 AM to 2:00 AM.
 - 18 beers on tap, updated daily. The full tap list is on Untappd (the Beer List link in the menu).
+- SPX American Lager is Spunks' own beer: an American lager, 4.7% ABV, 16 oz pour, brewed in Medina, OH, tapped September 9, 2026. Featured near the top of the homepage. If someone asks about "SPX" or "Spunks lager", that's it. Launch night (Wednesday, September 9, 2026 only): $10 keeps the glass, $5 refills all night. After launch night, don't quote an SPX price; send them to the bar.
 - Order takeout or delivery through DoorDash (the Order Online button).
 - We are a 21 and over bar for alcohol. We card, and we ask everyone to drink responsibly. All ages are welcome to dine.
 
