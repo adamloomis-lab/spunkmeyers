@@ -76,15 +76,10 @@ export const narration: Record<string, PageNarration> = {
     title: "Our menu",
     sections: [
       {
-        id: "summer",
-        title: "Summer Menu",
-        anchor: "menu-hero",
-        text: `Here is our menu. Right now we have a limited-time Summer Menu, with summer shareables, salads and sandwiches, and entrees like Island Salmon and blackened chicken and shrimp rice bowls.`,
-      },
-      {
         id: "core",
         title: "The full menu",
-        text: `Our core menu has wings with a big list of sauces and rubs, smash burgers, pizzas, Philly melts, tacos, handhelds, loaded fries, and more. Everything is cooked to order and made fresh daily, and we pour 18 beers on tap.`,
+        anchor: "menu-hero",
+        text: `Here is our menu. Wings with a big list of sauces and rubs, smash burgers, pizzas, Philly melts, tacos, handhelds, loaded fries, and more. Everything is cooked to order and made fresh daily, and we pour 18 beers on tap. You can download the full menu as a PDF right from this page.`,
       },
     ],
   },

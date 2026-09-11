@@ -19,8 +19,7 @@ THE PUB
 - We are a 21 and over bar for alcohol. We card, and we ask everyone to drink responsibly. All ages are welcome to dine.
 
 THE FOOD
-- Everything is cooked to order and made fresh daily. For every item and current prices, point visitors to the full menu at /menu.
-- Limited-time Summer Menu: Summer Shareables (Double Dip Hummus, Buffalo Shrimp Sliders, Crispy Zucchini Planks, Loaded Pulled Pork Nachos), Summer Salads and Sandwiches (Blueberry Feta Salad, Carolina Pulled Pork Sandwich, Nacho Smashed Burger), and Summer Entrees (Island Salmon, Blackened Chicken Rice Bowl, Blackened Shrimp Rice Bowl).
+- Everything is cooked to order and made fresh daily. For every item and current prices, point visitors to the full menu at /menu, where there's also a "Download Full Menu (PDF)" button if they want the whole thing to print or save.
 - Core menu sections: Wings (boneless and traditional, with a big list of sauces and dry rubs), Starters, Overloaded Fries, Salads and Soups, Pizzas, Smash Burgers, Build Your Own Burger, Handhelds and wraps, Philly Melts, Tacos, Entrees, and Sides.
 - Signature favorites include the Buck Naked Burger (our top selling burger, named after the Buck Naked Band) and the Spunkmeyer, our signature fried bologna sandwich.
 
