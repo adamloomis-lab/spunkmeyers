@@ -31,7 +31,7 @@ const spokenTime = (h: string) =>
     .replace(/\s*-\s*/, " to ");
 
 const hoursSpoken = `Our hours: ${BUSINESS.hours
-  .map((h) => `${h.day}, ${spokenTime(h.hours)}`)
+  .map(h => `${h.day}, ${spokenTime(h.hours)}`)
   .join(". ")}.`;
 
 const addressSpoken = BUSINESS.address; // "993 High St, Wadsworth, OH 44281" (tts.mjs expands St and OH)
@@ -79,7 +79,7 @@ export const narration: Record<string, PageNarration> = {
         id: "core",
         title: "The full menu",
         anchor: "menu-hero",
-        text: `Here is our menu. Wings with a big list of sauces and rubs, smash burgers, pizzas, Philly melts, tacos, handhelds, loaded fries, and more. Everything is cooked to order and made fresh daily, and we pour 18 beers on tap. You can download the full menu as a PDF right from this page.`,
+        text: `Here is our menu. Wings with a big list of sauces and rubs, smash burgers, pizzas, Philly melts, tacos, handhelds, loaded fries, and more. Everything is cooked to order and made fresh daily, and we pour 18 beers on tap. You can view the actual printed menu right on this page, or download it as a PDF.`,
       },
     ],
   },
