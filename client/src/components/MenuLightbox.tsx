@@ -3,8 +3,15 @@
  * Spunkmeyers menu. Keyboard (arrows + Escape), backdrop click, and a
  * focus trap so it meets the site's WCAG 2.1 AA bar.
  */
-import { useEffect, useRef } from "react";
-import { X, ChevronLeft, ChevronRight, Download } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import {
+  X,
+  ChevronLeft,
+  ChevronRight,
+  Download,
+  ZoomIn,
+  ZoomOut,
+} from "lucide-react";
 
 export interface MenuPage {
   src: string;
@@ -29,10 +36,37 @@ export default function MenuLightbox({
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeBtnRef = useRef<HTMLButtonElement>(null);
   const lastFocused = useRef<HTMLElement | null>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  // Fit-to-screen is unreadable for an 11x17 menu, so zoomed mode blows the
+  // page up past the viewport and lets the container scroll to pan.
+  const [zoomed, setZoomed] = useState(false);
+  // Mirror of `zoomed` for the keydown listener, which is bound per page and
+  // would otherwise close over a stale value.
+  const zoomedRef = useRef(false);
+  useEffect(() => {
+    zoomedRef.current = zoomed;
+  }, [zoomed]);
 
   const go = (delta: number) => {
     onIndexChange((index + delta + pages.length) % pages.length);
   };
+
+  const toggleZoom = () => {
+    setZoomed((z) => {
+      if (!z) {
+        // Land in the middle of the page rather than the top-left corner.
+        requestAnimationFrame(() => {
+          const el = scrollRef.current;
+          if (el) el.scrollLeft = (el.scrollWidth - el.clientWidth) / 2;
+        });
+      }
+      return !z;
+    });
+  };
+
+  useEffect(() => {
+    setZoomed(false);
+  }, [index]);
 
   useEffect(() => {
     lastFocused.current = document.activeElement as HTMLElement | null;
@@ -41,14 +75,17 @@ export default function MenuLightbox({
     document.body.style.overflow = "hidden";
 
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-      else if (e.key === "ArrowRight") go(1);
-      else if (e.key === "ArrowLeft") go(-1);
+      if (e.key === "Escape") {
+        if (zoomedRef.current) setZoomed(false);
+        else onClose();
+      }
+      // While zoomed the arrows belong to the scroll container, for panning.
+      else if (e.key === "ArrowRight" && !zoomedRef.current) go(1);
+      else if (e.key === "ArrowLeft" && !zoomedRef.current) go(-1);
       else if (e.key === "Tab") {
         // Simple focus trap: the dialog only has a few focusable children.
-        const focusables = dialogRef.current?.querySelectorAll<HTMLElement>(
-          'button, a[href]'
-        );
+        const focusables =
+          dialogRef.current?.querySelectorAll<HTMLElement>("button, a[href]");
         if (!focusables || focusables.length === 0) return;
         const first = focusables[0];
         const last = focusables[focusables.length - 1];
@@ -77,9 +114,9 @@ export default function MenuLightbox({
       className="fixed inset-0 z-[100] bg-black/95 flex flex-col"
       role="dialog"
       aria-modal="true"
-      aria-label={`${page.alt}, page ${index + 1} of ${pages.length}`}
+      aria-label={`Spunkmeyers menu, page ${index + 1} of ${pages.length}`}
       ref={dialogRef}
-      onClick={(e) => {
+      onClick={e => {
         if (e.target === e.currentTarget) onClose();
       }}
     >
@@ -88,6 +125,21 @@ export default function MenuLightbox({
           Page {index + 1} of {pages.length}
         </span>
         <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={toggleZoom}
+            aria-pressed={zoomed}
+            className="inline-flex items-center gap-2 text-white/80 hover:text-[#E8601C] text-sm font-heading uppercase tracking-wider px-3 py-2 transition-colors"
+          >
+            {zoomed ? (
+              <ZoomOut className="w-4 h-4" />
+            ) : (
+              <ZoomIn className="w-4 h-4" />
+            )}
+            <span className="hidden sm:inline">
+              {zoomed ? "Fit to screen" : "Zoom in"}
+            </span>
+          </button>
           <a
             href={downloadHref}
             download
@@ -108,31 +160,52 @@ export default function MenuLightbox({
         </div>
       </div>
 
-      <div className="relative flex-1 flex items-center justify-center px-2 sm:px-16 pb-4 min-h-0">
-        {pages.length > 1 && (
-          <button
-            type="button"
-            onClick={() => go(-1)}
-            aria-label="Previous page"
-            className="absolute left-1 sm:left-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-black/50 border border-white/20 flex items-center justify-center text-white hover:bg-[#E8601C] hover:border-[#E8601C] transition-colors"
-          >
-            <ChevronLeft className="w-6 h-6" />
-          </button>
+      <div className="relative flex-1 min-h-0">
+        <div
+          ref={scrollRef}
+          className={
+            zoomed
+              ? "absolute inset-0 overflow-auto overscroll-contain px-2 pb-4"
+              : "absolute inset-0 flex items-center justify-center px-2 sm:px-16 pb-4"
+          }
+        >
+          <img
+            src={page.src}
+            alt={page.alt}
+            onClick={toggleZoom}
+            className={
+              zoomed
+                ? "w-[1600px] max-w-none mx-auto shadow-2xl cursor-zoom-out"
+                : "max-h-full max-w-full object-contain shadow-2xl cursor-zoom-in"
+            }
+          />
+        </div>
+
+        {pages.length > 1 && !zoomed && (
+          <>
+            <button
+              type="button"
+              onClick={() => go(-1)}
+              aria-label="Previous page"
+              className="absolute left-1 sm:left-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-black/50 border border-white/20 flex items-center justify-center text-white hover:bg-[#E8601C] hover:border-[#E8601C] transition-colors"
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </button>
+            <button
+              type="button"
+              onClick={() => go(1)}
+              aria-label="Next page"
+              className="absolute right-1 sm:right-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-black/50 border border-white/20 flex items-center justify-center text-white hover:bg-[#E8601C] hover:border-[#E8601C] transition-colors"
+            >
+              <ChevronRight className="w-6 h-6" />
+            </button>
+          </>
         )}
-        <img
-          src={page.src}
-          alt={page.alt}
-          className="max-h-full max-w-full object-contain shadow-2xl"
-        />
-        {pages.length > 1 && (
-          <button
-            type="button"
-            onClick={() => go(1)}
-            aria-label="Next page"
-            className="absolute right-1 sm:right-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-black/50 border border-white/20 flex items-center justify-center text-white hover:bg-[#E8601C] hover:border-[#E8601C] transition-colors"
-          >
-            <ChevronRight className="w-6 h-6" />
-          </button>
+
+        {!zoomed && (
+          <span className="pointer-events-none absolute bottom-2 left-1/2 -translate-x-1/2 text-white/45 text-xs font-heading uppercase tracking-[0.2em]">
+            Click the menu to zoom in
+          </span>
         )}
       </div>
 

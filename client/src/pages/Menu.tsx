@@ -14,10 +14,19 @@ import MenuLightbox, { type MenuPage } from "@/components/MenuLightbox";
 // web.
 const MENU_PDF = "/menu/spunkmeyers-menu.pdf";
 const MENU_PAGES: MenuPage[] = [
-  { src: "/img/menu-page-1.jpg", alt: "Spunkmeyers Pub & Grill menu, page 1 of 2: wings, sauces, starters, overloaded fries, salads and soups" },
-  { src: "/img/menu-page-2.jpg", alt: "Spunkmeyers Pub & Grill menu, page 2 of 2: pizzas, smash burgers, build your own, handhelds, Philly melts, tacos, entrees" },
+  {
+    src: "/img/menu-page-1.jpg",
+    alt: "Spunkmeyers Pub & Grill menu, page 1 of 2: wings, sauces, starters, overloaded fries, salads and soups",
+  },
+  {
+    src: "/img/menu-page-2.jpg",
+    alt: "Spunkmeyers Pub & Grill menu, page 2 of 2: pizzas, smash burgers, build your own, handhelds, Philly melts, tacos, entrees",
+  },
 ];
-const MENU_THUMBS = ["/img/menu-page-1-thumb.jpg", "/img/menu-page-2-thumb.jpg"];
+const MENU_SPREADS = [
+  "/img/menu-page-1-spread.jpg",
+  "/img/menu-page-2-spread.jpg",
+];
 
 interface MenuItem {
   name: string;
@@ -600,49 +609,67 @@ export default function Menu() {
       </section>
 
       {/* ===== THE ACTUAL PRINTED MENU: view or download it as-is ===== */}
-      <section className="bg-[#111111] border-b border-[#E8601C]/15 py-10 sm:py-14">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-6">
-            <div>
-              <h2 className="font-heading text-2xl sm:text-3xl text-[#F5F0EB]">
-                See the Menu As We Print It
-              </h2>
-              <p className="text-[#999] text-sm mt-1">
-                Tap a page to view it full-screen, or grab the PDF.
-              </p>
-            </div>
+      <section className="relative bg-[#111111] border-b border-[#E8601C]/15 py-14 sm:py-20 overflow-hidden">
+        {/* Warm glow behind the spread, same treatment as the SPX band on Home */}
+        <div
+          aria-hidden="true"
+          className="absolute -top-24 left-1/2 -translate-x-1/2 w-[85vw] h-[55vw] max-w-[1100px] max-h-[700px] rounded-full bg-[#E8601C]/10 blur-3xl pointer-events-none"
+        />
+
+        <div className="relative z-10 max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-14">
+            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-[1.05]">
+              The Menu, As We Print It
+            </h2>
+            <p className="text-[#F5F0EB]/70 text-lg mt-4 leading-relaxed">
+              Both sides of the real thing. Click a page to read it full-screen,
+              or take the PDF with you.
+            </p>
             <a
               href={MENU_PDF}
               download
-              className="btn-ghost inline-flex items-center justify-center gap-2 text-sm py-3 px-6 whitespace-nowrap self-start sm:self-auto"
+              className="btn-premium inline-flex items-center justify-center gap-2 mt-7"
             >
               <Download className="w-4 h-4" />
-              Download Full Menu (PDF)
+              Download the Menu (PDF)
             </a>
           </div>
 
-          <div className="grid grid-cols-2 gap-3 sm:gap-5 max-w-xl">
+          {/* An open menu laid on the table: two pages meeting at a center fold */}
+          <div className="relative mx-auto w-full max-w-[1150px] grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-0 shadow-[0_40px_90px_-25px_rgba(0,0,0,0.9)]">
             {MENU_PAGES.map((page, i) => (
               <button
                 key={page.src}
                 type="button"
                 onClick={() => setLightboxIndex(i)}
-                className="group relative aspect-[792/1224] overflow-hidden border border-white/10 hover:border-[#E8601C]/50 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#E8601C]"
+                aria-label={`View page ${i + 1} of the menu full-screen`}
+                className="group relative block aspect-[792/1224] overflow-hidden ring-1 ring-white/10 hover:ring-[#E8601C]/60 transition duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#E8601C]"
               >
                 <img
-                  src={MENU_THUMBS[i]}
+                  src={MENU_SPREADS[i]}
                   alt={page.alt}
                   loading="lazy"
-                  className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                  width={1200}
+                  height={1855}
+                  className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]"
                 />
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-300 flex items-center justify-center">
-                  <Expand className="w-7 h-7 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/45 transition-colors duration-300 flex flex-col items-center justify-center gap-3">
+                  <Expand className="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <span className="font-heading text-sm uppercase tracking-[0.2em] text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    Read Page {i + 1}
+                  </span>
                 </div>
-                <span className="absolute bottom-2 right-2 bg-black/70 text-white text-[10px] font-heading uppercase tracking-wider px-2 py-1 rounded-sm">
+                <span className="sm:hidden absolute bottom-3 right-3 bg-black/70 text-white text-[10px] font-heading uppercase tracking-wider px-2 py-1">
                   Page {i + 1}
                 </span>
               </button>
             ))}
+
+            {/* Center fold: sells the open-menu illusion on desktop only */}
+            <div
+              aria-hidden="true"
+              className="hidden sm:block absolute inset-y-0 left-1/2 w-20 -translate-x-1/2 pointer-events-none bg-gradient-to-r from-transparent via-black/50 to-transparent"
+            />
           </div>
         </div>
       </section>
