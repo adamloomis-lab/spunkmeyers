@@ -619,11 +619,10 @@ export default function Menu() {
         <div className="relative z-10 max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-14">
             <h2 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-[1.05]">
-              The Menu, As We Print It
+              Our Menu Here
             </h2>
             <p className="text-[#F5F0EB]/70 text-lg mt-4 leading-relaxed">
-              Both sides of the real thing. Click a page to read it full-screen,
-              or take the PDF with you.
+              Click a page to read it full-screen, or take the PDF with you.
             </p>
             <a
               href={MENU_PDF}

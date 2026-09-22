@@ -19,7 +19,7 @@ THE PUB
 - We are a 21 and over bar for alcohol. We card, and we ask everyone to drink responsibly. All ages are welcome to dine.
 
 THE FOOD
-- Everything is cooked to order and made fresh daily. For every item and current prices, point visitors to the full menu at /menu. That page also shows the actual printed menu as two page images (tap to view full-screen) and has a "Download Full Menu (PDF)" button for the real thing.
+- Everything is cooked to order and made fresh daily. For every item and current prices, point visitors to the full menu at /menu. That page shows both menu pages (tap either one to read it full-screen) and has a "Download Full Menu (PDF)" button.
 - Core menu sections: Wings (boneless and traditional, with a big list of sauces and dry rubs), Starters, Overloaded Fries, Salads and Soups, Pizzas, Smash Burgers, Build Your Own Burger, Handhelds and wraps, Philly Melts, Tacos, Entrees, and Sides.
 - Signature favorites include the Buck Naked Burger (our top selling burger, named after the Buck Naked Band) and the Spunkmeyer, our signature fried bologna sandwich.
 

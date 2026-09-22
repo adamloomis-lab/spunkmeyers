@@ -79,7 +79,7 @@ export const narration: Record<string, PageNarration> = {
         id: "core",
         title: "The full menu",
         anchor: "menu-hero",
-        text: `Here is our menu. Wings with a big list of sauces and rubs, smash burgers, pizzas, Philly melts, tacos, handhelds, loaded fries, and more. Everything is cooked to order and made fresh daily, and we pour 18 beers on tap. You can view the actual printed menu right on this page, or download it as a PDF.`,
+        text: `Here is our menu. Wings with a big list of sauces and rubs, smash burgers, pizzas, Philly melts, tacos, handhelds, loaded fries, and more. Everything is cooked to order and made fresh daily, and we pour 18 beers on tap. Tap either page to read it full screen, or take the menu with you as a PDF.`,
       },
     ],
   },
