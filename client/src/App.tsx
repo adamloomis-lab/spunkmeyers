@@ -55,7 +55,9 @@ function Router() {
 }
 
 function App() {
-  const [location] = useLocation();
+  const [rawLocation] = useLocation();
+  // Tolerate a trailing slash (shared links, old redirects) on the full-screen routes.
+  const location = rawLocation.length > 1 ? rawLocation.replace(/\/+$/, "") : rawLocation;
   // The /tv board is a full-screen kiosk — no site chrome.
   const isKiosk = location === "/tv";
 

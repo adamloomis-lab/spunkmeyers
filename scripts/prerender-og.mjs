@@ -3,13 +3,14 @@
  *
  * Facebook, iMessage, Slack, and friends read the static HTML and never run
  * the React app, so every shared link used to show the site's generic card.
- * After `vite build`, this writes dist/public/<route>/index.html for each
- * route below: a copy of the built index.html with that page's title,
+ * After `vite build`, this writes dist/public/<route>.html for each route
+ * below: a copy of the built index.html with that page's title,
  * description, canonical URL, and Open Graph / Twitter image swapped in.
- * Netlify serves the file at /<route> before the SPA fallback kicks in, and
- * the React app boots from it exactly as it would from index.html.
+ * netlify.toml rewrites /<route> to that file (a flat file, not a folder
+ * index, so Netlify doesn't bounce the URL to a trailing slash), and the
+ * React app boots from it exactly as it would from index.html.
  */
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { readFileSync, rmSync, writeFileSync } from "node:fs";
 import path from "node:path";
 
 const SITE = "https://spunkmeyers.pub";
@@ -62,8 +63,7 @@ for (const p of PAGES) {
   html = setTag(html, /<meta name="twitter:title" content="[^"]*" \/>/, `<meta name="twitter:title" content="${esc(p.title)}" />`);
   html = setTag(html, /<meta name="twitter:description" content="[^"]*" \/>/, `<meta name="twitter:description" content="${esc(p.description)}" />`);
   html = setTag(html, /<meta name="twitter:image" content="[^"]*" \/>/, `<meta name="twitter:image" content="${image}" />`);
-  const dir = path.join(dist, p.route);
-  mkdirSync(dir, { recursive: true });
-  writeFileSync(path.join(dir, "index.html"), html);
-  console.log(`prerender-og: wrote /${p.route}/index.html`);
+  rmSync(path.join(dist, p.route), { recursive: true, force: true }); // stale folder index from an older build
+  writeFileSync(path.join(dist, `${p.route}.html`), html);
+  console.log(`prerender-og: wrote /${p.route}.html`);
 }

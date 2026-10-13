@@ -30,6 +30,24 @@
   to = "/.netlify/functions/stack-scores"
   status = 200
 
+# Arcade pages get their own pre-rendered HTML (social share tags baked in
+# by scripts/prerender-og.mjs). Flat files, rewritten here, so the URL stays
+# /stack rather than bouncing to /stack/.
+[[redirects]]
+  from = "/pub-crawl"
+  to = "/pub-crawl.html"
+  status = 200
+
+[[redirects]]
+  from = "/stack"
+  to = "/stack.html"
+  status = 200
+
+[[redirects]]
+  from = "/games"
+  to = "/games.html"
+  status = 200
+
 # SPA fallback: serve index.html for client-side routes
 [[redirects]]
   from = "/*"
