@@ -51,7 +51,7 @@ const CRASH_LINES: Record<string, string[]> = {
   "DJ Brian": ["Brian cut the music. Everybody's looking at you.", "Needle scratch. DJ Brian is not amused.", "You unplugged Brian's table mid-set."],
   Arene: ["Arene saw it coming. Sang right through it.", "You took out the lead vocals. Show's over.", "Arene's not sharing the mic after that."],
   Chris: ["Chris's solo was going so well.", "You broke a string. And Chris.", "Chris plays pedal steel. You play the pavement."],
-  "your own drum kit": ["Crash cymbal. Literally.", "That's your own kit, Kevin.", "You wiped out your own drums. The band noticed."],
+  Jeff: ["Crash cymbal. Literally.", "You wiped out Jeff and the whole kit.", "Jeff kept the beat. You didn't."],
   Dave: ["Dropped the bass. And Dave.", "The low end just got lower. Sorry, Dave.", "Dave was holding it down. You took it down."],
   Bob: ["That was a lot of keys to run into.", "Bob just played every note at once.", "Bob learned piano in Zimbabwe. He did not learn to dodge."],
   "a bar stool": ["Stools: still undefeated.", "Somebody left that stool out on purpose."],

@@ -199,7 +199,7 @@ const OB_DEFS: ObDef[] = [
   { kind: "brian", minScore: 120, weight: 2, person: true, label: "DJ BRIAN", cause: "DJ Brian", inset: { l: 2, t: 1, r: 2, b: 0 } },
   { kind: "singer", minScore: 160, weight: 2, person: true, label: "ARENE", cause: "Arene", inset: { l: 2, t: 1, r: 2, b: 0 } },
   { kind: "guitar", minScore: 200, weight: 2, person: true, label: "CHRIS", cause: "Chris", inset: { l: 2, t: 1, r: 2, b: 0 } },
-  { kind: "drums", minScore: 240, weight: 2, label: "KEVIN'S KIT", cause: "your own drum kit", inset: { l: 3, t: 1, r: 3, b: 0 } },
+  { kind: "drums", minScore: 240, weight: 2, person: true, label: "JEFF", cause: "Jeff", inset: { l: 3, t: 1, r: 3, b: 0 } },
   { kind: "bass", minScore: 280, weight: 2, person: true, label: "DAVE", cause: "Dave", inset: { l: 2, t: 1, r: 2, b: 0 } },
   { kind: "keys", minScore: 320, weight: 2, person: true, label: "BOB", cause: "Bob", inset: { l: 2, t: 1, r: 2, b: 0 } },
   { kind: "goose", minScore: 420, weight: 2.2, cause: "a goose", inset: { l: 3, t: 5, r: 3, b: 5 } },
@@ -999,6 +999,10 @@ export class PubCrawl {
       const lanes = [14, 32, 46];
       const lane = lanes[Math.floor(Math.random() * lanes.length)];
       y = this.groundY - lane - sprites[0].h + 5;
+    } else if (def.kind === "drums") {
+      sprites = [this.obs.drumsA, this.obs.drumsB];
+      frameRate = 4;
+      y = this.groundY - sprites[0].h;
     } else {
       const sp = this.obs[def.kind];
       sprites = [sp];

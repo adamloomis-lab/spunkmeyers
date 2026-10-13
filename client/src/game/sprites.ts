@@ -293,19 +293,54 @@ const BASS = [
   "...DDDD..DDDD.",
 ];
 
-// Kevin's drum kit, nobody behind it (Kevin is busy running): cymbals,
-// snare, floor tom, and the kick with the orange X.
-const DRUMS = [
-  "GGGGGGG..........GGGGGGG",
-  "...g.....KWWWWWWK....g..",
-  "...g....KWWWWWWWWK...g..",
-  "...g....KWWXWWXWWK...g..",
-  "...g....KWWWXXWWWK...g..",
-  "..ggg...KWWWXXWWWK..ggg.",
-  "........KWWXWWXWWK......",
-  "........KWWWWWWWWK......",
-  ".........KWWWWWWK.......",
-  "..........KKKKKK........",
+// Jeff, drums: behind the kit. Two frames: sticks up, sticks down.
+const DRUMS_A = [
+  "..........KKKK..........",
+  ".........KKKKKK.........",
+  ".........TTTTTT.........",
+  ".........TKTTTT.........",
+  "........tTTTTTT.........",
+  ".........TTTTTT.........",
+  "..K.......TTTT.....K....",
+  "...K...XXXXXXXX...K.....",
+  "....K.XXXXXXXXXX.K......",
+  ".....TXXXXXXXXXXT.......",
+  "......XXXXXXXXXX........",
+  "GGGGGGG..XXXXXX..GGGGGGG",
+  "GGGGGGG.KWWWWWWK.GGGGGGG",
+  ".G.G.G.KWWWWWWWWK.G.G.G.",
+  ".G.G.G.KWWXWWXWWK.G.G.G.",
+  ".......KWWWXXWWWK.......",
+  ".......KWWWXXWWWK.......",
+  ".......KWWXWWXWWK.......",
+  ".......KWWWWWWWWK.......",
+  "........KWWWWWWK........",
+  ".........KKKKKK.........",
+  "...MM....MMMMMM....MM...",
+];
+
+const DRUMS_B = [
+  "..........KKKK..........",
+  ".........KKKKKK.........",
+  ".........TTTTTT.........",
+  ".........TKTTTT.........",
+  "........tTTTTTT.........",
+  ".........TTTTTT.........",
+  "..........TTTT..........",
+  ".......XXXXXXXX.........",
+  "......XXXXXXXXXX........",
+  ".....TXXXXXXXXXXT.......",
+  "....K.XXXXXXXXXX.K......",
+  "GGGKGGG..XXXXXX..GGGKGGG",
+  "GGGGGGG.KWWWWWWK.GGGGGGG",
+  ".G.G.G.KWWWWWWWWK.G.G.G.",
+  ".G.G.G.KWWXWWXWWK.G.G.G.",
+  ".......KWWWXXWWWK.......",
+  ".......KWWWXXWWWK.......",
+  ".......KWWXWWXWWK.......",
+  ".......KWWWWWWWWK.......",
+  "........KWWWWWWK........",
+  ".........KKKKKK.........",
   "...MM....MMMMMM....MM...",
 ];
 
@@ -541,7 +576,8 @@ export interface ObstacleSprites {
   singer: Sprite;
   guitar: Sprite;
   bass: Sprite;
-  drums: Sprite;
+  drumsA: Sprite;
+  drumsB: Sprite;
   keys: Sprite;
   brian: Sprite;
   peyton: Sprite;
@@ -565,7 +601,8 @@ export function buildObstacles(): ObstacleSprites {
     singer: makeSprite(SINGER),
     guitar: makeSprite(GUITAR),
     bass: makeSprite(BASS),
-    drums: makeSprite(DRUMS),
+    drumsA: makeSprite(DRUMS_A),
+    drumsB: makeSprite(DRUMS_B),
     keys: makeSprite(KEYS),
     brian: makeSprite(BRIAN),
     peyton: makeSprite(PEYTON),
