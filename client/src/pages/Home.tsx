@@ -1178,7 +1178,7 @@ export default function Home() {
               </h2>
               <p className="mt-4 text-lg text-[#F5F0EB]/80 max-w-xl leading-relaxed">
                 Kevin's on the run down High Street. Tap right to jump, hold left to slide. Hop Arene, Chris, and Bob from the band, DJ Brian,
-                Peyton, Mick, and Luke, dodge the burgers and wings, grab an SPX, and get your initials on the pub leaderboard.
+                Peyton, Mick, Luke, and DJ, dodge the burgers and wings, grab an SPX, and get your initials on the pub leaderboard.
               </p>
               <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
                 <Link href="/pub-crawl" className="btn-premium">

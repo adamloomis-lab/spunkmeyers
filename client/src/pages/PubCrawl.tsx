@@ -47,6 +47,7 @@ const CRASH_LINES: Record<string, string[]> = {
   Peyton: ["Peyton's cutting you off.", "You ran over the bartender. Good luck getting served.", "Peyton saw that. Tab's closed."],
   Mick: ["Mick's been on that stool all night. He wasn't moving.", "You bumped Mick. Buy him one.", "Mick didn't even spill his beer."],
   Luke: ["Luke had a pitcher. Had.", "Luke says you owe him a refill.", "You took out Luke and the pitcher. Rough."],
+  DJ: ["DJ's a regular, not the DJ. Still counts.", "You bumped DJ. He'll tell Brian.", "DJ didn't move. DJ never moves."],
   "DJ Brian": ["Brian cut the music. Everybody's looking at you.", "Needle scratch. DJ Brian is not amused.", "You unplugged Brian's table mid-set."],
   Arene: ["Arene saw it coming. Sang right through it.", "You took out the lead vocals. Show's over.", "Arene's not sharing the mic after that."],
   Chris: ["Chris's solo was going so well.", "You broke a string. And Chris.", "Chris plays pedal steel. You play the pavement."],

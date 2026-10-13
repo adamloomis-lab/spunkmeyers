@@ -442,6 +442,33 @@ const LUKE = [
   "....DDDD..DDDD",
 ];
 
+// DJ, the other regular (not to be confused with DJ Brian): beanie,
+// green hoodie, beer in hand.
+const DJ_REGULAR = [
+  ".....gggggg...",
+  "....gggggggg..",
+  "....GGGGGGGG..",
+  "....TTTTTT....",
+  "....TKTTTT....",
+  "...tTTTTTT....",
+  "....TTTTTT....",
+  ".....TTTT.....",
+  "...EEEEEEEE...",
+  "..EEEEEEEEEE..",
+  "..EEEEEEEEEET.",
+  "..TEEEEEEEEWW.",
+  "..T.EEEEEEEhh.",
+  "....EEEEEEEhh.",
+  "....EEEEEEEE..",
+  "....uuuuuuuu..",
+  "....uuuuuuuu..",
+  "....uuu..uuu..",
+  "....uuu..uuu..",
+  "....uuu..uuu..",
+  "....uuu..uuu..",
+  "...KKKK..KKKK.",
+];
+
 /* ---------------- Goose (flies left) ---------------- */
 
 const GOOSE_A = [
@@ -520,6 +547,7 @@ export interface ObstacleSprites {
   peyton: Sprite;
   mick: Sprite;
   luke: Sprite;
+  dj: Sprite;
   gooseA: Sprite;
   gooseB: Sprite;
   footballA: Sprite;
@@ -543,6 +571,7 @@ export function buildObstacles(): ObstacleSprites {
     peyton: makeSprite(PEYTON),
     mick: makeSprite(MICK),
     luke: makeSprite(LUKE),
+    dj: makeSprite(DJ_REGULAR),
     // The goose art is drawn facing right; it flies toward Kevin, so flip it.
     gooseA: flipSprite(makeSprite(GOOSE_A)),
     gooseB: flipSprite(makeSprite(GOOSE_B)),

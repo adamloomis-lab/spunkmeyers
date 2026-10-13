@@ -162,6 +162,7 @@ type ObKind =
   | "peyton"
   | "mick"
   | "luke"
+  | "dj"
   | "brian"
   | "singer"
   | "guitar"
@@ -194,6 +195,7 @@ const OB_DEFS: ObDef[] = [
   { kind: "peyton", minScore: 40, weight: 2, person: true, label: "PEYTON", cause: "Peyton", inset: { l: 2, t: 1, r: 2, b: 0 } },
   { kind: "mick", minScore: 60, weight: 2, person: true, label: "MICK", cause: "Mick", inset: { l: 2, t: 1, r: 2, b: 0 } },
   { kind: "luke", minScore: 90, weight: 2, person: true, label: "LUKE", cause: "Luke", inset: { l: 2, t: 1, r: 2, b: 0 } },
+  { kind: "dj", minScore: 110, weight: 2, person: true, label: "DJ", cause: "DJ", inset: { l: 2, t: 1, r: 2, b: 0 } },
   { kind: "brian", minScore: 120, weight: 2, person: true, label: "DJ BRIAN", cause: "DJ Brian", inset: { l: 2, t: 1, r: 2, b: 0 } },
   { kind: "singer", minScore: 160, weight: 2, person: true, label: "ARENE", cause: "Arene", inset: { l: 2, t: 1, r: 2, b: 0 } },
   { kind: "guitar", minScore: 200, weight: 2, person: true, label: "CHRIS", cause: "Chris", inset: { l: 2, t: 1, r: 2, b: 0 } },
