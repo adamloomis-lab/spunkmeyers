@@ -2,11 +2,13 @@ import { useCallback, useEffect, useState } from "react";
 import { Link } from "wouter";
 import { X } from "lucide-react";
 import PixelArt from "@/components/PixelArt";
+import StackArt from "@/components/StackArt";
 
 /**
- * Home page pop-up for Spunks Pub Crawl. Slides in a couple of seconds
- * after the page loads, once per day per browser, and gets out of the way
- * with a tap anywhere outside, the X, Escape, or "Maybe later".
+ * Home page pop-up for the Spunks Arcade. Slides in a couple of seconds
+ * after the page loads, once per day per browser, offers both games, and
+ * gets out of the way with a tap anywhere outside, the X, Escape, or
+ * "Maybe later".
  */
 const KEY = "spc-popup-seen";
 const SHOW_AFTER_MS = 2500;
@@ -48,6 +50,8 @@ export default function PubCrawlPopup() {
 
   if (!open) return null;
 
+  const tile = "group block rounded-xl overflow-hidden border border-white/10 hover:border-[#E8601C] transition-colors text-left";
+
   return (
     <div
       className="fixed inset-0 z-[80] flex items-end sm:items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
@@ -57,7 +61,7 @@ export default function PubCrawlPopup() {
       onClick={close}
     >
       <div
-        className="relative w-full max-w-md bg-[#111111] border border-white/10 ring-4 ring-[#E8601C]/50 rounded-2xl shadow-2xl shadow-black/60 p-6 sm:p-8 text-center crawl-pop"
+        className="relative w-full max-w-lg bg-[#111111] border border-white/10 ring-4 ring-[#E8601C]/50 rounded-2xl shadow-2xl shadow-black/60 p-6 sm:p-8 text-center crawl-pop"
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -69,35 +73,48 @@ export default function PubCrawlPopup() {
           <X className="w-5 h-5" />
         </button>
 
-        <div className="flex justify-center items-end gap-3 bg-[#F5F0EB] rounded-xl px-4 pt-5 pb-3 mb-5">
-          <PixelArt name="jump" scale={4} className="block" />
-          <PixelArt name="burger" scale={3} className="block" />
-          <PixelArt name="peyton" scale={3} className="block" />
-        </div>
-
-        <div className="font-heading text-xs font-semibold uppercase tracking-[0.35em] text-[#E8601C]">New · Free to play</div>
+        <div className="font-heading text-xs font-semibold uppercase tracking-[0.35em] text-[#E8601C]">New · Free to play · No app</div>
         <h2 id="spc-popup-title" className="mt-2 text-4xl sm:text-5xl font-bold text-white leading-[1.05] tracking-tight">
-          Spunks <span className="text-[#E8601C]">Pub Crawl</span>
+          Spunks <span className="text-[#E8601C]">Arcade</span>
         </h2>
-        <p className="mt-3 text-[#F5F0EB]/80 text-base leading-relaxed">
-          Kevin's on the run down High Street. Jump the band, dodge the burgers and wings, and put your initials on the pub leaderboard.
-        </p>
+        <p className="mt-2 text-[#F5F0EB]/75 text-sm sm:text-base leading-relaxed">Two games on your phone. Top scores go up on the bar TVs.</p>
 
-        <div className="mt-6 flex flex-col gap-3">
-          <Link href="/pub-crawl" onClick={close} className="btn-premium btn-premium-pulse w-full justify-center">
-            Play Now
+        <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <Link href="/pub-crawl" onClick={close} className={tile}>
+            <div className="bg-[#F5F0EB] flex items-end justify-center gap-2 px-3 pt-4 pb-2 h-28">
+              <PixelArt name="jump" scale={3} className="block" />
+              <PixelArt name="burger" scale={2} className="block" />
+              <PixelArt name="peyton" scale={2} className="block" />
+            </div>
+            <div className="p-3 bg-black">
+              <div className="font-heading text-lg font-bold uppercase text-white leading-tight">
+                Pub <span className="text-[#E8601C]">Crawl</span>
+              </div>
+              <div className="text-xs text-[#999] mt-0.5">Kevin runs. Jump the band, grab an SPX.</div>
+              <div className="mt-2 font-heading text-xs font-semibold uppercase tracking-widest text-[#E8601C] group-hover:text-[#F07A3A]">Play →</div>
+            </div>
           </Link>
-          <Link href="/stack" onClick={close} className="font-heading text-sm font-semibold uppercase tracking-widest text-[#F5F0EB]/80 hover:text-[#E8601C] py-1 transition-colors">
-            Or play Spunks Stack →
+          <Link href="/stack" onClick={close} className={tile}>
+            <div className="bg-black border-b border-white/10 flex items-end justify-center px-3 pt-4 pb-2 h-28">
+              <StackArt scale={2} className="block" />
+            </div>
+            <div className="p-3 bg-black">
+              <div className="font-heading text-lg font-bold uppercase text-white leading-tight">
+                Spunks <span className="text-[#E8601C]">Stack</span>
+              </div>
+              <div className="text-xs text-[#999] mt-0.5">Old-school falling blocks. Outlast last call.</div>
+              <div className="mt-2 font-heading text-xs font-semibold uppercase tracking-widest text-[#E8601C] group-hover:text-[#F07A3A]">Play →</div>
+            </div>
           </Link>
-          <button
-            type="button"
-            onClick={close}
-            className="font-heading text-sm font-semibold uppercase tracking-widest text-[#999] hover:text-[#F5F0EB] py-1 transition-colors"
-          >
-            Maybe later
-          </button>
         </div>
+
+        <button
+          type="button"
+          onClick={close}
+          className="mt-4 font-heading text-sm font-semibold uppercase tracking-widest text-[#999] hover:text-[#F5F0EB] py-1 transition-colors"
+        >
+          Maybe later
+        </button>
       </div>
     </div>
   );

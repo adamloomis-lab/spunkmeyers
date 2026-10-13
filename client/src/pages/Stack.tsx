@@ -242,6 +242,11 @@ export default function Stack() {
     engineRef.current?.setSoftDrop(true);
   };
   const softOff = () => engineRef.current?.setSoftDrop(false);
+  const holdOn = (dir: -1 | 1) => (e: ReactPointerEvent) => {
+    e.preventDefault();
+    engineRef.current?.holdMove(dir, true);
+  };
+  const holdOff = (dir: -1 | 1) => () => engineRef.current?.holdMove(dir, false);
 
   const btn =
     "pointer-events-auto inline-flex items-center justify-center min-h-[48px] px-5 rounded-md font-heading font-semibold uppercase text-xl tracking-wide transition active:scale-95";
@@ -291,10 +296,10 @@ export default function Stack() {
       {(state === "playing" || state === "paused") && (
         <div className="absolute inset-x-0 bottom-0 px-3 pointer-events-none" style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))" }}>
           <div className="grid grid-cols-5 gap-2 h-16 font-heading text-2xl">
-            <button type="button" aria-label="Move left" className={pad_} onPointerDown={press(() => engineRef.current?.moveLeft())}>
+            <button type="button" aria-label="Move left (hold to keep moving)" className={pad_} onPointerDown={holdOn(-1)} onPointerUp={holdOff(-1)} onPointerCancel={holdOff(-1)} onPointerLeave={holdOff(-1)}>
               ◀
             </button>
-            <button type="button" aria-label="Move right" className={pad_} onPointerDown={press(() => engineRef.current?.moveRight())}>
+            <button type="button" aria-label="Move right (hold to keep moving)" className={pad_} onPointerDown={holdOn(1)} onPointerUp={holdOff(1)} onPointerCancel={holdOff(1)} onPointerLeave={holdOff(1)}>
               ▶
             </button>
             <button type="button" aria-label="Rotate" className={`${pad_} text-3xl`} onPointerDown={press(() => engineRef.current?.rotate(1))}>
@@ -307,7 +312,7 @@ export default function Stack() {
               ⤓
             </button>
           </div>
-          <div className="mt-1 text-center text-[10px] tracking-[0.25em] text-white/50 font-heading uppercase">Swipe · tap to spin · flick down to drop</div>
+          <div className="mt-1 text-center text-[10px] tracking-[0.25em] text-white/50 font-heading uppercase">Drag the piece · tap to spin · flick down to drop</div>
         </div>
       )}
 
@@ -322,7 +327,7 @@ export default function Stack() {
           </h1>
           <div className="mt-4 font-heading font-semibold text-3xl tracking-[0.25em] text-white animate-pulse">TAP TO PLAY</div>
           <p className="mt-2 text-sm text-white/75 max-w-xs leading-snug">
-            Swipe to move, tap to spin, flick down to drop. Or use the buttons. Clear lines, climb levels, and put your initials on the pub board.
+            Drag the piece where you want it, tap to spin, flick down to drop. Or use the buttons. Clear lines, climb levels, and put your initials on the pub board.
           </p>
           <div className="mt-5 flex gap-3">
             <button type="button" onClick={() => openBoard("today")} className={`${btn} bg-white/10 border border-white/20 text-white`}>

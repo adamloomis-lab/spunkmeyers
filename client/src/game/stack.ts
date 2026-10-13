@@ -43,14 +43,20 @@ export const ROWS = 20;
 const HIDDEN = 2; // spawn rows above the visible well
 export const CELL = 8; // logical px
 const HI_KEY = "ss-hi";
-const LOCK_DELAY = 0.5;
-const MAX_LOCK_RESETS = 10;
+const LOCK_DELAY = 0.8; // a landed piece can still slide for this long
+const SOFT_LOCK_DELAY = 0.25; // ...a bit less while you're pushing down on it
+const MAX_LOCK_RESETS = 15;
 const CLEAR_FLASH = 0.32;
-const DAS = 0.17;
-const ARR = 0.05;
+const DAS = 0.12; // hold left/right: delay before auto-repeat...
+const ARR = 0.04; // ...and the repeat rate
+const SOFT_DROP = 0.06; // seconds per row while soft dropping
 
-/** Seconds per row of gravity, by level (NES frame counts / 60). */
-const GRAVITY = [48, 43, 38, 33, 28, 23, 18, 13, 8, 6, 5, 5, 5, 4, 4, 4, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1].map((f) => f / 60);
+/**
+ * Seconds per row of gravity, by level (frame counts / 60). Gentler than the
+ * NES curve: this is a bar game played with a thumb and a beer, not a
+ * tournament. Level 0 is a full second per row and it ramps slowly.
+ */
+const GRAVITY = [60, 52, 46, 40, 35, 30, 26, 22, 18, 15, 13, 11, 10, 9, 8, 7, 6, 6, 5, 5, 4, 4, 4, 3, 3, 3, 3, 2, 2, 2].map((f) => f / 60);
 const LINE_POINTS = [0, 40, 100, 300, 1200];
 
 const LEVEL_TOASTS: Record<number, string> = {
@@ -99,8 +105,8 @@ const PIECES: PieceDef[] = [
   { name: "L", color: 7, rots: [[[2, 0], [0, 1], [1, 1], [2, 1]], [[1, 0], [1, 1], [1, 2], [2, 2]], [[0, 1], [1, 1], [2, 1], [0, 2]], [[0, 0], [1, 0], [1, 1], [1, 2]]] },
 ];
 
-/** Wall kicks to try, in order, when a rotation doesn't fit. */
-const KICKS: Cell[] = [[0, 0], [-1, 0], [1, 0], [-2, 0], [2, 0], [0, -1], [-1, -1], [1, -1]];
+/** Wall and floor kicks to try, in order, when a rotation doesn't fit. */
+const KICKS: Cell[] = [[0, 0], [-1, 0], [1, 0], [0, -1], [-1, -1], [1, -1], [-2, 0], [2, 0], [0, -2], [-2, -1], [2, -1]];
 
 /** Block colours: base, light edge, dark edge. Pub palette: pints, wings, the Spunks orange T. */
 export const BLOCKS: Array<[string, string, string]> = [
@@ -244,7 +250,9 @@ export class SpunksStack {
   private keys = { left: false, right: false };
   private dasDir = 0;
   private dasT = 0;
-  private gesture: { id: number; x0: number; y0: number; x: number; y: number; t0: number; moved: boolean; vertical: boolean } | null = null;
+  private gesture: { id: number; x0: number; y0: number; col0: number; t0: number; moved: boolean; soft: boolean } | null = null;
+  private dragTarget: number | null = null; // column the finger wants the piece in
+  private dragT = 0;
 
   private raf = 0;
   private lastT = 0;
@@ -369,6 +377,17 @@ export class SpunksStack {
   setSoftDrop(on: boolean) {
     this.softDrop = on;
   }
+  /** Hold a direction (on-screen button): moves once now, then auto-repeats until released. */
+  holdMove(dir: -1 | 1, on: boolean) {
+    if (on) {
+      this.dasDir = dir;
+      this.dasT = 0;
+      if (dir < 0) this.moveLeft();
+      else this.moveRight();
+    } else if (this.dasDir === dir) {
+      this.dasDir = 0;
+    }
+  }
   hardDrop() {
     if (this.state !== "playing" || this.clearing.length || !this.active) return;
     let n = 0;
@@ -423,7 +442,8 @@ export class SpunksStack {
       return;
     }
     if (this.state !== "playing") return;
-    this.gesture = { id: e.pointerId, x0: e.offsetX, y0: e.offsetY, x: e.offsetX, y: e.offsetY, t0: performance.now(), moved: false, vertical: false };
+    this.gesture = { id: e.pointerId, x0: e.offsetX, y0: e.offsetY, col0: this.active?.x ?? 3, t0: performance.now(), moved: false, soft: false };
+    this.dragTarget = null;
     try {
       this.canvas.setPointerCapture(e.pointerId);
     } catch {
@@ -435,28 +455,21 @@ export class SpunksStack {
     const g = this.gesture;
     if (!g || g.id !== e.pointerId || this.state !== "playing") return;
     const cell = this.cellCss();
-    const dx = e.offsetX - g.x;
-    const totalDy = e.offsetY - g.y0;
-    const totalDx = e.offsetX - g.x0;
-    if (!g.vertical && Math.abs(totalDy) > cell * 1.5 && Math.abs(totalDy) > Math.abs(totalDx) * 1.5) {
-      // Dragging down: soft drop while the finger keeps going.
-      g.vertical = true;
+    const dx = e.offsetX - g.x0;
+    const dy = e.offsetY - g.y0;
+    // The piece follows the finger sideways: wherever you drag, that's the
+    // column it heads for (stepping one cell at a time so it can't tunnel).
+    if (Math.abs(dx) > cell * 0.45) {
+      this.dragTarget = g.col0 + Math.round(dx / cell);
       g.moved = true;
     }
-    if (g.vertical) {
-      this.softDrop = e.offsetY - g.y > 0 || totalDy > cell * 1.5;
-      g.y = e.offsetY;
-      return;
-    }
-    // Sideways: one column per cell-width dragged.
-    if (Math.abs(dx) >= cell * 0.9) {
-      const steps = Math.trunc(dx / (cell * 0.9));
-      for (let i = 0; i < Math.abs(steps); i++) {
-        if (steps > 0) this.moveRight();
-        else this.moveLeft();
-      }
-      g.x += steps * cell * 0.9;
+    // Pull down past a couple of cells to soft drop; ease off to stop.
+    if (dy > cell * 2) {
+      g.soft = true;
       g.moved = true;
+      this.softDrop = true;
+    } else if (g.soft && dy < cell) {
+      this.softDrop = false;
     }
   };
 
@@ -464,13 +477,16 @@ export class SpunksStack {
     const g = this.gesture;
     if (!g || g.id !== e.pointerId) return;
     this.gesture = null;
+    // Leave dragTarget alone: a quick flick sideways keeps the piece
+    // travelling to where the finger pointed even after it lifts.
     const dt = performance.now() - g.t0;
-    const totalDy = e.offsetY - g.y0;
+    const dy = e.offsetY - g.y0;
+    const dx = e.offsetX - g.x0;
     const cell = this.cellCss();
-    if (g.vertical) {
-      this.softDrop = false;
-      // A quick flick down is a hard drop.
-      if (dt < 220 && totalDy > cell * 3) this.hardDrop();
+    this.softDrop = false;
+    // A quick flick straight down is a hard drop.
+    if (dt < 250 && dy > cell * 3 && dy > Math.abs(dx) * 1.5) {
+      this.hardDrop();
       return;
     }
     if (!g.moved && dt < 300 && this.state === "playing") this.rotate(1);
@@ -586,6 +602,7 @@ export class SpunksStack {
     this.flashUntil = 0;
     this.aiPlan = null;
     this.gesture = null;
+    this.dragTarget = null;
     this.dasDir = 0;
     if (import.meta.env.DEV) {
       // Local preview only: /stack?level=9 starts at that level.
@@ -607,6 +624,7 @@ export class SpunksStack {
     this.next = this.draw7();
     const a: Active = { def, rot: 0, x: 3, y: 0 };
     this.active = a;
+    this.dragTarget = null;
     this.gravT = 0;
     this.lockT = 0;
     this.lockResets = 0;
@@ -769,19 +787,34 @@ export class SpunksStack {
     if (!this.active) return;
 
     if (this.attract || demo) this.autoPilot(dt);
-    else if (this.dasDir !== 0) {
-      // Held left/right: delayed auto shift like the old consoles.
-      this.dasT += dt;
-      if (this.dasT >= DAS) {
-        this.dasT -= ARR;
-        if (this.dasDir < 0) this.moveLeft();
-        else this.moveRight();
+    else {
+      if (this.dasDir !== 0) {
+        // Held left/right: delayed auto shift like the old consoles.
+        this.dasT += dt;
+        if (this.dasT >= DAS) {
+          this.dasT -= ARR;
+          if (this.dasDir < 0) this.moveLeft();
+          else this.moveRight();
+        }
+      }
+      if (this.dragTarget !== null) {
+        // Finger drag: step toward the wanted column, quickly but one cell at a time.
+        this.dragT += dt;
+        if (this.dragT >= 0.03) {
+          this.dragT = 0;
+          const a = this.active;
+          const before = a.x;
+          if (a.x < this.dragTarget) this.moveRight();
+          else if (a.x > this.dragTarget) this.moveLeft();
+          // Arrived, or blocked by a wall or the stack: stop chasing.
+          if (a.x === this.dragTarget || a.x === before) this.dragTarget = null;
+        }
       }
     }
 
     const level = Math.min(this.level, GRAVITY.length - 1);
     let g = GRAVITY[level];
-    if (this.softDrop) g = Math.min(g, 0.045);
+    if (this.softDrop) g = Math.min(g, SOFT_DROP);
     this.gravT += dt;
     while (this.gravT >= g) {
       this.gravT -= g;
@@ -796,7 +829,7 @@ export class SpunksStack {
     if (this.grounded || !this.fits(this.active.def, this.active.rot, this.active.x, this.active.y + 1)) {
       this.grounded = true;
       this.lockT += dt;
-      if (this.lockT >= LOCK_DELAY || this.softDrop) this.lock();
+      if (this.lockT >= (this.softDrop ? SOFT_LOCK_DELAY : LOCK_DELAY)) this.lock();
     }
   }
 
