@@ -29,6 +29,7 @@ export default function Footer() {
               <Link href="/menu" className="text-[#F5F0EB] hover:text-[#E8601C] transition-colors text-sm">Menu</Link>
               <Link href="/experience" className="text-[#F5F0EB] hover:text-[#E8601C] transition-colors text-sm">Experience</Link>
               <Link href="/events" className="text-[#F5F0EB] hover:text-[#E8601C] transition-colors text-sm">Events</Link>
+              <Link href="/pub-crawl" className="text-[#F5F0EB] hover:text-[#E8601C] transition-colors text-sm">Spunks Pub Crawl</Link>
               <a href={LINKS.beerList} target="_blank" rel="noopener noreferrer" className="text-[#F5F0EB] hover:text-[#E8601C] transition-colors text-sm">Beer List</a>
               <Link href="/contact" className="text-[#F5F0EB] hover:text-[#E8601C] transition-colors text-sm">Contact</Link>
               <Link href="/careers" className="text-[#F5F0EB] hover:text-[#E8601C] transition-colors text-sm">Careers</Link>

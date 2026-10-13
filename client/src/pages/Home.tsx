@@ -11,6 +11,7 @@ import { Beer, Flame, Sun, Calendar, ChevronLeft, ChevronRight, Star, ChevronDow
 import SEO, { localBusinessSchema } from "@/components/SEO";
 import BigScreens from "@/components/BigScreens";
 import RadioSpot from "@/components/RadioSpot";
+import PixelArt from "@/components/PixelArt";
 
 function usePageEffects() {
   const ref = useRef<HTMLDivElement>(null);
@@ -1145,6 +1146,52 @@ export default function Home() {
                 <p className="text-[#999] text-sm leading-relaxed">{item.desc}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ===== SPUNKS PUB CRAWL - THE PHONE GAME ===== */}
+      <section className="relative overflow-hidden bg-black text-white">
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 opacity-[0.07]"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)",
+            backgroundSize: "24px 24px",
+          }}
+        />
+        <div className="relative max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+          <div className="fade-up flex flex-col md:flex-row items-center gap-8 md:gap-12">
+            <Link
+              href="/pub-crawl"
+              className="shrink-0 rounded-2xl bg-[#F5F0EB] p-5 shadow-2xl ring-4 ring-[#E8601C]/60 flex items-end gap-3"
+              aria-label="Play Spunks Pub Crawl"
+            >
+              <PixelArt name="jump" scale={5} className="block" />
+              <PixelArt name="burger" scale={4} className="block" />
+            </Link>
+            <div className="text-center md:text-left">
+              <div className="font-heading text-sm font-semibold uppercase tracking-[0.3em] text-[#E8601C] mb-2">New: play it on your phone</div>
+              <h2 className="text-4xl sm:text-6xl font-bold text-white leading-[1.05] tracking-tight">
+                Spunks <span className="text-[#E8601C]">Pub Crawl</span>
+              </h2>
+              <p className="mt-4 text-lg text-[#F5F0EB]/80 max-w-xl leading-relaxed">
+                Kevin's on the run down High Street. Tap right to jump, hold left to slide. Hop the band, DJ Brian,
+                Peyton, Mick, and Luke, dodge the burgers and wings, grab an SPX, and get your initials on the pub leaderboard.
+              </p>
+              <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
+                <Link href="/pub-crawl" className="btn-premium">
+                  Play Pub Crawl
+                </Link>
+                <a
+                  href="/pub-crawl-sign.html"
+                  className="inline-flex items-center justify-center px-6 py-3 rounded-md font-heading text-sm font-semibold uppercase tracking-widest bg-white/10 text-white border border-white/20 hover:bg-white/20 transition-colors"
+                >
+                  Print the QR sign
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </section>

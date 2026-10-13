@@ -5,7 +5,7 @@
  * sponsor ads) + live weather in the header, an NWS alert banner, and two
  * broadcast-style tickers (sports + events/messages) along the bottom.
  */
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Sun,
   CloudSun,
@@ -19,8 +19,10 @@ import {
   AlertTriangle,
 } from "lucide-react";
 import { IMAGES, LINKS, BUSINESS, getCurrentDayName } from "@/lib/constants";
-import { SLIDES, SLIDE_MS, TICKER_MESSAGES, type Slide } from "@/lib/tvSlides";
+import { SLIDES, TICKER_MESSAGES, slideMs, type Slide } from "@/lib/tvSlides";
 import SEO from "@/components/SEO";
+import PixelArt from "@/components/PixelArt";
+import { PubCrawl as CrawlEngine } from "@/game/engine";
 
 interface Game {
   key: string;
@@ -140,9 +142,9 @@ export default function TV() {
 
   useEffect(() => {
     if (paused || count === 0) return;
-    const t = setTimeout(() => setIndex((i) => (i + 1) % count), SLIDE_MS);
+    const t = setTimeout(() => setIndex((i) => (i + 1) % count), slideMs(slides[index]));
     return () => clearTimeout(t);
-  }, [index, paused, count]);
+  }, [index, paused, count, slides]);
 
   useEffect(() => {
     if (index >= count && count > 0) setIndex(0);
@@ -226,7 +228,7 @@ export default function TV() {
       <div className="tv-progress">
         {slides.map((_, i) => (
           <span key={i} className={`tv-seg ${i === index ? "active" : ""} ${i < index ? "done" : ""}`}>
-            <span className="tv-seg-fill" style={{ animationDuration: `${SLIDE_MS}ms`, animationPlayState: paused ? "paused" : "running" }} />
+            <span className="tv-seg-fill" style={{ animationDuration: `${slideMs(slides[index])}ms`, animationPlayState: paused ? "paused" : "running" }} />
           </span>
         ))}
       </div>
@@ -327,7 +329,144 @@ function SlideView({ slide, games, weather, active }: { slide: Slide; games: Gam
 
     case "games":
       return <GamesSlide games={games} active={active} />;
+
+    case "crawl":
+      return <CrawlSlide active={active} />;
   }
+}
+
+interface CrawlEntry {
+  name: string;
+  score: number;
+  date: string;
+}
+interface CrawlBoard {
+  all: CrawlEntry[];
+  today: CrawlEntry[];
+  day: string;
+}
+
+/** Live Spunks Pub Crawl demo strip: Kevin plays himself along the bottom of the slide. */
+function CrawlDemo() {
+  const ref = useRef<HTMLCanvasElement>(null);
+  useEffect(() => {
+    const canvas = ref.current;
+    if (!canvas) return;
+    const engine = new CrawlEngine(canvas, { onState: () => {}, onScore: () => {}, onGameOver: () => {}, onToast: () => {} }, { attract: true });
+    engine.attach();
+    return () => engine.destroy();
+  }, []);
+  return <canvas ref={ref} className="block w-full h-full" aria-hidden="true" />;
+}
+
+/** Spunks Pub Crawl promo for the bar TVs: how to play, leaderboard, QR, live demo. */
+function CrawlSlide({ active }: { active: boolean }) {
+  const [board, setBoard] = useState<CrawlBoard | null>(null);
+  // Pull the board each time the slide comes around so tonight's scores stay fresh.
+  useEffect(() => {
+    if (!active) return;
+    let live = true;
+    fetch("/api/pub-crawl-scores", { cache: "no-store" })
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error("bad"))))
+      .then((d: CrawlBoard) => live && setBoard(d))
+      .catch(() => {});
+    return () => {
+      live = false;
+    };
+  }, [active]);
+
+  const today = board?.today.slice(0, 5) ?? [];
+  const all = board?.all.slice(0, 5) ?? [];
+  const column = (title: string, rows: CrawlEntry[]) => (
+    <div>
+      <div className="font-heading uppercase tracking-[0.3em] text-[#E8601C]" style={{ fontSize: "clamp(1rem, 2.2vh, 2rem)" }}>
+        {title}
+      </div>
+      <ol className="mt-1 space-y-0.5">
+        {rows.length === 0 && (
+          <li className="font-heading uppercase text-neutral-400" style={{ fontSize: "clamp(1.1rem, 2.6vh, 2.4rem)" }}>
+            Nobody yet. Be first.
+          </li>
+        )}
+        {rows.map((e, i) => (
+          <li
+            key={`${e.name}-${e.score}-${i}`}
+            className={`flex items-baseline gap-3 font-heading font-semibold tabular-nums ${i === 0 ? "text-white" : "text-neutral-200"}`}
+            style={{ fontSize: "clamp(1.3rem, 3.2vh, 3rem)" }}
+          >
+            <span className={`w-[1.4em] text-right ${i === 0 ? "text-[#E8601C]" : "text-neutral-500"}`}>{i + 1}.</span>
+            <span className="tracking-[0.25em]">{e.name}</span>
+            <span className="flex-1 border-b-2 border-dotted border-neutral-700 translate-y-[-0.35em]" />
+            <span className={i === 0 ? "text-[#E8601C]" : ""}>{e.score.toLocaleString()}</span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  );
+
+  const howTo = (art: React.ReactNode, text: string) => (
+    <div className="flex items-center gap-4">
+      <div className="w-[6vw] flex justify-center shrink-0">{art}</div>
+      <div className="font-heading uppercase tracking-wide text-neutral-100" style={{ fontSize: "clamp(1.1rem, 2.8vh, 2.6rem)" }}>
+        {text}
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="absolute inset-0 flex flex-col text-white text-left">
+      <div className="flex-1 grid grid-cols-[1.25fr_1.2fr_0.8fr] items-center gap-6 px-10 pt-2 min-h-0">
+        {/* How to play */}
+        <div className="flex flex-col gap-2">
+          <span className="tv-kicker !mb-0">Play on your phone · Free</span>
+          <div className={`font-heading font-bold uppercase leading-[0.9] ${active ? "tv-rise" : ""}`} style={{ fontSize: "clamp(3rem, 9vh, 8rem)" }}>
+            Spunks <span className="text-[#E8601C]">Pub Crawl</span>
+          </div>
+          <div className="mt-2 flex flex-col gap-2">
+            {howTo(<PixelArt name="jump" scale={3} />, "Tap the right side to jump")}
+            {howTo(<PixelArt name="duck" scale={2} />, "Hold the left side to slide")}
+            {howTo(
+              <span className="flex items-end gap-2">
+                <PixelArt name="peyton" scale={2} />
+                <PixelArt name="footballA" scale={2} />
+              </span>,
+              "Jump the crew · Catch the football",
+            )}
+          </div>
+        </div>
+
+        {/* Leaderboard */}
+        <div className="space-y-4">
+          {column("Tonight's top 5", today)}
+          {column("All-time top 5", all)}
+          <div className="font-heading uppercase tracking-[0.2em] text-neutral-400" style={{ fontSize: "clamp(0.9rem, 1.9vh, 1.6rem)" }}>
+            Score 50+ to get your initials on the board
+          </div>
+        </div>
+
+        {/* QR */}
+        <div className="flex flex-col items-center text-center">
+          <div className="bg-white p-3 rounded-2xl shadow-2xl">
+            <img src="/img/pub-crawl-qr.svg" alt="QR code for spunkmeyers.pub/pub-crawl" className="w-[17vw] max-w-[320px] h-auto block" />
+          </div>
+          <div className="mt-3 font-heading font-semibold uppercase tracking-[0.3em] text-[#E8601C]" style={{ fontSize: "clamp(1.2rem, 3vh, 2.8rem)" }}>
+            Scan to play
+          </div>
+          <div className="font-mono text-neutral-300" style={{ fontSize: "clamp(0.8rem, 1.8vh, 1.5rem)" }}>
+            spunkmeyers.pub/pub-crawl
+          </div>
+        </div>
+      </div>
+
+      {/* Live demo strip: only runs while this slide is up */}
+      <div className="h-[24vh] shrink-0 border-t-4 border-[#E8601C]/70 relative bg-[#f8f5ef]">
+        {active && <CrawlDemo />}
+        <div className="absolute top-2 left-4 font-heading uppercase tracking-[0.3em] text-black/70 bg-white/80 rounded px-3 py-1" style={{ fontSize: "clamp(0.8rem, 1.6vh, 1.4rem)" }}>
+          Live demo · Kevin is playing himself
+        </div>
+      </div>
+    </div>
+  );
 }
 
 function WelcomeSlide({ active }: { active: boolean }) {

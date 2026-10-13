@@ -14,6 +14,7 @@ import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import Accessibility from "./pages/Accessibility";
 import TV from "./pages/TV";
+import PubCrawl from "./pages/PubCrawl";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import MobileActionBar from "./components/MobileActionBar";
@@ -59,6 +60,15 @@ function App() {
     return (
       <ErrorBoundary>
         <TV />
+      </ErrorBoundary>
+    );
+  }
+
+  // The phone game takes the whole screen too: its own back button, no nav.
+  if (location === "/pub-crawl") {
+    return (
+      <ErrorBoundary>
+        <PubCrawl />
       </ErrorBoundary>
     );
   }

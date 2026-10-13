@@ -13,6 +13,7 @@
  *   special  — a food or drink deal (title, price, when, detail)
  *   event    — a recurring event (title, when, detail, optional image)
  *   games    — the live "on the big screens" game board (auto-updates)
+ *   crawl    — Spunks Pub Crawl: how to play, tonight's top scores, QR, live demo
  *   promo    — a brand message (order online, follow us, hours)
  *   ad       — a paid sponsor slot (see "SELLING AD SPACE" below)
  *
@@ -60,6 +61,10 @@ export type Slide =
       id: string;
     }
   | {
+      type: "crawl";
+      id: string;
+    }
+  | {
       type: "promo";
       id: string;
       kicker: string;
@@ -77,9 +82,12 @@ export type Slide =
       until?: string; // YYYY-MM-DD — auto-hides after this date
     };
 
-// How long each slide stays on screen (ms). Individual slides can't override
-// yet; keep this comfortable for reading across a room.
+// How long each slide stays on screen (ms). Keep this comfortable for
+// reading across a room. The game slide runs longer so the live demo and the
+// leaderboard both get a look.
 export const SLIDE_MS = 9000;
+export const CRAWL_SLIDE_MS = 18000;
+export const slideMs = (s: Slide | undefined): number => (s && s.type === "crawl" ? CRAWL_SLIDE_MS : SLIDE_MS);
 
 // ---------------------------------------------------------------------------
 // TICKER MESSAGES — the "SPUNKS" scroll along the bottom of the board.
@@ -110,6 +118,9 @@ export const SLIDES: Slide[] = [
 
   // ---- Live game board (auto-updates from ESPN) ----
   { type: "games", id: "big-screens" },
+
+  // ---- Spunks Pub Crawl: the phone game, with tonight's top scores + QR ----
+  { type: "crawl", id: "pub-crawl" },
 
   // ---- Live weather + 3-day forecast (auto-updates; hidden if unavailable) ----
   { type: "weather", id: "weather" },

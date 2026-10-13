@@ -20,6 +20,11 @@
   to = "/.netlify/functions/chat"
   status = 200
 
+[[redirects]]
+  from = "/api/pub-crawl-scores"
+  to = "/.netlify/functions/pub-crawl-scores"
+  status = 200
+
 # SPA fallback: serve index.html for client-side routes
 [[redirects]]
   from = "/*"

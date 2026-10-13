@@ -35,6 +35,7 @@ export default function Navbar() {
     { label: "Menu", href: "/menu" },
     { label: "Experience", href: "/experience" },
     { label: "Events", href: "/events" },
+    { label: "Pub Crawl", href: "/pub-crawl" },
     { label: "Beer List", href: LINKS.beerList, external: true },
     { label: "Contact", href: "/contact" },
     { label: "Careers", href: "/careers" },
