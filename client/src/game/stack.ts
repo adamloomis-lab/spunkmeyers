@@ -54,9 +54,9 @@ const SOFT_DROP = 0.06; // seconds per row while soft dropping
 /**
  * Seconds per row of gravity, by level (frame counts / 60). Gentler than the
  * NES curve: this is a bar game played with a thumb and a beer, not a
- * tournament. Level 0 is a full second per row and it ramps slowly.
+ * tournament. Level 0 is about 1.3 seconds per row and it ramps slowly.
  */
-const GRAVITY = [60, 52, 46, 40, 35, 30, 26, 22, 18, 15, 13, 11, 10, 9, 8, 7, 6, 6, 5, 5, 4, 4, 4, 3, 3, 3, 3, 2, 2, 2].map((f) => f / 60);
+const GRAVITY = [78, 64, 54, 46, 40, 35, 30, 26, 22, 18, 15, 13, 11, 10, 9, 8, 7, 6, 6, 5, 5, 4, 4, 4, 3, 3, 3, 3, 2, 2].map((f) => f / 60);
 const LINE_POINTS = [0, 40, 100, 300, 1200];
 
 const LEVEL_TOASTS: Record<number, string> = {
