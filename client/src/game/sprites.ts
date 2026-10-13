@@ -267,7 +267,7 @@ const GUITAR = [
   "...DDDD..DDDD.",
 ];
 
-// Bass player: ball cap, blue shirt, long-neck bass.
+// Dave, bass: ball cap, blue shirt, long-neck bass.
 const BASS = [
   "....BBBBBB....",
   "..BBBBBBBB....",
