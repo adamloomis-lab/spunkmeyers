@@ -7,19 +7,20 @@ import { flipSprite, makeSprite, type Sprite } from "./pixelart";
 
 /* ---------------- Kevin ---------------- */
 
-// Hat, head, and torso shared by every standing frame; legs differ.
-// Cowboy hat with an orange band, beard, orange Spunks shirt, jeans, boots.
+// Head and torso shared by every standing frame; legs differ.
+// Mullet (business up front, party out back), beard, orange Spunks shirt,
+// jeans, boots.
 const KEVIN_BODY = [
-  "......DDDDD.......",
-  "......DDDDD.......",
-  "......XXXXX.......",
-  "..DDDDDDDDDDDD....",
-  "....TTTTTTTT......",
-  "....TTTTTKTT......",
-  "....TTTTTTTTt.....",
-  "....BTTTTTTT......",
-  "....BBTTTTBB......",
-  ".....TTTTT........",
+  "..................",
+  ".....DDDDDDD......",
+  "....DDDDDDDDD.....",
+  "...DDDDDDDDDD.....",
+  "..DDTTTTTTTT......",
+  "..DDTTTTTKTT......",
+  "..DDTTTTTTTTt.....",
+  "..DDBTTTTTTT......",
+  "...DBBTTTTBB......",
+  "...D.TTTTT........",
   "....XXXXXXXX......",
   "...XXXXXXXXXXX....",
   "...XXXXWWXXXXX....",
@@ -63,16 +64,16 @@ const LEGS_JUMP = [
   "..................",
 ];
 
-// Baseball slide: hat on, feet first, low enough to get under a goose.
+// Baseball slide: feet first, mullet streaming back, low enough to get under a goose.
 const KEVIN_DUCK = [
-  "..........DDDDD...........",
-  "..........DDDDD...........",
-  "..........XXXXX...........",
-  "......DDDDDDDDDDDDD.......",
-  "........TTTTTTTT..........",
-  "........TTTTTKTT..........",
-  "........BTTTTTTTt.........",
-  "........BBTTTTBB..........",
+  "..........................",
+  ".........DDDDDDD..........",
+  "........DDDDDDDDD.........",
+  ".......DDDDDDDDDD.........",
+  "......DDTTTTTTTT..........",
+  ".....DDDTTTTTKTT..........",
+  "....DDDDBTTTTTTTt.........",
+  ".....DD.BBTTTTBB..........",
   "...TXXXXXXXXXXuuuuuuuuu...",
   "..TXXXXXXXXXXXuuuuuuuuuDD.",
   "..XXXXXXXXXXXXuuuuuuuuuDDD",
