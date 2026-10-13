@@ -12,6 +12,7 @@ import SEO, { localBusinessSchema } from "@/components/SEO";
 import BigScreens from "@/components/BigScreens";
 import RadioSpot from "@/components/RadioSpot";
 import PixelArt from "@/components/PixelArt";
+import PubCrawlPopup from "@/components/PubCrawlPopup";
 
 function usePageEffects() {
   const ref = useRef<HTMLDivElement>(null);
@@ -1021,6 +1022,8 @@ export default function Home() {
         ogImage="https://spunkmeyers.pub/img/bar-interior.jpg"
         jsonLd={localBusinessSchema}
       />
+      <PubCrawlPopup />
+
       {/* ===== HERO - VIDEO BACKGROUND ===== */}
       <section data-narrate="home-hero" className="relative h-screen w-full overflow-hidden">
         <video
