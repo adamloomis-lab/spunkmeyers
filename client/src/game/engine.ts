@@ -1569,8 +1569,8 @@ export class PubCrawl {
   }
 
   /**
-   * Kevin's pontoon boat, riding its trailer behind a pickup on the way to
-   * the lake. Drives to the right; the truck is the right end. Pure
+   * Kevin's pontoon boat, the Lil Wanker, riding its trailer behind a
+   * pickup on the way to the lake. Drives to the right; the truck is the right end. Pure
    * background, nothing to jump.
    */
   private drawPontoon(x: number, y: number) {
@@ -1606,12 +1606,14 @@ export class PubCrawl {
     c.fillRect(bx + 56, y + 8, 10, 4);
     c.fillStyle = "#cc0000";
     c.fillRect(bx + 30, y + 9, 6, 3);
-    // Deck (wood) with the name on the side rail
+    // Deck (wood) with the boat's name on the side rail
+    const name = "LIL WANKER";
+    const nx = bx + Math.round((bw - textWidth(name) - 4) / 2);
     c.fillStyle = this.lerpColor([160, 120, 80], [70, 52, 36], n);
     c.fillRect(bx, y + 12, bw, 4);
     c.fillStyle = "#fcfcfc";
-    c.fillRect(bx + 24, y + 12, textWidth("KEVIN") + 4, 4);
-    drawText(c, "KEVIN", bx + 26, y + 12, ORANGE_INK);
+    c.fillRect(nx, y + 12, textWidth(name) + 4, 4);
+    drawText(c, name, nx + 2, y + 12, ORANGE_INK);
     // Twin pontoon tubes (aluminum)
     c.fillStyle = this.lerpColor([196, 196, 200], [90, 90, 100], n);
     c.fillRect(bx + 2, y + 16, bw - 4, 4);
