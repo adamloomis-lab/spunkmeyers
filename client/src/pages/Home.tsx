@@ -13,6 +13,7 @@ import BigScreens from "@/components/BigScreens";
 import RadioSpot from "@/components/RadioSpot";
 import PixelArt from "@/components/PixelArt";
 import PubCrawlPopup from "@/components/PubCrawlPopup";
+import PubCrawlBoard from "@/components/PubCrawlBoard";
 
 function usePageEffects() {
   const ref = useRef<HTMLDivElement>(null);
@@ -1196,6 +1197,7 @@ export default function Home() {
               </div>
             </div>
           </div>
+          <PubCrawlBoard className="fade-up mt-10 max-w-3xl mx-auto md:mx-0 md:ml-auto" />
         </div>
       </section>
 
