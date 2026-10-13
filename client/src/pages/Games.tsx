@@ -15,6 +15,7 @@ export default function Games() {
         title="Spunks Arcade | Free Phone Games at Spunkmeyers Pub & Grill"
         description="Play Spunks Pub Crawl and Spunks Stack on your phone at Spunkmeyers in Wadsworth. Free, no app, bragging rights only. Get your initials on the pub leaderboards."
         path="/games"
+        ogImage="https://spunkmeyers.pub/img/og-arcade.png"
         jsonLd={breadcrumbSchema([
           { name: "Home", url: "https://spunkmeyers.pub/" },
           { name: "Spunks Arcade", url: "https://spunkmeyers.pub/games" },
