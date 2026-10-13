@@ -23,6 +23,8 @@ import { SLIDES, TICKER_MESSAGES, slideMs, type Slide } from "@/lib/tvSlides";
 import SEO from "@/components/SEO";
 import PixelArt from "@/components/PixelArt";
 import { PubCrawl as CrawlEngine } from "@/game/engine";
+import { SpunksStack as StackEngine } from "@/game/stack";
+import StackArt from "@/components/StackArt";
 
 interface Game {
   key: string;
@@ -332,7 +334,115 @@ function SlideView({ slide, games, weather, active }: { slide: Slide; games: Gam
 
     case "crawl":
       return <CrawlSlide active={active} />;
+
+    case "stack":
+      return <StackSlide active={active} />;
   }
+}
+
+/** Live Spunks Stack demo: the AI plays a full well while the slide is up. */
+function StackDemo() {
+  const ref = useRef<HTMLCanvasElement>(null);
+  useEffect(() => {
+    const canvas = ref.current;
+    if (!canvas) return;
+    const engine = new StackEngine(canvas, { onState: () => {}, onScore: () => {}, onGameOver: () => {}, onToast: () => {} }, { attract: true });
+    engine.attach();
+    return () => engine.destroy();
+  }, []);
+  return <canvas ref={ref} className="block w-full h-full" aria-hidden="true" />;
+}
+
+/** Spunks Stack promo for the bar TVs: how to play, leaderboard, QR, live demo. */
+function StackSlide({ active }: { active: boolean }) {
+  const [board, setBoard] = useState<CrawlBoard | null>(null);
+  useEffect(() => {
+    if (!active) return;
+    let live = true;
+    fetch("/api/stack-scores", { cache: "no-store" })
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error("bad"))))
+      .then((d: CrawlBoard) => live && setBoard(d))
+      .catch(() => {});
+    return () => {
+      live = false;
+    };
+  }, [active]);
+
+  const today = board?.today.slice(0, 5) ?? [];
+  const all = board?.all.slice(0, 5) ?? [];
+  const column = (title: string, rows: CrawlEntry[]) => (
+    <div>
+      <div className="font-heading uppercase tracking-[0.3em] text-[#E8601C]" style={{ fontSize: "clamp(1rem, 2.2vh, 2rem)" }}>
+        {title}
+      </div>
+      <ol className="mt-1 space-y-0.5">
+        {rows.length === 0 && (
+          <li className="font-heading uppercase text-neutral-400" style={{ fontSize: "clamp(1.1rem, 2.6vh, 2.4rem)" }}>
+            Nobody yet. Be first.
+          </li>
+        )}
+        {rows.map((e, i) => (
+          <li
+            key={`${e.name}-${e.score}-${i}`}
+            className={`flex items-baseline gap-3 font-heading font-semibold tabular-nums ${i === 0 ? "text-white" : "text-neutral-200"}`}
+            style={{ fontSize: "clamp(1.3rem, 3.2vh, 3rem)" }}
+          >
+            <span className={`w-[1.4em] text-right ${i === 0 ? "text-[#E8601C]" : "text-neutral-500"}`}>{i + 1}.</span>
+            <span className="tracking-[0.25em]">{e.name}</span>
+            <span className="flex-1 border-b-2 border-dotted border-neutral-700 translate-y-[-0.35em]" />
+            <span className={i === 0 ? "text-[#E8601C]" : ""}>{e.score.toLocaleString()}</span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  );
+
+  return (
+    <div className="absolute inset-0 grid grid-cols-[1.15fr_1fr_0.95fr] items-stretch gap-6 px-10 py-4 text-white text-left">
+      {/* How to play */}
+      <div className="flex flex-col justify-center gap-3">
+        <span className="tv-kicker !mb-0">Play on your phone · Free</span>
+        <div className={`font-heading font-bold uppercase leading-[0.9] ${active ? "tv-rise" : ""}`} style={{ fontSize: "clamp(3rem, 9vh, 8rem)" }}>
+          Spunks <span className="text-[#E8601C]">Stack</span>
+        </div>
+        <div className="my-2">
+          <StackArt scale={3} />
+        </div>
+        <ul className="font-heading uppercase tracking-wide text-neutral-100 space-y-1" style={{ fontSize: "clamp(1.1rem, 2.8vh, 2.6rem)" }}>
+          <li>Swipe to move · Tap to spin</li>
+          <li>Flick down to drop</li>
+          <li>Clear lines · Climb levels</li>
+        </ul>
+      </div>
+
+      {/* Leaderboard + QR */}
+      <div className="flex flex-col justify-center gap-5">
+        {column("Tonight's top 5", today)}
+        {column("All-time top 5", all)}
+        <div className="flex items-center gap-4">
+          <div className="bg-white p-2 rounded-xl shadow-2xl shrink-0">
+            <img src="/img/stack-qr.svg" alt="QR code for spunkmeyers.pub/stack" className="w-[11vw] max-w-[220px] h-auto block" />
+          </div>
+          <div>
+            <div className="font-heading font-semibold uppercase tracking-[0.3em] text-[#E8601C]" style={{ fontSize: "clamp(1.1rem, 2.6vh, 2.4rem)" }}>
+              Scan to play
+            </div>
+            <div className="font-mono text-neutral-300" style={{ fontSize: "clamp(0.8rem, 1.7vh, 1.4rem)" }}>
+              spunkmeyers.pub/stack
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Live demo, full height */}
+      <div className="relative rounded-2xl overflow-hidden border-4 border-[#E8601C]/60 bg-black">
+        {active && <StackDemo />}
+        <div className="absolute top-2 left-3 font-heading uppercase tracking-[0.3em] text-white/80 bg-black/60 rounded px-3 py-1" style={{ fontSize: "clamp(0.8rem, 1.6vh, 1.4rem)" }}>
+          Live demo
+        </div>
+      </div>
+    </div>
+  );
 }
 
 interface CrawlEntry {

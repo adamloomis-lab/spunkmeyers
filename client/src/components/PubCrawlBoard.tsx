@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { Link } from "wouter";
 
 /**
- * Spunks Pub Crawl leaderboard for the home page: tonight's top 5 and the
- * all-time top 5, pulled live from the scores API. Quietly renders nothing
+ * Arcade leaderboard card: tonight's top 5 and the all-time top 5, pulled
+ * live from a scores API (Pub Crawl by default, Stack via props). Quietly renders nothing
  * useful (just the empty prompts) if the API is unreachable.
  */
 interface Entry {
@@ -40,19 +40,29 @@ function Column({ title, rows, showDate }: { title: string; rows: Entry[] | null
   );
 }
 
-export default function PubCrawlBoard({ className = "" }: { className?: string }) {
+export default function PubCrawlBoard({
+  className = "",
+  endpoint = "/api/pub-crawl-scores",
+  href = "/pub-crawl",
+  minScore = 50,
+}: {
+  className?: string;
+  endpoint?: string;
+  href?: string;
+  minScore?: number;
+}) {
   const [board, setBoard] = useState<Board | null | "error">(null);
 
   useEffect(() => {
     let live = true;
-    fetch("/api/pub-crawl-scores", { cache: "no-store" })
+    fetch(endpoint, { cache: "no-store" })
       .then((r) => (r.ok ? r.json() : Promise.reject(new Error("bad"))))
       .then((d: Board) => live && setBoard(d))
       .catch(() => live && setBoard("error"));
     return () => {
       live = false;
     };
-  }, []);
+  }, [endpoint]);
 
   const today = board === null ? null : board === "error" ? [] : board.today;
   const all = board === null ? null : board === "error" ? [] : board.all;
@@ -61,7 +71,7 @@ export default function PubCrawlBoard({ className = "" }: { className?: string }
     <div className={`bg-[#1a1a1a] border border-white/10 rounded-2xl p-6 sm:p-7 ${className}`}>
       <div className="flex items-baseline justify-between gap-4 mb-5">
         <h3 className="font-heading text-2xl font-bold text-white">Top Scores</h3>
-        <Link href="/pub-crawl" className="font-heading text-xs font-semibold uppercase tracking-widest text-[#E8601C] hover:text-[#F07A3A] transition-colors">
+        <Link href={href} className="font-heading text-xs font-semibold uppercase tracking-widest text-[#E8601C] hover:text-[#F07A3A] transition-colors">
           Beat them →
         </Link>
       </div>
@@ -69,7 +79,7 @@ export default function PubCrawlBoard({ className = "" }: { className?: string }
         <Column title="Tonight" rows={today} />
         <Column title="All-time" rows={all} showDate />
       </div>
-      <p className="mt-5 text-xs text-[#777]">Score 50 or more to put your initials on the board.</p>
+      <p className="mt-5 text-xs text-[#777]">Score {minScore} or more to put your initials on the board.</p>
     </div>
   );
 }

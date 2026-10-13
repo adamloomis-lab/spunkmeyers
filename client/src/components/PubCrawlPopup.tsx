@@ -87,10 +87,13 @@ export default function PubCrawlPopup() {
           <Link href="/pub-crawl" onClick={close} className="btn-premium btn-premium-pulse w-full justify-center">
             Play Now
           </Link>
+          <Link href="/stack" onClick={close} className="font-heading text-sm font-semibold uppercase tracking-widest text-[#F5F0EB]/80 hover:text-[#E8601C] py-1 transition-colors">
+            Or play Spunks Stack →
+          </Link>
           <button
             type="button"
             onClick={close}
-            className="font-heading text-sm font-semibold uppercase tracking-widest text-[#999] hover:text-[#F5F0EB] py-2 transition-colors"
+            className="font-heading text-sm font-semibold uppercase tracking-widest text-[#999] hover:text-[#F5F0EB] py-1 transition-colors"
           >
             Maybe later
           </button>

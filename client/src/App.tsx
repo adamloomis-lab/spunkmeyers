@@ -15,6 +15,8 @@ import Terms from "./pages/Terms";
 import Accessibility from "./pages/Accessibility";
 import TV from "./pages/TV";
 import PubCrawl from "./pages/PubCrawl";
+import Stack from "./pages/Stack";
+import Games from "./pages/Games";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import MobileActionBar from "./components/MobileActionBar";
@@ -42,6 +44,7 @@ function Router() {
       <Route path="/events" component={Events} />
       <Route path="/contact" component={Contact} />
       <Route path="/careers" component={Careers} />
+      <Route path="/games" component={Games} />
       <Route path="/privacy" component={Privacy} />
       <Route path="/terms" component={Terms} />
       <Route path="/accessibility" component={Accessibility} />
@@ -64,11 +67,18 @@ function App() {
     );
   }
 
-  // The phone game takes the whole screen too: its own back button, no nav.
+  // The phone games take the whole screen too: their own back button, no nav.
   if (location === "/pub-crawl") {
     return (
       <ErrorBoundary>
         <PubCrawl />
+      </ErrorBoundary>
+    );
+  }
+  if (location === "/stack") {
+    return (
+      <ErrorBoundary>
+        <Stack />
       </ErrorBoundary>
     );
   }

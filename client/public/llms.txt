@@ -7,10 +7,13 @@
 - SPX American Lager is on tap: the pub's own American lager, 4.7% ABV, 16 oz pour, brewed in Medina, OH, tapped September 9, 2026. Featured on the homepage.
 
 - Spunks Pub Crawl is the pub's free phone game: Kevin (the owner, who fronts the Buck Naked Band) runs down High Street jumping his bandmates Arene, Chris, Dave, Jeff, and Bob, DJ Brian, bartender Peyton, regulars Mick, Luke, and DJ, burgers, wings, and beer. Scan the QR sign at the bar or play at https://spunkmeyers.pub/pub-crawl. Top scores go on the pub leaderboard.
+- Spunks Stack is the pub's second free phone game: old-school falling blocks (swipe to move, tap to spin, flick down to drop), with its own tonight and all-time leaderboard, at https://spunkmeyers.pub/stack. Both games live at https://spunkmeyers.pub/games.
 
 ## Key pages
 - Home: https://spunkmeyers.pub/
+- Spunks Arcade (all the phone games + leaderboards): https://spunkmeyers.pub/games
 - Spunks Pub Crawl (phone game): https://spunkmeyers.pub/pub-crawl
+- Spunks Stack (old-school falling-blocks phone game): https://spunkmeyers.pub/stack
 - Contact: https://spunkmeyers.pub/contact
 
 ## Contact

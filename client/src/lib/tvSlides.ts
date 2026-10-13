@@ -14,6 +14,7 @@
  *   event    — a recurring event (title, when, detail, optional image)
  *   games    — the live "on the big screens" game board (auto-updates)
  *   crawl    — Spunks Pub Crawl: how to play, tonight's top scores, QR, live demo
+ *   stack    — Spunks Stack: how to play, tonight's top scores, QR, live demo
  *   promo    — a brand message (order online, follow us, hours)
  *   ad       — a paid sponsor slot (see "SELLING AD SPACE" below)
  *
@@ -65,6 +66,10 @@ export type Slide =
       id: string;
     }
   | {
+      type: "stack";
+      id: string;
+    }
+  | {
       type: "promo";
       id: string;
       kicker: string;
@@ -87,7 +92,7 @@ export type Slide =
 // leaderboard both get a look.
 export const SLIDE_MS = 9000;
 export const CRAWL_SLIDE_MS = 18000;
-export const slideMs = (s: Slide | undefined): number => (s && s.type === "crawl" ? CRAWL_SLIDE_MS : SLIDE_MS);
+export const slideMs = (s: Slide | undefined): number => (s && (s.type === "crawl" || s.type === "stack") ? CRAWL_SLIDE_MS : SLIDE_MS);
 
 // ---------------------------------------------------------------------------
 // TICKER MESSAGES — the "SPUNKS" scroll along the bottom of the board.
@@ -121,6 +126,9 @@ export const SLIDES: Slide[] = [
 
   // ---- Spunks Pub Crawl: the phone game, with tonight's top scores + QR ----
   { type: "crawl", id: "pub-crawl" },
+
+  // ---- Spunks Stack: falling blocks, tonight's top scores + QR ----
+  { type: "stack", id: "stack" },
 
   // ---- Live weather + 3-day forecast (auto-updates; hidden if unavailable) ----
   { type: "weather", id: "weather" },

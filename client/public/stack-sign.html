@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex" />
+  <title>Spunks Stack table sign</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Source+Sans+3:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root { --orange: #e8601c; --ink: #111; --cream: #f5f0eb; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #333; font-family: "Source Sans 3", system-ui, sans-serif; color: var(--ink); }
+    .toolbar { padding: 14px 20px; background: #111; color: #fff; display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+    .toolbar button { font: inherit; font-weight: 700; padding: 10px 18px; border: 0; border-radius: 6px; background: var(--orange); color: #fff; cursor: pointer; }
+    .toolbar p { margin: 0; opacity: .8; font-size: 14px; }
+    .sheet { width: 8.5in; height: 11in; margin: 20px auto; background: #fff; display: grid; grid-template-rows: 1fr 1fr; }
+    .card { position: relative; padding: .55in .7in; display: grid; grid-template-columns: 1fr 3.1in; align-items: center; gap: .5in; overflow: hidden; }
+    .card + .card { border-top: 2px dashed #bbb; }
+    .card::before { content: ""; position: absolute; inset: 0; background: linear-gradient(rgba(0,0,0,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,.05) 1px, transparent 1px); background-size: 22px 22px; pointer-events: none; }
+    .kicker { font: 700 13px/1 "Source Sans 3", sans-serif; letter-spacing: .3em; text-transform: uppercase; color: var(--orange); }
+    h1 { font: 700 74px/.9 Oswald, Impact, sans-serif; text-transform: uppercase; margin: 22px 0 0; letter-spacing: .01em; }
+    h1 span { color: var(--orange); }
+    .tag { font: 500 28px/1.05 Oswald, Impact, sans-serif; text-transform: uppercase; margin-top: 14px; color: #222; }
+    .how { margin: 16px 0 0; padding: 0; list-style: none; font-size: 14px; line-height: 1.5; color: #333; }
+    .how li::before { content: "▶ "; color: var(--orange); font-size: 10px; vertical-align: 2px; }
+    .qr { background: #fff; border: 6px solid #111; border-radius: 18px; padding: 14px; text-align: center; }
+    .qr img { width: 100%; height: auto; display: block; }
+    .qr .scan { font: 700 30px/1 Oswald, Impact, sans-serif; letter-spacing: .25em; margin-top: 12px; }
+    .qr .url { font: 700 13px/1 ui-monospace, Menlo, monospace; margin-top: 6px; color: #444; }
+    .foot { position: absolute; left: .7in; right: .7in; bottom: .3in; display: flex; justify-content: space-between; font-size: 11px; letter-spacing: .15em; text-transform: uppercase; color: #777; }
+    @media print {
+      body { background: #fff; }
+      .toolbar { display: none; }
+      .sheet { margin: 0; width: auto; height: auto; }
+      @page { size: letter portrait; margin: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <button onclick="window.print()">Print</button>
+    <p>Letter size, two signs per sheet. Cut along the dashed line and fold into a table tent or tape it up by the taps.</p>
+  </div>
+
+  <div class="sheet">
+    <section class="card">
+      <div>
+        <div class="kicker">Spunkmeyers Pub &amp; Grill · Wadsworth</div>
+        <h1>Spunks<br /><span>Stack</span></h1>
+        <div class="tag">Old-school blocks. Last call wins.</div>
+        <ul class="how">
+          <li>Scan the code with your phone camera</li>
+          <li>Swipe to move, tap to spin, flick down to drop</li>
+          <li>Clear lines, climb levels, outlast last call</li>
+          <li>Put your initials on the pub leaderboard</li>
+        </ul>
+      </div>
+      <div class="qr">
+        <img src="/img/stack-qr.svg" alt="QR code for spunkmeyers.pub/stack" />
+        <div class="scan">SCAN TO PLAY</div>
+        <div class="url">spunkmeyers.pub/stack</div>
+      </div>
+      <div class="foot"><span>Free to play</span><span>Bragging rights only</span></div>
+    </section>
+
+    <section class="card">
+      <div>
+        <div class="kicker">Spunkmeyers Pub &amp; Grill · Wadsworth</div>
+        <h1>Spunks<br /><span>Stack</span></h1>
+        <div class="tag">Old-school blocks. Last call wins.</div>
+        <ul class="how">
+          <li>Scan the code with your phone camera</li>
+          <li>Swipe to move, tap to spin, flick down to drop</li>
+          <li>Clear lines, climb levels, outlast last call</li>
+          <li>Put your initials on the pub leaderboard</li>
+        </ul>
+      </div>
+      <div class="qr">
+        <img src="/img/stack-qr.svg" alt="QR code for spunkmeyers.pub/stack" />
+        <div class="scan">SCAN TO PLAY</div>
+        <div class="url">spunkmeyers.pub/stack</div>
+      </div>
+      <div class="foot"><span>Free to play</span><span>Bragging rights only</span></div>
+    </section>
+  </div>
+</body>
+</html>

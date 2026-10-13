@@ -14,6 +14,7 @@ import RadioSpot from "@/components/RadioSpot";
 import PixelArt from "@/components/PixelArt";
 import PubCrawlPopup from "@/components/PubCrawlPopup";
 import PubCrawlBoard from "@/components/PubCrawlBoard";
+import StackArt from "@/components/StackArt";
 
 function usePageEffects() {
   const ref = useRef<HTMLDivElement>(null);
@@ -1198,6 +1199,38 @@ export default function Home() {
             </div>
           </div>
           <PubCrawlBoard className="fade-up mt-10 max-w-3xl mx-auto md:mx-0 md:ml-auto" />
+        </div>
+      </section>
+
+      {/* ===== SPUNKS STACK - THE SECOND PHONE GAME ===== */}
+      <section className="relative overflow-hidden bg-[#111111] text-white border-t border-white/10">
+        <div className="relative max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+          <div className="fade-up flex flex-col md:flex-row-reverse items-center gap-8 md:gap-12">
+            <Link href="/stack" className="shrink-0 rounded-2xl bg-black p-5 shadow-2xl ring-4 ring-[#E8601C]/60" aria-label="Play Spunks Stack">
+              <StackArt scale={5} className="block" />
+            </Link>
+            <div className="text-center md:text-left">
+              <div className="font-heading text-sm font-semibold uppercase tracking-[0.3em] text-[#E8601C] mb-2">Also in the Spunks Arcade</div>
+              <h2 className="text-4xl sm:text-6xl font-bold text-white leading-[1.05] tracking-tight">
+                Spunks <span className="text-[#E8601C]">Stack</span>
+              </h2>
+              <p className="mt-4 text-lg text-[#F5F0EB]/80 max-w-xl leading-relaxed">
+                Old-school falling blocks, right on your phone. Swipe to move, tap to spin, flick down to drop. Clear lines, climb levels, and outlast last call.
+              </p>
+              <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
+                <Link href="/stack" className="btn-premium">
+                  Play Stack
+                </Link>
+                <Link
+                  href="/games"
+                  className="inline-flex items-center justify-center px-6 py-3 rounded-md font-heading text-sm font-semibold uppercase tracking-widest bg-white/10 text-white border border-white/20 hover:bg-white/20 transition-colors"
+                >
+                  All games
+                </Link>
+              </div>
+            </div>
+          </div>
+          <PubCrawlBoard className="fade-up mt-10 max-w-3xl mx-auto md:mx-0" endpoint="/api/stack-scores" href="/stack" minScore={100} />
         </div>
       </section>
 
