@@ -215,18 +215,18 @@ const PUMPKIN = [
 
 /* ---------------- The band (face left, toward Kevin) ---------------- */
 
-// Lead singer: cowboy hat, mic on a stand.
+// Arene, lead vocals: cowboy hat, long hair, mic on a stand.
 const SINGER = [
   "....DDDDD...",
   "....DDDDD...",
   "....XXXXX...",
   ".DDDDDDDDDD.",
-  "...TTTTTT...",
-  "...TTKTTT...",
-  "..tTTTTTT...",
-  "...BTTTTB...",
-  "...BBTTBB...",
-  "....TTTT....",
+  "..KKTTTTTKK.",
+  "..KKTKTTTKK.",
+  "..KtTTTTTKK.",
+  "..KKTTTTTKK.",
+  "..KK.TTTT.K.",
+  "..K..TTTT.K.",
   "K..MMMMMM...",
   "KK.MMMMMMMM.",
   "K.TMMMMMMMMT",
@@ -241,7 +241,7 @@ const SINGER = [
   "KKKDDD..DDD.",
 ];
 
-// Guitar player: red shirt, guitar slung low.
+// Chris, guitar: red shirt, guitar slung low.
 const GUITAR = [
   ".....KKKK.....",
   "....KKKKKK....",
@@ -293,58 +293,23 @@ const BASS = [
   "...DDDD..DDDD.",
 ];
 
-// Drummer behind the kit. Two frames: sticks up, sticks down.
-const DRUMS_A = [
-  "..........KKKK..........",
-  ".........KKKKKK.........",
-  ".........TTTTTT.........",
-  ".........TKTTTT.........",
-  "........tTTTTTT.........",
-  ".........TTTTTT.........",
-  "..K.......TTTT.....K....",
-  "...K...XXXXXXXX...K.....",
-  "....K.XXXXXXXXXX.K......",
-  ".....TXXXXXXXXXXT.......",
-  "......XXXXXXXXXX........",
-  "GGGGGGG..XXXXXX..GGGGGGG",
-  "GGGGGGG.KWWWWWWK.GGGGGGG",
-  ".G.G.G.KWWWWWWWWK.G.G.G.",
-  ".G.G.G.KWWXWWXWWK.G.G.G.",
-  ".......KWWWXXWWWK.......",
-  ".......KWWWXXWWWK.......",
-  ".......KWWXWWXWWK.......",
-  ".......KWWWWWWWWK.......",
-  "........KWWWWWWK........",
-  ".........KKKKKK.........",
+// Kevin's drum kit, nobody behind it (Kevin is busy running): cymbals,
+// snare, floor tom, and the kick with the orange X.
+const DRUMS = [
+  "GGGGGGG..........GGGGGGG",
+  "...g.....KWWWWWWK....g..",
+  "...g....KWWWWWWWWK...g..",
+  "...g....KWWXWWXWWK...g..",
+  "...g....KWWWXXWWWK...g..",
+  "..ggg...KWWWXXWWWK..ggg.",
+  "........KWWXWWXWWK......",
+  "........KWWWWWWWWK......",
+  ".........KWWWWWWK.......",
+  "..........KKKKKK........",
   "...MM....MMMMMM....MM...",
 ];
 
-const DRUMS_B = [
-  "..........KKKK..........",
-  ".........KKKKKK.........",
-  ".........TTTTTT.........",
-  ".........TKTTTT.........",
-  "........tTTTTTT.........",
-  ".........TTTTTT.........",
-  "..........TTTT..........",
-  ".......XXXXXXXX.........",
-  "......XXXXXXXXXX........",
-  ".....TXXXXXXXXXXT.......",
-  "....K.XXXXXXXXXX.K......",
-  "GGGKGGG..XXXXXX..GGGKGGG",
-  "GGGGGGG.KWWWWWWK.GGGGGGG",
-  ".G.G.G.KWWWWWWWWK.G.G.G.",
-  ".G.G.G.KWWXWWXWWK.G.G.G.",
-  ".......KWWWXXWWWK.......",
-  ".......KWWWXXWWWK.......",
-  ".......KWWXWWXWWK.......",
-  ".......KWWWWWWWWK.......",
-  "........KWWWWWWK........",
-  ".........KKKKKK.........",
-  "...MM....MMMMMM....MM...",
-];
-
-// Keys player behind a keyboard on a stand.
+// Bob, keys: behind a keyboard on a stand.
 const KEYS = [
   "..........KKKK........",
   ".........KKKKKK.......",
@@ -549,8 +514,7 @@ export interface ObstacleSprites {
   singer: Sprite;
   guitar: Sprite;
   bass: Sprite;
-  drumsA: Sprite;
-  drumsB: Sprite;
+  drums: Sprite;
   keys: Sprite;
   brian: Sprite;
   peyton: Sprite;
@@ -573,8 +537,7 @@ export function buildObstacles(): ObstacleSprites {
     singer: makeSprite(SINGER),
     guitar: makeSprite(GUITAR),
     bass: makeSprite(BASS),
-    drumsA: makeSprite(DRUMS_A),
-    drumsB: makeSprite(DRUMS_B),
+    drums: makeSprite(DRUMS),
     keys: makeSprite(KEYS),
     brian: makeSprite(BRIAN),
     peyton: makeSprite(PEYTON),
