@@ -26,16 +26,16 @@ function highlight(anchor?: string) {
   el.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
 }
 
-export default function NarrationPlayer({ path }: { readonly path: string }) {
+export default function NarrationPlayer({ path, compact = false }: { readonly path: string; compact?: boolean }) {
   const page = narration[path];
   const [openPanel, setOpenPanel] = useState(false);
   // Minimized: collapses the pill to a small headphones dot. Remembered for
   // the session so it stays out of the way across pages once dismissed.
   const [minimized, setMinimized] = useState(() => {
     try {
-      return sessionStorage.getItem("spunk-narrate-min") === "1";
+      return compact || sessionStorage.getItem("spunk-narrate-min") === "1";
     } catch {
-      return false;
+      return compact;
     }
   });
   const setMin = (v: boolean) => {
@@ -145,7 +145,7 @@ export default function NarrationPlayer({ path }: { readonly path: string }) {
   };
 
   return (
-    <div className="fixed right-4 top-[92px] z-30 flex flex-col items-end lg:right-8 lg:top-[104px]">
+    <div className="narration-widget fixed right-4 top-[92px] z-30 flex flex-col items-end lg:right-8 lg:top-[104px]">
       {!openPanel && minimized ? (
         <button
           type="button"

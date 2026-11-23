@@ -95,6 +95,8 @@ export const LINKS = {
   facebook: "https://www.facebook.com/SpunkmeyersPub/",
   instagram: "https://www.instagram.com/spunkmeyerspubandgrill/",
   googleReview: "https://www.google.com/maps/place/Spunkmeyers+Pub+%26+Grill/@41.0498303,-81.7276839,17z/data=!3m1!4b1!4m6!3m5!1s0x8830cdcea34b6951:0x8011aa27530832b9!8m2!3d41.0498303!4d-81.7276839!16s%2Fg%2F1tmg75x4",
+  yelp: "https://www.yelp.com/biz/spunkmeyers-pub-and-grill-wadsworth-2",
+  tripadvisor: "https://www.tripadvisor.com/Attraction_Review-g51089-d5847258-Reviews-Spunkmeyers_Pub-Wadsworth_Ohio.html",
   directions: "https://www.google.com/maps/dir//Spunkmeyers+Pub+%26+Grill,+993+High+St,+Wadsworth,+OH+44281",
 } as const;
 

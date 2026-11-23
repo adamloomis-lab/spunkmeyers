@@ -3,7 +3,9 @@ import { Link, useLocation } from "wouter";
 import { BUSINESS, IMAGES, LINKS } from "@/lib/constants";
 import { Menu, X, Phone } from "lucide-react";
 
-export default function Navbar() {
+import { ChristmasLights } from "./holiday/ChristmasDecor";
+
+export default function Navbar({ holiday = false }: { holiday?: boolean }) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [location] = useLocation();
@@ -108,6 +110,7 @@ export default function Navbar() {
             </button>
           </div>
         </div>
+        {holiday && <ChristmasLights />}
       </nav>
 
       {/* Mobile Menu: dimmed overlay + full-height slide-in panel */}

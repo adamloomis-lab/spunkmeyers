@@ -11,13 +11,12 @@ import StackArt from "@/components/StackArt";
  * "Maybe later".
  */
 const KEY = "spc-popup-seen";
-const SHOW_AFTER_MS = 2500;
 
 function today(): string {
   return new Date().toDateString();
 }
 
-export default function PubCrawlPopup() {
+export default function PubCrawlPopup({ delayMs = 2500 }: { delayMs?: number }) {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -28,9 +27,9 @@ export default function PubCrawlPopup() {
       /* private mode */
     }
     if (seen === today()) return;
-    const t = window.setTimeout(() => setOpen(true), SHOW_AFTER_MS);
+    const t = window.setTimeout(() => setOpen(true), delayMs);
     return () => window.clearTimeout(t);
-  }, []);
+  }, [delayMs]);
 
   const close = useCallback(() => {
     setOpen(false);

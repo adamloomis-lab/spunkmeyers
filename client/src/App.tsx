@@ -26,6 +26,8 @@ import ChatWidget from "./components/ChatWidget";
 import NarrationPlayer from "./components/NarrationPlayer";
 import { useEffect } from "react";
 import { useLocation } from "wouter";
+import { useChristmasSeason } from "./lib/holiday";
+import "./holiday.css";
 
 function ScrollToTop() {
   const [location] = useLocation();
@@ -56,6 +58,7 @@ function Router() {
 
 function App() {
   const [rawLocation] = useLocation();
+  const christmas = useChristmasSeason();
   // Tolerate a trailing slash (shared links, old redirects) on the full-screen routes.
   const location = rawLocation.length > 1 ? rawLocation.replace(/\/+$/, "") : rawLocation;
   // The /tv board is a full-screen kiosk — no site chrome.
@@ -91,16 +94,18 @@ function App() {
         <TooltipProvider>
           <Toaster />
           <ScrollToTop />
-          <Navbar />
-          <NarrationPlayer path={location} />
-          <Router />
-          <Footer />
-          {/* Spacer so footer content isn't hidden under the mobile action bar */}
-          <div className="h-16 lg:hidden" aria-hidden="true" />
-          <MobileActionBar />
-          <FloatingCta />
-          <ChatWidget />
-          <CookieNotice />
+          <div className={christmas && location === "/" ? "holiday-site" : undefined}>
+            <Navbar holiday={christmas && location === "/"} />
+            <NarrationPlayer path={location} compact={christmas && location === "/"} />
+            <Router />
+            <Footer />
+            {/* Spacer so footer content isn't hidden under the mobile action bar */}
+            <div className="h-16 lg:hidden" aria-hidden="true" />
+            <MobileActionBar />
+            <FloatingCta />
+            <ChatWidget />
+            <CookieNotice />
+          </div>
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>
