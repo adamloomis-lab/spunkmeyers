@@ -5,7 +5,7 @@
  * All photos are client-provided originals only
  */
 import { IMAGES, LINKS } from "@/lib/constants";
-import SEO, { breadcrumbSchema } from "@/components/SEO";
+import SEO from "@/components/SEO";
 import ReserveForm from "@/components/ReserveForm";
 import { useEffect, useRef } from "react";
 
@@ -36,16 +36,7 @@ export default function Events() {
 
   return (
     <div ref={fadeRef} className="min-h-screen bg-[#1a1a1a]">
-      <SEO
-        title="Events | Spunkmeyers Pub & Grill - Bingo, Live Music, Game Day in Wadsworth"
-        description="Upcoming events at Spunkmeyers Pub & Grill in Wadsworth, OH. Weekly bingo nights, live music, game day watch parties, and seasonal events. Follow us on Facebook for the latest."
-        path="/events"
-        ogImage="https://spunkmeyers.pub/img/bingo-xmas.jpg"
-        jsonLd={breadcrumbSchema([
-          { name: "Home", url: "https://spunkmeyers.pub/" },
-          { name: "Events", url: "https://spunkmeyers.pub/events" }
-        ])}
-      />
+      <SEO path="/events" />
 
       {/* Hero */}
       <section className="relative h-[35vh] sm:h-[50vh] flex items-end overflow-hidden">

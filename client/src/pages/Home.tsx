@@ -8,7 +8,7 @@ import { IMAGES, VIDEO, SPX, LINKS, BUSINESS, SPORTS_IMAGES, FOOD_IMAGES, PHOTO_
 
 import { Link } from "wouter";
 import { Beer, Flame, Sun, Calendar, ChevronLeft, ChevronRight, Star, ChevronDown, Volume2, VolumeX } from "lucide-react";
-import SEO, { localBusinessSchema } from "@/components/SEO";
+import SEO from "@/components/SEO";
 import BigScreens from "@/components/BigScreens";
 import RadioSpot from "@/components/RadioSpot";
 import PixelArt from "@/components/PixelArt";
@@ -619,7 +619,7 @@ function BrownsBackerBar() {
 export default function Home() {
   const christmas = useChristmasSeason();
   const pageRef = usePageEffects(christmas);
-  const [holidayPaused, setHolidayPaused] = useState(() => window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  const [holidayPaused, setHolidayPaused] = useState(() => typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
   useEffect(() => {
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
     const change = () => setHolidayPaused(media.matches);
@@ -629,13 +629,7 @@ export default function Home() {
 
   return (
     <div ref={pageRef} className={christmas ? `holiday-home ${holidayPaused ? "holiday-motion-paused" : ""}` : undefined}>
-      <SEO
-        title="Spunkmeyers Pub & Grill | Wadsworth, OH - Cold Beer, Hot Food, Best Patio"
-        description="Wadsworth's favorite pub. 18 beers on tap, smash burgers, wings, the Buck Naked outdoor bar, and every big game on screen. Official Browns Backer Bar. 993 High St, Wadsworth, OH."
-        path="/"
-        ogImage="https://spunkmeyers.pub/img/bar-interior.jpg"
-        jsonLd={localBusinessSchema}
-      />
+      <SEO path="/" />
       {christmas && <ChristmasSnow />}
       {christmas && <div className="christmas-announcement"><span><Snowflake size={15} aria-hidden="true" /> It’s Christmas at Spunkmeyers!</span><button type="button" onClick={() => setHolidayPaused(!holidayPaused)} aria-pressed={holidayPaused}>{holidayPaused ? <Play size={14} /> : <Pause size={14} />}{holidayPaused ? "Resume holiday motion" : "Pause holiday motion"}</button></div>}
 
@@ -700,7 +694,7 @@ export default function Home() {
                 </svg>
               </div>
               <div>
-                <span className="info-card-label">OPEN TODAY</span>
+                <span className="info-card-label">{typeof window === "undefined" ? "PUB HOURS" : "OPEN TODAY"}</span>
                 <span className="info-card-value">{getCurrentHours()}</span>
               </div>
             </div>
@@ -1020,6 +1014,7 @@ export default function Home() {
 }
 
 function getCurrentHours(): string {
+  if (typeof window === "undefined") return "View our weekly hours below";
   const today = getCurrentDayName();
   const hours = BUSINESS.hours.find((h) => h.day === today);
   return hours ? `${today}: ${hours.hours}` : "";

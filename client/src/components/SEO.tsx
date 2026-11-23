@@ -1,260 +1,53 @@
-/*
- * SEO Component - Spunkmeyers Pub & Grill
- * Handles per-page meta tags, Open Graph, Twitter Cards, and JSON-LD structured data
- */
 import { Helmet } from "react-helmet-async";
+import { useChristmasSeason } from "@/lib/holiday";
+import { getPageMetadata, SITE_NAME, SITE_URL } from "@/lib/page-metadata";
+import { pageSchema } from "@/lib/structured-data";
 
-interface SEOProps {
-  title: string;
-  description: string;
-  path: string;
-  ogImage?: string;
-  ogType?: string;
-  jsonLd?: Record<string, unknown>;
-  noindex?: boolean;
-}
-
-const SITE_URL = "https://spunkmeyers.pub";
-const DEFAULT_OG_IMAGE = "https://spunkmeyers.pub/img/logo.webp";
-
-export default function SEO({
-  title,
-  description,
-  path,
-  ogImage,
-  ogType = "website",
-  jsonLd,
-  noindex,
-}: SEOProps) {
-  const fullUrl = `${SITE_URL}${path}`;
-  const image = ogImage || DEFAULT_OG_IMAGE;
-
+/** One metadata definition drives the initial HTML and client-side navigation. */
+export default function SEO({ path }: { path: string }) {
+  const christmas = useChristmasSeason();
+  const page = getPageMetadata(path, christmas);
+  const url = SITE_URL + path;
+  const image = SITE_URL + page.image;
+  const jsonLd = pageSchema(path, page);
   return (
     <Helmet>
-      {/* Primary Meta Tags */}
-      <title>{title}</title>
-      <meta name="description" content={description} />
-      {noindex && <meta name="robots" content="noindex, follow" />}
-      <link rel="canonical" href={fullUrl} />
-
-      {/* Open Graph / Facebook */}
-      <meta property="og:type" content={ogType} />
-      <meta property="og:url" content={fullUrl} />
-      <meta property="og:title" content={title} />
-      <meta property="og:description" content={description} />
+      <title>{page.title}</title>
+      <meta name="description" content={page.description} />
+      <meta
+        name="robots"
+        content={
+          page.noindex
+            ? "noindex, follow"
+            : "index, follow, max-image-preview:large"
+        }
+      />
+      <link rel="canonical" href={url} />
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content={url} />
+      <meta property="og:title" content={page.title} />
+      <meta property="og:description" content={page.description} />
       <meta property="og:image" content={image} />
-      <meta property="og:site_name" content="Spunkmeyers Pub & Grill" />
+      <meta property="og:image:secure_url" content={image} />
+      <meta
+        property="og:image:type"
+        content={page.image.endsWith(".png") ? "image/png" : "image/jpeg"}
+      />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:image:alt" content={page.imageAlt} />
+      <meta property="og:site_name" content={SITE_NAME} />
       <meta property="og:locale" content="en_US" />
-
-      {/* Twitter Card */}
       <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:url" content={fullUrl} />
-      <meta name="twitter:title" content={title} />
-      <meta name="twitter:description" content={description} />
+      <meta name="twitter:title" content={page.title} />
+      <meta name="twitter:description" content={page.description} />
       <meta name="twitter:image" content={image} />
-
-      {/* Geo Tags for Local SEO */}
-      <meta name="geo.region" content="US-OH" />
-      <meta name="geo.placename" content="Wadsworth" />
-      <meta name="geo.position" content="41.0498303;-81.7276839" />
-      <meta name="ICBM" content="41.0498303, -81.7276839" />
-
-      {/* JSON-LD Structured Data */}
+      <meta name="twitter:image:alt" content={page.imageAlt} />
       {jsonLd && (
-        <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
+        <script type="application/ld+json">
+          {JSON.stringify(jsonLd).replace(/</g, "\\u003c")}
+        </script>
       )}
     </Helmet>
   );
-}
-
-// LocalBusiness schema for Spunkmeyers Pub & Grill
-export const localBusinessSchema = {
-  "@context": "https://schema.org",
-  "@type": "BarOrPub",
-  "@id": "https://spunkmeyers.pub/#business",
-  name: "Spunkmeyers Pub & Grill",
-  alternateName: "Spunkmeyers",
-  description:
-    "Wadsworth's favorite pub featuring 18 beers on tap, smash burgers, wings, the Buck Naked outdoor bar, and Ohio sports on every screen. Official Browns Backer Bar.",
-  url: "https://spunkmeyers.pub",
-  telephone: "+1-330-334-5080",
-  email: "",
-  image: [
-    "https://spunkmeyers.pub/img/logo.webp",
-    "https://spunkmeyers.pub/img/patio-colorful.jpg",
-    "https://spunkmeyers.pub/img/bar-interior.jpg",
-    "https://spunkmeyers.pub/img/storefront.jpg",
-  ],
-  logo: "https://spunkmeyers.pub/img/logo.webp",
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: "993 High St",
-    addressLocality: "Wadsworth",
-    addressRegion: "OH",
-    postalCode: "44281",
-    addressCountry: "US",
-  },
-  geo: {
-    "@type": "GeoCoordinates",
-    latitude: 41.0498303,
-    longitude: -81.7276839,
-  },
-  hasMap:
-    "https://www.google.com/maps/place/Spunkmeyers+Pub+%26+Grill/@41.0498303,-81.7276839,17z",
-  openingHoursSpecification: [
-    {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: "Sunday",
-      opens: "11:00",
-      closes: "22:00",
-    },
-    {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: "Monday",
-      opens: "16:00",
-      closes: "00:00",
-    },
-    {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: "Tuesday",
-      opens: "16:00",
-      closes: "00:00",
-    },
-    {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: "Wednesday",
-      opens: "11:00",
-      closes: "00:00",
-    },
-    {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: "Thursday",
-      opens: "11:00",
-      closes: "02:00",
-    },
-    {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: "Friday",
-      opens: "11:00",
-      closes: "02:00",
-    },
-    {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: "Saturday",
-      opens: "11:00",
-      closes: "02:00",
-    },
-  ],
-  priceRange: "$$",
-  servesCuisine: ["American", "Pub Food", "Bar Food"],
-  acceptsReservations: false,
-  menu: "https://spunkmeyers.pub/menu",
-  paymentAccepted: "Cash, Credit Card, Debit Card",
-  currenciesAccepted: "USD",
-  areaServed: {
-    "@type": "City",
-    name: "Wadsworth",
-    containedInPlace: {
-      "@type": "State",
-      name: "Ohio",
-    },
-  },
-  sameAs: [
-    "https://www.facebook.com/SpunkmeyersPub/",
-    "https://www.instagram.com/spunkmeyerspubandgrill/",
-    "https://www.doordash.com/store/spunkmeyers-pub-&-grill-wadsworth-32307611/49163347/",
-  ],
-  aggregateRating: {
-    "@type": "AggregateRating",
-    ratingValue: "4.5",
-    reviewCount: "200",
-    bestRating: "5",
-    worstRating: "1",
-  },
-  amenityFeature: [
-    {
-      "@type": "LocationFeatureSpecification",
-      name: "Outdoor Seating",
-      value: true,
-    },
-    { "@type": "LocationFeatureSpecification", name: "Full Bar", value: true },
-    {
-      "@type": "LocationFeatureSpecification",
-      name: "Live Entertainment",
-      value: true,
-    },
-    {
-      "@type": "LocationFeatureSpecification",
-      name: "Sports Viewing",
-      value: true,
-    },
-    {
-      "@type": "LocationFeatureSpecification",
-      name: "DoorDash Delivery",
-      value: true,
-    },
-  ],
-};
-
-// Restaurant menu schema
-export const menuSchema = {
-  "@context": "https://schema.org",
-  "@type": "Menu",
-  "@id": "https://spunkmeyers.pub/menu#menu",
-  name: "Spunkmeyers Pub & Grill Menu",
-  description:
-    "Full food and drink menu featuring smash burgers, wings, loaded fries, pierogies, wraps, salads, and 18 beers on tap.",
-  url: "https://spunkmeyers.pub/menu",
-  mainEntityOfPage: "https://spunkmeyers.pub/menu",
-  inLanguage: "en-US",
-  image: [
-    "https://spunkmeyers.pub/img/menu-page-1.jpg",
-    "https://spunkmeyers.pub/img/menu-page-2.jpg",
-  ],
-  hasMenuSection: [
-    {
-      "@type": "MenuSection",
-      name: "Starters",
-      description: "Appetizers and shareables",
-    },
-    {
-      "@type": "MenuSection",
-      name: "Smash Burgers",
-      description: "Fresh smash burgers cooked to order on brioche buns",
-    },
-    {
-      "@type": "MenuSection",
-      name: "Wings",
-      description: "Bone-in and boneless wings with signature sauces",
-    },
-    {
-      "@type": "MenuSection",
-      name: "Sandwiches & Wraps",
-      description: "Handhelds and wraps",
-    },
-    {
-      "@type": "MenuSection",
-      name: "Salads & Bowls",
-      description: "Fresh salads and grain bowls",
-    },
-    {
-      "@type": "MenuSection",
-      name: "Sides",
-      description: "Side dishes and extras",
-    },
-  ],
-};
-
-// BreadcrumbList schema generator
-export function breadcrumbSchema(items: { name: string; url: string }[]) {
-  return {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: items.map((item, i) => ({
-      "@type": "ListItem",
-      position: i + 1,
-      name: item.name,
-      item: item.url,
-    })),
-  };
 }

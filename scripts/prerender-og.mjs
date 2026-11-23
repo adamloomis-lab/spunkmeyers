@@ -1,69 +1,75 @@
-/*
- * Social-share previews for the arcade pages.
- *
- * Facebook, iMessage, Slack, and friends read the static HTML and never run
- * the React app, so every shared link used to show the site's generic card.
- * After `vite build`, this writes dist/public/<route>.html for each route
- * below: a copy of the built index.html with that page's title,
- * description, canonical URL, and Open Graph / Twitter image swapped in.
- * netlify.toml rewrites /<route> to that file (a flat file, not a folder
- * index, so Netlify doesn't bounce the URL to a trailing slash), and the
- * React app boots from it exactly as it would from index.html.
+/** Render real page content and metadata for every public route.
+ * Social and answer-engine crawlers get the same content as visitors without
+ * requiring JavaScript. The client takes over normally after startup.
  */
 import { readFileSync, rmSync, writeFileSync } from "node:fs";
+import { createRequire } from "node:module";
 import path from "node:path";
+import { build } from "esbuild";
 
-const SITE = "https://spunkmeyers.pub";
-const dist = path.resolve(process.cwd(), "dist/public");
-
-const PAGES = [
-  {
-    route: "pub-crawl",
-    title: "Spunks Pub Crawl | Spunkmeyers Pub & Grill",
-    description:
-      "Kevin runs down High Street. Tap to jump the band, slide under the geese, grab an SPX, and get your initials on the pub leaderboard. Free phone game from Spunkmeyers in Wadsworth.",
-    image: "/img/og-pub-crawl.png",
-  },
-  {
-    route: "stack",
-    title: "Spunks Stack | Spunkmeyers Pub & Grill",
-    description:
-      "Old-school falling blocks on your phone. Drag, spin, drop, clear lines, outlast last call. Free game from Spunkmeyers in Wadsworth, with a pub leaderboard.",
-    image: "/img/og-stack.png",
-  },
-  {
-    route: "games",
-    title: "Spunks Arcade | Free Phone Games at Spunkmeyers",
-    description:
-      "Two free games on your phone at Spunkmeyers in Wadsworth: Spunks Pub Crawl and Spunks Stack. No app. Top scores go up on the bar TVs.",
-    image: "/img/og-arcade.png",
-  },
-];
-
-const esc = (s) => s.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
-
-function setTag(html, pattern, replacement) {
-  if (!pattern.test(html)) throw new Error(`prerender-og: tag not found: ${pattern}`);
-  return html.replace(pattern, replacement);
-}
-
+const dist = path.resolve("dist/public");
+const bundle = path.resolve("dist/render-pages.cjs");
+await build({
+  entryPoints: ["scripts/render-pages.tsx"],
+  outfile: bundle,
+  bundle: true,
+  platform: "node",
+  format: "cjs",
+  packages: "external",
+  jsx: "automatic",
+  loader: { ".css": "empty" },
+  alias: { "@": path.resolve("client/src"), "@shared": path.resolve("shared") },
+  define: { "import.meta.env.DEV": "false" },
+  logLevel: "warning",
+});
+const { renderPage, PAGE_METADATA } = createRequire(import.meta.url)(bundle);
 const base = readFileSync(path.join(dist, "index.html"), "utf8");
+if (
+  !base.includes("<!-- prerender:head -->") ||
+  !base.includes('<div id="root"></div>')
+)
+  throw new Error("Missing HTML prerender placeholders");
 
-for (const p of PAGES) {
-  const url = `${SITE}/${p.route}`;
-  const image = `${SITE}${p.image}`;
-  let html = base;
-  html = setTag(html, /<title>[^<]*<\/title>/, `<title>${esc(p.title)}</title>`);
-  html = setTag(html, /<meta name="description" content="[^"]*" \/>/, `<meta name="description" content="${esc(p.description)}" />`);
-  html = setTag(html, /<link rel="canonical" href="[^"]*" \/>/, `<link rel="canonical" href="${url}" />`);
-  html = setTag(html, /<meta property="og:url" content="[^"]*" \/>/, `<meta property="og:url" content="${url}" />`);
-  html = setTag(html, /<meta property="og:title" content="[^"]*" \/>/, `<meta property="og:title" content="${esc(p.title)}" />`);
-  html = setTag(html, /<meta property="og:description" content="[^"]*" \/>/, `<meta property="og:description" content="${esc(p.description)}" />`);
-  html = setTag(html, /<meta property="og:image" content="[^"]*" \/>/, `<meta property="og:image" content="${image}" />\n    <meta property="og:image:width" content="1200" />\n    <meta property="og:image:height" content="630" />`);
-  html = setTag(html, /<meta name="twitter:title" content="[^"]*" \/>/, `<meta name="twitter:title" content="${esc(p.title)}" />`);
-  html = setTag(html, /<meta name="twitter:description" content="[^"]*" \/>/, `<meta name="twitter:description" content="${esc(p.description)}" />`);
-  html = setTag(html, /<meta name="twitter:image" content="[^"]*" \/>/, `<meta name="twitter:image" content="${image}" />`);
-  rmSync(path.join(dist, p.route), { recursive: true, force: true }); // stale folder index from an older build
-  writeFileSync(path.join(dist, `${p.route}.html`), html);
-  console.log(`prerender-og: wrote /${p.route}.html`);
+function writePage(route, file, christmas = false) {
+  const tags = [];
+  let body = renderPage(route, christmas);
+  // React 19 hoists metadata to the start of a fragment render. Move it into
+  // the template head, marking it for removal when React takes ownership.
+  body = body.replace(
+    /<title\b[^>]*>[\s\S]*?<\/title>|<meta\b[^>]*\/?\s*>|<link\b[^>]*\/?\s*>|<script\b[^>]*type="application\/ld\+json"[^>]*>[\s\S]*?<\/script>/g,
+    tag => {
+      // Don't preload the entire below-the-fold image gallery.
+      if (!tag.includes('rel="preload"'))
+        tags.push(
+          tag.replace(/^<(title|meta|link|script)/, '<$1 data-prerender="true"')
+        );
+      return "";
+    }
+  );
+  const html = base
+    .replace('<html lang="en">', '<html lang="en" class="dark">')
+    .replace("<!-- prerender:head -->", tags.join("\n"))
+    .replace(
+      '<div id="root"></div>',
+      `<div id="root" data-static="true">${body}</div>`
+    );
+  writeFileSync(path.join(dist, file), html);
+  console.log(`prerender: ${route} -> ${file}`);
 }
+for (const route of Object.keys(PAGE_METADATA))
+  writePage(route, route === "/" ? "index.html" : `${route.slice(1)}.html`);
+writePage("/", "home-christmas.html", true);
+rmSync(bundle);
+
+// This date records the actual content/metadata revision, not every build time.
+const lastmod = "2026-11-23";
+const urls = Object.entries(PAGE_METADATA)
+  .filter(([, data]) => !data.noindex)
+  .map(
+    ([route]) =>
+      `  <url><loc>https://spunkmeyers.pub${route}</loc><lastmod>${lastmod}</lastmod></url>`
+  );
+writeFileSync(
+  path.join(dist, "sitemap.xml"),
+  `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join("\n")}\n</urlset>\n`
+);

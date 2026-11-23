@@ -1,20 +1,12 @@
 import { Link } from "wouter";
 import { BUSINESS } from "@/lib/constants";
-import SEO, { breadcrumbSchema } from "@/components/SEO";
+import SEO from "@/components/SEO";
 import LegalLayout from "@/components/LegalLayout";
 
 export default function Privacy() {
   return (
     <>
-      <SEO
-        title="Privacy Policy | Spunkmeyers Pub & Grill"
-        description="How Spunkmeyers Pub & Grill in Wadsworth, OH collects, uses, and protects the information you share through our website and forms."
-        path="/privacy"
-        jsonLd={breadcrumbSchema([
-          { name: "Home", url: "https://spunkmeyers.pub/" },
-          { name: "Privacy Policy", url: "https://spunkmeyers.pub/privacy" },
-        ])}
-      />
+      <SEO path="/privacy" />
       <LegalLayout
         title="Privacy Policy"
         lastUpdated="May 20, 2026"

@@ -1,20 +1,12 @@
 import { Link } from "wouter";
 import { BUSINESS } from "@/lib/constants";
-import SEO, { breadcrumbSchema } from "@/components/SEO";
+import SEO from "@/components/SEO";
 import LegalLayout from "@/components/LegalLayout";
 
 export default function Accessibility() {
   return (
     <>
-      <SEO
-        title="Accessibility | Spunkmeyers Pub & Grill"
-        description="Spunkmeyers Pub & Grill is committed to making our website accessible to everyone. Learn about our efforts and how to request assistance."
-        path="/accessibility"
-        jsonLd={breadcrumbSchema([
-          { name: "Home", url: "https://spunkmeyers.pub/" },
-          { name: "Accessibility", url: "https://spunkmeyers.pub/accessibility" },
-        ])}
-      />
+      <SEO path="/accessibility" />
       <LegalLayout
         title="Accessibility Statement"
         lastUpdated="May 20, 2026"

@@ -6,7 +6,7 @@
 import { useEffect, useRef, useState } from "react";
 import { IMAGES, SPORTS_IMAGES, VIDEO } from "@/lib/constants";
 import { Link } from "wouter";
-import SEO, { breadcrumbSchema } from "@/components/SEO";
+import SEO from "@/components/SEO";
 
 function useFadeUp() {
   const ref = useRef<HTMLDivElement>(null);
@@ -73,16 +73,7 @@ export default function Experience() {
 
   return (
     <div ref={fadeRef} className="min-h-screen bg-[#1a1a1a]">
-      <SEO
-        title="The Experience | Spunkmeyers Pub & Grill - Buck Naked Bar, Game Day, Live Events"
-        description="Explore Spunkmeyers Pub & Grill in Wadsworth, OH. The Buck Naked outdoor bar, bingo nights, live music, Ohio sports on every screen, and the best patio in town. Official Browns Backer Bar."
-        path="/experience"
-        ogImage="https://spunkmeyers.pub/img/patio-colorful.jpg"
-        jsonLd={breadcrumbSchema([
-          { name: "Home", url: "https://spunkmeyers.pub/" },
-          { name: "Experience", url: "https://spunkmeyers.pub/experience" }
-        ])}
-      />
+      <SEO path="/experience" />
       {/* Hero */}
       <section data-narrate="exp-hero" className="relative h-[35vh] sm:h-[60vh] flex items-end overflow-hidden">
         <div

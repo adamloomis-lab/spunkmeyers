@@ -30,9 +30,52 @@
   to = "/.netlify/functions/stack-scores"
   status = 200
 
-# Arcade pages get their own pre-rendered HTML (social share tags baked in
-# by scripts/prerender-og.mjs). Flat files, rewritten here, so the URL stays
-# /stack rather than bouncing to /stack/.
+# Every public route serves its own fully rendered HTML and metadata.
+[[redirects]]
+  from = "/menu"
+  to = "/menu.html"
+  status = 200
+
+[[redirects]]
+  from = "/experience"
+  to = "/experience.html"
+  status = 200
+
+[[redirects]]
+  from = "/events"
+  to = "/events.html"
+  status = 200
+
+[[redirects]]
+  from = "/contact"
+  to = "/contact.html"
+  status = 200
+
+[[redirects]]
+  from = "/careers"
+  to = "/careers.html"
+  status = 200
+
+[[redirects]]
+  from = "/privacy"
+  to = "/privacy.html"
+  status = 200
+
+[[redirects]]
+  from = "/terms"
+  to = "/terms.html"
+  status = 200
+
+[[redirects]]
+  from = "/accessibility"
+  to = "/accessibility.html"
+  status = 200
+
+[[redirects]]
+  from = "/games"
+  to = "/games.html"
+  status = 200
+
 [[redirects]]
   from = "/pub-crawl"
   to = "/pub-crawl.html"
@@ -44,15 +87,15 @@
   status = 200
 
 [[redirects]]
-  from = "/games"
-  to = "/games.html"
+  from = "/tv"
+  to = "/tv.html"
   status = 200
 
-# SPA fallback: serve index.html for client-side routes
+# A real 404 status prevents unknown URLs being indexed as duplicate homepages.
 [[redirects]]
   from = "/*"
-  to = "/index.html"
-  status = 200
+  to = "/404.html"
+  status = 404
 
 # Security headers. The CSP is scoped to exactly what this site loads:
 # Google Fonts (styles+fonts), the Manus CDN (photos + hero video), ESPN
@@ -80,3 +123,19 @@
   for = "/audio/narration/*"
   [headers.values]
     Cache-Control = "public, max-age=604800"
+
+# Internal kiosk and printable arcade signs are not search landing pages.
+[[headers]]
+  for = "/tv*"
+  [headers.values]
+    X-Robots-Tag = "noindex, follow"
+
+[[headers]]
+  for = "/*-sign.html"
+  [headers.values]
+    X-Robots-Tag = "noindex, follow"
+
+[[headers]]
+  for = "/social/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"

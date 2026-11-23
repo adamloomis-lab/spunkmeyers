@@ -1285,3 +1285,9 @@ body.crawl-active {
     transform: translateY(-6px);
   }
 }
+
+/* Pre-rendered content remains visible when JavaScript is unavailable. */
+#root[data-static] :is(.fade-up, .fade-left, .fade-right, .fade-scale) {
+  opacity: 1;
+  transform: none;
+}

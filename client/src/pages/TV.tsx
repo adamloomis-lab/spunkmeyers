@@ -187,7 +187,7 @@ export default function TV() {
 
   return (
     <div className="tv-root">
-      <SEO title="Spunkmeyers TV Board" description="In-bar display board for Spunkmeyers Pub & Grill." path="/tv" noindex />
+      <SEO path="/tv" />
 
       {/* Weather alert banner (NWS) */}
       {alerts.length > 0 && (

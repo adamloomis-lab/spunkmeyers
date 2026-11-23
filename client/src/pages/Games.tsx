@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import SEO, { breadcrumbSchema } from "@/components/SEO";
+import SEO from "@/components/SEO";
 import PixelArt from "@/components/PixelArt";
 import StackArt from "@/components/StackArt";
 import ScoreBoard from "@/components/PubCrawlBoard";
@@ -11,16 +11,7 @@ import ScoreBoard from "@/components/PubCrawlBoard";
 export default function Games() {
   return (
     <div className="pt-24 sm:pt-32 pb-16 bg-[#111111] min-h-screen">
-      <SEO
-        title="Spunks Arcade | Free Phone Games at Spunkmeyers Pub & Grill"
-        description="Play Spunks Pub Crawl and Spunks Stack on your phone at Spunkmeyers in Wadsworth. Free, no app, bragging rights only. Get your initials on the pub leaderboards."
-        path="/games"
-        ogImage="https://spunkmeyers.pub/img/og-arcade.png"
-        jsonLd={breadcrumbSchema([
-          { name: "Home", url: "https://spunkmeyers.pub/" },
-          { name: "Spunks Arcade", url: "https://spunkmeyers.pub/games" },
-        ])}
-      />
+      <SEO path="/games" />
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl">
           <div className="font-heading text-sm font-semibold uppercase tracking-[0.3em] text-[#E8601C] mb-3">Free · No app · Bragging rights only</div>

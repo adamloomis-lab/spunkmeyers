@@ -273,12 +273,7 @@ export default function PubCrawl() {
       className="fixed inset-0 bg-black text-white select-none overflow-hidden"
       style={{ touchAction: "none", overscrollBehavior: "none" }}
     >
-      <SEO
-        title="Spunks Pub Crawl | Spunkmeyers Pub & Grill"
-        description="Spunks Pub Crawl: the Spunkmeyers phone game. Kevin runs down High Street. Tap to jump the band, slide under the geese, grab an SPX, and get your initials on the pub leaderboard."
-        path={PATH}
-        ogImage="https://spunkmeyers.pub/img/og-pub-crawl.png"
-      />
+      <SEO path="/pub-crawl" />
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full block" aria-label="Spunks Pub Crawl game" />
 
       {/* Control pads: left half slides, right half jumps */}

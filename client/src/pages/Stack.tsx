@@ -257,12 +257,7 @@ export default function Stack() {
 
   return (
     <div className="fixed inset-0 bg-black text-white select-none overflow-hidden" style={{ touchAction: "none", overscrollBehavior: "none" }}>
-      <SEO
-        title="Spunks Stack | Spunkmeyers Pub & Grill"
-        description="Spunks Stack: old-school falling blocks on your phone at Spunkmeyers in Wadsworth. Swipe, spin, drop, and get your initials on the pub leaderboard."
-        path={PATH}
-        ogImage="https://spunkmeyers.pub/img/og-stack.png"
-      />
+      <SEO path="/stack" />
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full block" aria-label="Spunks Stack game" />
 
       {/* HUD */}

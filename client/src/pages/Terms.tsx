@@ -1,20 +1,12 @@
 import { Link } from "wouter";
 import { BUSINESS } from "@/lib/constants";
-import SEO, { breadcrumbSchema } from "@/components/SEO";
+import SEO from "@/components/SEO";
 import LegalLayout from "@/components/LegalLayout";
 
 export default function Terms() {
   return (
     <>
-      <SEO
-        title="Terms of Use | Spunkmeyers Pub & Grill"
-        description="The terms and conditions for using the Spunkmeyers Pub & Grill website in Wadsworth, OH."
-        path="/terms"
-        jsonLd={breadcrumbSchema([
-          { name: "Home", url: "https://spunkmeyers.pub/" },
-          { name: "Terms of Use", url: "https://spunkmeyers.pub/terms" },
-        ])}
-      />
+      <SEO path="/terms" />
       <LegalLayout
         title="Terms of Use"
         lastUpdated="May 20, 2026"

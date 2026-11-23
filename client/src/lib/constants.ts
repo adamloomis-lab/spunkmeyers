@@ -105,19 +105,19 @@ export const BUSINESS = {
   address: "993 High St, Wadsworth, OH 44281",
   phone: "(330) 334-5080",
   phoneLink: "tel:3303345080",
+  timeZone: "America/New_York",
   hours: [
-    { day: "Sunday", hours: "11am - 10pm" },
-    { day: "Monday", hours: "4pm - 12am" },
-    { day: "Tuesday", hours: "4pm - 12am" },
-    { day: "Wednesday", hours: "11am - 12am" },
-    { day: "Thursday", hours: "11am - 2am" },
-    { day: "Friday", hours: "11am - 2am" },
-    { day: "Saturday", hours: "11am - 2am" },
+    { day: "Sunday", opens: "11:00", closes: "22:00", hours: "11am - 10pm" },
+    { day: "Monday", opens: "16:00", closes: "00:00", hours: "4pm - 12am" },
+    { day: "Tuesday", opens: "16:00", closes: "00:00", hours: "4pm - 12am" },
+    { day: "Wednesday", opens: "11:00", closes: "00:00", hours: "11am - 12am" },
+    { day: "Thursday", opens: "11:00", closes: "02:00", hours: "11am - 2am" },
+    { day: "Friday", opens: "11:00", closes: "02:00", hours: "11am - 2am" },
+    { day: "Saturday", opens: "11:00", closes: "02:00", hours: "11am - 2am" },
   ],
 } as const;
 
 // Helper to get current day name
 export function getCurrentDayName(): string {
-  const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-  return days[new Date().getDay()];
+  return new Intl.DateTimeFormat("en-US", { weekday: "long", timeZone: BUSINESS.timeZone }).format(new Date());
 }

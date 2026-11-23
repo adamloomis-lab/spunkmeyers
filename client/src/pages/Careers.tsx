@@ -6,7 +6,7 @@
  */
 import { useState, useEffect, useRef } from "react";
 import { IMAGES } from "@/lib/constants";
-import SEO, { breadcrumbSchema } from "@/components/SEO";
+import SEO from "@/components/SEO";
 import FormSuccess from "@/components/FormSuccess";
 
 function useFadeUp() {
@@ -36,16 +36,7 @@ export default function Careers() {
 
   return (
     <div ref={fadeRef} className="min-h-screen bg-[#1a1a1a]">
-      <SEO
-        title="Careers | Spunkmeyers Pub & Grill - Now Hiring in Wadsworth, OH"
-        description="Join the Spunkmeyers Pub & Grill team in Wadsworth, OH. Now hiring bartenders, servers, and kitchen staff. Apply online today."
-        path="/careers"
-        ogImage="https://spunkmeyers.pub/img/staff-duo.webp"
-        jsonLd={breadcrumbSchema([
-          { name: "Home", url: "https://spunkmeyers.pub/" },
-          { name: "Careers", url: "https://spunkmeyers.pub/careers" }
-        ])}
-      />
+      <SEO path="/careers" />
 
       {/* Hero */}
       <section className="relative overflow-hidden">

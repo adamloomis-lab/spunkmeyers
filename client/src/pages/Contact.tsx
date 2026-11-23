@@ -1,3 +1,4 @@
+import VisitQuestions from "@/components/VisitQuestions";
 /*
  * DESIGN: Cinematic Editorial - Dark magazine spread
  * Contact page with form, map, hours (current day highlighted)
@@ -6,7 +7,7 @@
 import { useState } from "react";
 import { IMAGES, BUSINESS, getCurrentDayName } from "@/lib/constants";
 import { Link } from "wouter";
-import SEO, { breadcrumbSchema } from "@/components/SEO";
+import SEO from "@/components/SEO";
 import FormSuccess from "@/components/FormSuccess";
 
 export default function Contact() {
@@ -14,16 +15,7 @@ export default function Contact() {
 
   return (
     <div className="min-h-screen bg-[#1a1a1a]">
-      <SEO
-        title="Contact | Spunkmeyers Pub & Grill - Hours, Location, Directions"
-        description="Contact Spunkmeyers Pub & Grill at 993 High St, Wadsworth, OH 44281. Call (330) 334-5080. Open daily for lunch and dinner. View hours, get directions, or send us a message."
-        path="/contact"
-        ogImage="https://spunkmeyers.pub/img/storefront.jpg"
-        jsonLd={breadcrumbSchema([
-          { name: "Home", url: "https://spunkmeyers.pub/" },
-          { name: "Contact", url: "https://spunkmeyers.pub/contact" }
-        ])}
-      />
+      <SEO path="/contact" />
       {/* Hero */}
       <section data-narrate="contact-hero" className="relative h-[35vh] sm:h-[50vh] flex items-end overflow-hidden">
         <div
@@ -116,6 +108,7 @@ export default function Contact() {
 
       {/* Bottom spacer for mobile sticky button */}
       <div className="h-20 bg-[#1a1a1a] lg:hidden" />
+      <VisitQuestions />
     </div>
   );
 }

@@ -1,13 +1,19 @@
-import { useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import { isChristmasSeason } from "@shared/season";
+export {
+  CHRISTMAS_START,
+  CHRISTMAS_END,
+  isChristmasSeason,
+} from "@shared/season";
 
-// One-time 2026 campaign. The normal homepage returns at midnight in Wadsworth.
-export const CHRISTMAS_START = Date.parse("2026-11-23T00:00:00-05:00");
-export const CHRISTMAS_END = Date.parse("2027-01-01T00:00:00-05:00");
-export function isChristmasSeason(now = Date.now()) {
-  return now >= CHRISTMAS_START && now < CHRISTMAS_END;
-}
+// Static rendering produces both seasonal variants. Browsers use the live clock.
+export const ChristmasSeasonContext = createContext<boolean | undefined>(
+  undefined
+);
+
 export function useChristmasSeason() {
-  const [active, setActive] = useState(() => isChristmasSeason());
+  const override = useContext(ChristmasSeasonContext);
+  const [active, setActive] = useState(() => override ?? isChristmasSeason());
   useEffect(() => {
     const update = () => setActive(isChristmasSeason());
     const timer = window.setInterval(update, 30_000);
@@ -17,5 +23,5 @@ export function useChristmasSeason() {
       window.removeEventListener("focus", update);
     };
   }, []);
-  return active;
+  return override ?? active;
 }
