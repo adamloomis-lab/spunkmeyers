@@ -8,8 +8,8 @@ or removal of original content is required.
 
 The existing hero, original footage, remaining section content, links, forms, arcade,
 and backend functions are retained. Christmas styles are scoped to the home
-route. The arcade announcement appears after 45 seconds during Christmas
-instead of covering the hero after 2.5 seconds.
+route. The automatic arcade pop-up is removed from the homepage year-round.
+The navigation and inline game sections still provide access to both games.
 
 ## Media
 

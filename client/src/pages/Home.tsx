@@ -12,7 +12,6 @@ import SEO, { localBusinessSchema } from "@/components/SEO";
 import BigScreens from "@/components/BigScreens";
 import RadioSpot from "@/components/RadioSpot";
 import PixelArt from "@/components/PixelArt";
-import PubCrawlPopup from "@/components/PubCrawlPopup";
 import PubCrawlBoard from "@/components/PubCrawlBoard";
 import StackArt from "@/components/StackArt";
 import ChristmasHero, { ChristmasTour } from "@/components/holiday/ChristmasHero";
@@ -637,7 +636,6 @@ export default function Home() {
         ogImage="https://spunkmeyers.pub/img/bar-interior.jpg"
         jsonLd={localBusinessSchema}
       />
-      <PubCrawlPopup delayMs={christmas ? 45_000 : 2_500} />
       {christmas && <div className="christmas-announcement"><span><Snowflake size={15} aria-hidden="true" /> It’s Christmas at Spunkmeyers!</span><button type="button" onClick={() => setHolidayPaused(!holidayPaused)} aria-pressed={holidayPaused}>{holidayPaused ? <Play size={14} /> : <Pause size={14} />}{holidayPaused ? "Resume holiday motion" : "Pause holiday motion"}</button></div>}
 
       {/* ===== HERO - VIDEO BACKGROUND ===== */}
