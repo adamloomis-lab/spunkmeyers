@@ -15,7 +15,7 @@ import PixelArt from "@/components/PixelArt";
 import PubCrawlBoard from "@/components/PubCrawlBoard";
 import StackArt from "@/components/StackArt";
 import ChristmasHero, { ChristmasTour } from "@/components/holiday/ChristmasHero";
-import { ChristmasLights } from "@/components/holiday/ChristmasDecor";
+import { ChristmasLights, ChristmasSnow } from "@/components/holiday/ChristmasDecor";
 import { useChristmasSeason } from "@/lib/holiday";
 import { Pause, Play, Snowflake } from "lucide-react";
 
@@ -636,6 +636,7 @@ export default function Home() {
         ogImage="https://spunkmeyers.pub/img/bar-interior.jpg"
         jsonLd={localBusinessSchema}
       />
+      {christmas && <ChristmasSnow />}
       {christmas && <div className="christmas-announcement"><span><Snowflake size={15} aria-hidden="true" /> It’s Christmas at Spunkmeyers!</span><button type="button" onClick={() => setHolidayPaused(!holidayPaused)} aria-pressed={holidayPaused}>{holidayPaused ? <Play size={14} /> : <Pause size={14} />}{holidayPaused ? "Resume holiday motion" : "Pause holiday motion"}</button></div>}
 
       {/* ===== HERO - VIDEO BACKGROUND ===== */}

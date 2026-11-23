@@ -54,3 +54,11 @@ checked directly. Browser review covered 1440px desktop, 390px mobile, and 320px
 narrow mobile; video playback, pause controls, links, badge containment, hero
 spacing, and the unthemed menu route were checked. Netlify preview serves both
 MP4s and the Cavs image correctly; both existing arcade score APIs return 200.
+
+## Full-homepage snowfall
+
+A single fixed, non-interactive snow layer continues through the homepage and
+footer, behind foreground content. CSS transform animations use 44 flakes on
+desktop and 28 on mobile; travel distance follows viewport height. The existing
+Pause holiday motion button pauses all flakes. Reduced-motion preferences
+hide snowfall, and the seasonal cutoff and route unmount remove it normally.

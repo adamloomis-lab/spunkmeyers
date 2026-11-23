@@ -10,11 +10,7 @@ import {
   VolumeX,
 } from "lucide-react";
 import { BUSINESS, LINKS } from "@/lib/constants";
-import {
-  ChristmasGarland,
-  ChristmasOrnaments,
-  ChristmasSnow,
-} from "./ChristmasDecor";
+import { ChristmasGarland, ChristmasOrnaments } from "./ChristmasDecor";
 
 export default function ChristmasHero({
   paused,
@@ -73,7 +69,6 @@ export default function ChristmasHero({
       data-narrate="home-hero"
     >
       <ChristmasGarland />
-      <ChristmasSnow />
       <ChristmasOrnaments />
       <div className="christmas-hero-inner">
         <div className="christmas-copy">

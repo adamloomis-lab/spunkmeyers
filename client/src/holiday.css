@@ -131,13 +131,13 @@
   background:
     radial-gradient(ellipse at 75% 45%, #38523f 0, transparent 56%),
     radial-gradient(ellipse at 10% 0%, #275440 0, transparent 58%), #10291f;
-  isolation: isolate;
+  isolation: auto;
 }
 .christmas-hero::before {
   content: "";
   position: absolute;
   inset: 0;
-  z-index: -1;
+  z-index: 0;
   opacity: 0.2;
   background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M25 19v12m-6-6h12M75 69v12m-6-6h12' stroke='%23e9c997' stroke-width='1'/%3E%3C/svg%3E");
 }
@@ -539,7 +539,7 @@
   right: auto;
 }
 .christmas-snow {
-  position: absolute;
+  position: fixed;
   inset: 0;
   overflow: hidden;
   pointer-events: none;
@@ -552,14 +552,14 @@
   width: var(--snow-size);
   height: var(--snow-size);
   border-radius: 50%;
-  background: #fff6da;
-  opacity: 0.5;
+  background: #fffaf0;
+  opacity: 0.65;
   animation: christmas-snowfall var(--snow-duration) var(--snow-delay) linear
     infinite;
 }
 @keyframes christmas-snowfall {
   to {
-    transform: translate(35px, 950px);
+    transform: translate3d(var(--snow-drift), calc(100vh + 24px), 0);
   }
 }
 .christmas-tour {
@@ -1329,4 +1329,20 @@
 }
 .holiday-site [aria-label="Cookie notice"] button[class~="bg-[#E8601C]"]:hover {
   background: #bd2b40;
+}
+
+/* One viewport-sized snowfall layer follows the visitor all the way to the
+   footer. Keep foreground content above it and decorative backgrounds below. */
+.holiday-home > section > [class*="max-w-"],
+.christmas-hero-inner,
+.christmas-tour-inner,
+.cavs-inner,
+.holiday-site > footer > div {
+  position: relative;
+  z-index: 2;
+}
+@media (max-width: 767px) {
+  .christmas-snow i:nth-child(n + 29) {
+    display: none;
+  }
 }

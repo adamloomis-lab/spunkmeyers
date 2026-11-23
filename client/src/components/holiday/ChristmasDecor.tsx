@@ -27,15 +27,16 @@ export function ChristmasGarland({ className = "" }: { className?: string }) {
 export function ChristmasSnow() {
   return (
     <div className="christmas-snow" aria-hidden="true">
-      {Array.from({ length: 22 }, (_, i) => (
+      {Array.from({ length: 44 }, (_, i) => (
         <i
           key={i}
           style={
             {
               "--snow-left": `${(i * 47 + 3) % 100}%`,
-              "--snow-size": `${(i % 3) + 2}px`,
-              "--snow-duration": `${14 + (i % 7) * 2}s`,
+              "--snow-size": `${(i % 4) + 2}px`,
+              "--snow-duration": `${12 + (i % 7) * 2}s`,
               "--snow-delay": `${-i * 1.7}s`,
+              "--snow-drift": `${(i % 2 ? -1 : 1) * (14 + (i % 5) * 6)}px`,
             } as CSSProperties
           }
         />
