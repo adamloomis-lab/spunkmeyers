@@ -1332,8 +1332,9 @@
 }
 
 /* One viewport-sized snowfall layer follows the visitor all the way to the
-   footer. Keep foreground content above it and decorative backgrounds below. */
-.holiday-home > section > [class*="max-w-"],
+   footer. Keep foreground content above it and decorative backgrounds below.
+   Never reposition decorative layers: their absolute layout prevents gaps. */
+.holiday-home > section > [class*="max-w-"]:not([aria-hidden="true"]):not(.absolute),
 .christmas-hero-inner,
 .christmas-tour-inner,
 .cavs-inner,
